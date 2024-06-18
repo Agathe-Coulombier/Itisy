@@ -1,11 +1,11 @@
 import React from "react";
+import HomePage from "./components/HomePage/Homepage";
 
-const App = () => {
+function App() {
   return (
     <div>
-      Coucou
+      <HomePage />
     </div>
-  )
+  );
 }
-
 export default App;

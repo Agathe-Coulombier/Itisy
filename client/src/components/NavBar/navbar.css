@@ -1,0 +1,50 @@
+.items {
+    display : flex;
+    margin: 0px 200px;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+hr{
+    margin: 0px 200px;
+    
+}
+
+.text {
+    font-size: 1rem;
+    line-height: 1.43;
+    padding: 14px 16px;
+    margin: 0px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.subItems{
+    display: flex;
+    align-items: center;
+}
+
+
+img{
+    height:34px;
+    margin-bottom: 15px;
+    cursor:pointer;
+}
+
+.navbar h1 {
+    font-size: 1.5rem;
+    cursor:pointer;
+}
+
+/* Change the color of links on hover */
+.navbar h2:hover {
+    background-color: #ddd;
+    cursor:pointer;
+}
+
+/* Add a color to the active/current link */
+.navbar .main {
+    color: #86654B;
+    font-size: 1.2rem;
+}

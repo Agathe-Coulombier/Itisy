@@ -1,18 +1,61 @@
-.items {
+#navbar {
+    position: fixed; 
+    top: 0;
+    left:0;
+    width: 100%; 
+    height: 64px;
+    z-index: 1000;
+    background-color:#F6F4F3;
+    height:fit-content;
+}
+
+#navbar .items {
     display : flex;
-    margin: 0px 200px;
+    margin: 0px 10%;
     align-items: center;
     justify-content: space-between;
-    overflow: hidden;
 }
 
-hr{
-    margin: 0px 200px;
-    
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: #31241E;
 }
 
-.text {
-    font-size: 1rem;
+/* Change the color of links on hover */
+#navbar .items h2:hover {
+    background-color: #ddd;
+    cursor:pointer;
+}
+
+/* Add a color to the active/current link */
+#navbar .items .main {
+    color: #86654B;
+    font-size: 1.2em;
+}
+
+#navbar .items .subItems{
+    display: flex;
+    align-items: center;
+}
+
+
+
+#navbar .items .right li{
+    list-style: none;
+}
+
+.hamburger{
+    color:black;
+    display:none;
+}
+
+#navbar .items .text {
+    font-size: 1em;
     line-height: 1.43;
     padding: 14px 16px;
     margin: 0px;
@@ -20,31 +63,60 @@ hr{
     text-transform: uppercase;
 }
 
-.subItems{
-    display: flex;
+#navbar .items .left img{
+    height:2.2em;
+    margin-bottom: 1.1em;
+    cursor:pointer;
+}
+
+#navbar .items .left .text  {
+    font-size: 1.5em;
+    cursor:pointer;
+}
+
+#navbar hr{
+    margin: 0px 5%;
+    
+}
+
+.nav-menu {
+    display: flex ;
+    flex-direction: row;
     align-items: center;
 }
 
+@media only screen and (max-width: 768px) {
 
-img{
-    height:34px;
-    margin-bottom: 15px;
-    cursor:pointer;
+    .nav-menu{
+        display:none
+    }
+    
+    .nav-menu.active {
+        padding:0;
+        position: fixed;
+        right: 5%;
+        top: 64px;
+        display:flex;
+        flex-direction: column;
+        background-color: #F6F4F3;
+        width: fit-content;
+        border-radius: 10px;
+        text-align: left;
+        transition: 0.3s;
+        box-shadow:
+            0 10px 27px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item ul {
+        margin: 2.5rem 0;
+    }
+
+    .hamburger {
+        cursor: pointer;
+        display:block;
+    }
+
+
+
 }
 
-.navbar h1 {
-    font-size: 1.5rem;
-    cursor:pointer;
-}
-
-/* Change the color of links on hover */
-.navbar h2:hover {
-    background-color: #ddd;
-    cursor:pointer;
-}
-
-/* Add a color to the active/current link */
-.navbar .main {
-    color: #86654B;
-    font-size: 1.2rem;
-}

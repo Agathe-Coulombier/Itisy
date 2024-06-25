@@ -2,7 +2,7 @@
     position: relative; 
     bottom: 0;
     height: 185px;
-    z-index: 999;
+    z-index: 10;
     background-color:#F6F4F3;
 }
 
@@ -39,11 +39,18 @@
 }
 
 .footer_body a {
+    margin-bottom: 16px;
+} 
+
+.footer_body p {
+    margin-bottom: 16px;
+} 
+
+a {
     /* cursor: pointer; */
     display:inline-block;
     text-decoration: none;
     color: inherit;
-    margin-bottom: 16px;
 }
 
 .footer_logo {

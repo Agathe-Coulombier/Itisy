@@ -49,7 +49,7 @@
     justify-content: space-between;
 }
 
-.speech p{
+p{
     font-family:'Poppins';
     text-align: justify;
     font-size: 0.95rem;
@@ -70,7 +70,7 @@
     margin:0;
 }
 
-.startNow {
+.primary {
     align-items: center;
     background-color: #D1C8C1;
     border: 0;
@@ -79,8 +79,8 @@
     cursor: pointer;
     display: inline-flex;
     font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif;
-    font-size: 2.5ex;
     font-weight: 800;
+    font-size: 2.5ex;
     text-transform: uppercase;
     justify-content: center;
     min-height: 40px;
@@ -91,13 +91,13 @@
     vertical-align: middle;
 }
 
-.startNow:hover,
-.startNow:focus { 
+.primary:hover,
+.primary:focus { 
     background-color: #B49C8A;
     color: #F6F4F3;
 }
 
-.startNow:active {
+.primary:active {
     background: #86654B;
     color: rgb(255, 255, 255, .7);
 }

@@ -27,16 +27,16 @@ const HomePage = () => {
         }
     });
 
-    const toggleClick = (test) => {
+    const toggleClick = (authType) => {
             setShowModal(!showModal);
-            setForm(test);
+            setForm(authType);
     };
 
     return (
         <div id="main">
-            < NavBar onClick={toggleClick}/>
+            < NavBar toggleClick={toggleClick}/>
             <div className="HomePage_body">
-                {showModal && <Modal ref={modalRef} setForm={formType}/>}
+                {showModal && <Modal ref={modalRef} formType={formType} setForm={setForm}/>}
                 <div className="banner">
                     <h1 className="get">Get.</h1>
                     <h1 className="plan">Plan.</h1>
@@ -46,7 +46,12 @@ const HomePage = () => {
                 <div className="presentation">
                     <div className="speech">
                         <p>Welcome to your recipe gathering website! Easily collect recipes from various sources, plan your meals, find inspiration, and print your favorite ones in a consistent format. Sign up now to unlock a world of culinary possibilities!</p>
-                        <button className="primary startNow">Start now</button>
+                        <button 
+                        id = "register"
+                        className="primary startNow"
+                        onClick={() => toggleClick("register")}>
+                            Start now
+                        </button>
                     </div>
                     <div className="pictures">
                         <img src={pasta} alt="pasta"/>

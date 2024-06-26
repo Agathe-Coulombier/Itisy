@@ -5,7 +5,7 @@ const sgMail = require("@sendgrid/mail")
 
 // Function to register a new user
 const registerUser = async (userData) => {
-    const { firstName, lastName, email, password } = userData;
+    const { firstName, lastName, email, password, confirmPassword } = userData;
 
     // Validation checks for user input data
     if (!firstName) {
@@ -14,6 +14,12 @@ const registerUser = async (userData) => {
 
     if (!email) {
         throw new Error("Please provide an email");
+    }
+
+    // Validate email format
+    const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!emailReg.test(email)) {
+        throw new Error("Email format not valid");
     }
 
     if (!password) {
@@ -26,16 +32,15 @@ const registerUser = async (userData) => {
         throw new Error("User with this email already exists");
         }
 
-        // Validate email format
-    const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (!emailReg.test(email)) {
-        throw new Error("Email format not valid");
-    }
-
     // Validate password format
     const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         if (!passwordReg.test(password)) {
             throw new Error("The password must contain at least 8 characters, including at least one upper case, one lower case, one number and one special character (!,?,#,&,$...)");
+        }
+
+    // Check if passwords are matching
+    if (password !== confirmPassword) {
+        throw new Error("Passwords are not matching");
         }
 
     // Hashing password for security
@@ -49,6 +54,12 @@ const registerUser = async (userData) => {
 // Function to authenticate and login a user
 const loginUser = async (userData) => {
     const { email, password } = userData;
+
+    // Validate email format
+    const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!emailReg.test(email)) {
+        throw new Error("Email format not valid");
+    }
 
     // Validation checks for user input data
     if (!email) {

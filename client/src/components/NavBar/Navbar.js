@@ -8,11 +8,10 @@ const NavBar = (props) => {
     const[hambActive, setHambActive] = useState(false);
     const handleHamburgerClick = () => {
         setHambActive(!hambActive);
-        console.log(hambActive);
     };
 
     // window.onscroll = function() {scrollFunction()};
-
+    
     return (
         <nav id="navbar">
             <div className="items">
@@ -23,8 +22,8 @@ const NavBar = (props) => {
                 <div className="right subItems">
                     <ul 
                     className={`nav-menu ${hambActive ? 'active' : ''}`}>
-                        <li><h2 id="register" className="main text" href="auth/register" onClick={() => props.onClick("register")}>register</h2></li>
-                        <li><h2 id="login" className="text" href="auth/login" onClick={() => props.onClick("login")}>login</h2></li>
+                        <li><h2 id="register" className="main text" href="auth/register" onClick={() => props.toggleClick("register")}>register</h2></li>
+                        <li><h2 id="login" className="text" href="auth/login" onClick={() => props.toggleClick("login")}>login</h2></li>
                         <li><h2 className="text" href="#contact">contact</h2></li>
                     </ul>
                     <div 

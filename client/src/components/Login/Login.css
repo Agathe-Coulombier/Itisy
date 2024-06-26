@@ -11,6 +11,15 @@
     width: fit-content;
 }
 
+.passwordForm{
+    display: flex;
+    flex-direction: column;
+}
+/* 
+.login a{
+    pointer-events: none;
+} */
+
 form{
     width:500px;
 }

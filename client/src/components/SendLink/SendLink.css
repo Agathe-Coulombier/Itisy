@@ -1,4 +1,4 @@
-.register {
+.login {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,23 +11,22 @@
     width: fit-content;
 }
 
-.password{
+.passwordForm{
     display: flex;
-    justify-content: right;
-    align-items:stretch;
-}
-
-.password span{
-    position:absolute;
-    display:flex;
-    padding:10px;
-    color: gray;
-
+    flex-direction: column;
 }
 
 form{
     width:500px;
 }
+
+input{
+    font-family:'Poppins';
+    text-align: justify;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
 
 label {
     display: block;
@@ -42,10 +41,6 @@ label {
 
 input {
     display: block;
-    font-family:'Poppins';
-    text-align: justify;
-    font-size: 0.95rem;
-    margin: 0;
     width: 100%;
     margin-bottom: 15px;
     padding: 10px;
@@ -71,4 +66,10 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.primary:disabled {
+    background-color: #D1C8C1;
+    color: #86654B;
+    cursor: not-allowed;
 }

@@ -1,7 +1,11 @@
 const bcrypt = require("bcrypt");
+const React = require("react");
 const pool = require("../databases/database");
 const jwt = require("jsonwebtoken");
-const sgMail = require("@sendgrid/mail")
+const sgMail = require("@sendgrid/mail");
+const render = require('@react-email/components');
+const MailTemplate = require("../build/test");
+
 
 // Function to register a new user
 const registerUser = async (userData) => {
@@ -113,13 +117,16 @@ const forgotPassword = async (userData) => {
 const sendEmail = async(user, token) => {
     // Set Sengrid API key
     sgMail.setApiKey(require('config').get("Services")["api"]["SENDGRID_API_KEY"])
-    
+
+    // Read the content of the HTML email template file
+    const emailHtml = render(MailTemplate({ url: "http://localhost:3000/auth/reset-password", token:"coucou", firstName: "Gisèle" }));
+
     // Compose the email message
     const msg = {
         to: user.email,
-        from: "Agathe.Coulombier@gmail.com", // your email
-        subject: "Reset password requested",
-        html: `<a href="http://localhost:4000/auth/reset-password/${token}">${token}</a>`
+        from: "Agathe.Coulombier@gmail.com", 
+        subject: "Reset your password",
+        html: emailHtml
     };
 
     // Send the email using SendGrid

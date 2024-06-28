@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "SET NODE_ENV=production & node server",
-    "build": "babel --config-file ./.babelrc --out-dir build ../client/src/emails"
+    "build": "babel --config-file ./.babelrc --out-dir build ../client/src/emails",
+    "dev": "nodemon server"
   },
   "author": "Agathe Coulombier",
   "license": "ISC",

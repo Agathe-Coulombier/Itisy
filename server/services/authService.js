@@ -3,8 +3,8 @@ const React = require("react");
 const pool = require("../databases/database");
 const jwt = require("jsonwebtoken");
 const sgMail = require("@sendgrid/mail");
-const render = require('@react-email/components');
-const MailTemplate = require("../build/test");
+const {render} = require('@react-email/components');
+const MailTemplate = require("../../client/src/emails/MailTemplate.js");
 
 
 // Function to register a new user
@@ -119,8 +119,10 @@ const sendEmail = async(user, token) => {
     sgMail.setApiKey(require('config').get("Services")["api"]["SENDGRID_API_KEY"])
 
     // Read the content of the HTML email template file
-    const emailHtml = render(MailTemplate({ url: "http://localhost:3000/auth/reset-password", token:"coucou", firstName: "Gisèle" }));
+    const firstName = user.firstname;
+    const emailHtml = MailTemplate({ url: `http://localhost:3000/auth/reset-password?token=${token}`, firstName: firstName });
 
+    console.log(emailHtml)
     // Compose the email message
     const msg = {
         to: user.email,

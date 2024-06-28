@@ -12,11 +12,12 @@ const MailTemplate = (props) => {
             <div 
                 id="mailTemplate"
                 style={{
-                    margin:0,
-                    padding:0,
-                    height: "100%",
-                    top: 0,
-                    left: 0,
+                    "backgroundColor": "#F6F4F3",
+                    "margin":"0",
+                    "padding":"0",
+                    "height": "100%",
+                    "top": "0",
+                    "left": "0",
                 }}>
                 <header
                     style={{

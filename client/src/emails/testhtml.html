@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itisy</title>
+</head>
+<body style="margin: 0; padding: 0; height: 100%; top: 0; left: 0; font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif; color: #31241E; background-color: #F6F4F3;">
+    <div id="mailTemplate" style="margin: 0; padding: 0; height: 100%; top: 0; left: 0;">
+        <header style="height: 15%; padding: 0 10%; display: flex; align-items: left; justify-content: left; margin: 10px 0;">
+            <img src="https://i.ibb.co/Xx8L5h7/logoTab.png" alt="Chef hat logo" style="height: 4.4em; width:4.4em; margin-bottom: 2.1em; cursor: pointer;">
+            <h1 class="text" style="text-transform: uppercase; font-size: 2.5em; margin: 0 10px; cursor: pointer;">itisy</h1>
+        </header>
+        <div style="height: 50%; padding: 20px 10%; background-color: white; justify-content: left;">
+            <h2 class="text" style="font-size: 1.5em;">Hi ${props.firstName},</h2>
+            <img src="https://0ec63ca6b7.imgdist.com/pub/bfra/84ybnnzb/v41/on1/t3f/image_2024-06-27_081531960.png" alt="Lock" style="width: 20%; position: relative; left: 50%; transform: translateX(-50%);">
+            <br>
+            <p style="font-size: 1em;">To reset your password, please click this link:</p>
+            <br>
+            <a href="${props.url}" style="cursor: pointer ;color: #86654B; font-size: 1em; word-wrap: break-word; width: 100%; text-align: center; position: relative; left: 50%; transform: translateX(-50%);">${props.url}</a>
+        </div>
+        <footer style="height: 25%; padding: 20px 10%; font-size: 1em; display: flex; flex-direction: column; justify-content: left;">
+            <p>Template still in development. Thank you for taking a look at my work,</p>
+            <br>
+            <p>Agathe.</p>
+        </footer>
+    </div>
+</body>
+</html>

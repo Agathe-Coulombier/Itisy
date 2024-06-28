@@ -2,8 +2,8 @@ const React = require('react');
 const { useState, useEffect, useRef } = require('react');
 const logoTab = null //require('./logoTab.png');
 // import "./MailTemplate.css";
-const _jsx = require("react/jsx-runtime");
-const _jsxs = require("react/jsx-runtime");
+const _jsx = require("react/jsx-runtime").jsx;
+const _jsxs = require("react/jsx-runtime").jsxs;
 
 const MailTemplate = props => {
   return /*#__PURE__*/_jsxs("div", {
@@ -20,8 +20,8 @@ const MailTemplate = props => {
         "height": "15%",
         "padding": "0 10%",
         "display": "flex",
-        "align-items": "center",
-        "justify-content": "left",
+        "alignItems": "center",
+        "justifyContent": "left",
         "margin": "10px 0"
       },
       children: [/*#__PURE__*/_jsx("img", {
@@ -29,14 +29,14 @@ const MailTemplate = props => {
         alt: "Chef hat logo",
         style: {
           "height": "4.4em",
-          "margin-bottom": "2.1em",
+          "marginBottom": "2.1em",
           "cursor": "pointer"
         }
       }), /*#__PURE__*/_jsx("h1", {
         className: "text",
         style: {
-          "text-transform": "uppercase",
-          "font-size": "3em",
+          "textTransform": "uppercase",
+          "fontSize": "3em",
           "margin": "0 10px",
           "cursor": "pointer"
         },
@@ -46,15 +46,15 @@ const MailTemplate = props => {
       style: {
         "height": "50%",
         "padding": "20px 25%",
-        "background-color": "white",
+        "backgroundColor": "white",
         "display": "flex",
-        "flex-direction": "column",
-        "justify-content": "center"
+        "flexDirection": "column",
+        "justifyContent": "center"
       },
       children: [/*#__PURE__*/_jsxs("h2", {
         className: "text",
         style: {
-          "font-size": "2em"
+          "fontSize": "2em"
         },
         children: ["Hi ", props.firstName, ","]
       }), /*#__PURE__*/_jsx("img", {
@@ -68,15 +68,15 @@ const MailTemplate = props => {
         }
       }), /*#__PURE__*/_jsx("br", {}), /*#__PURE__*/_jsx("br", {}), /*#__PURE__*/_jsx("p", {
         style: {
-          "font-size": "1em"
+          "fontSize": "1em"
         },
         children: "To reset your password, please click this link:"
       }), /*#__PURE__*/_jsx("br", {}), /*#__PURE__*/_jsx("a", {
         href: props.url,
         style: {
-          "font-size": "1em",
+          "fontSize": "1em",
           "width": "90%",
-          "text-align": "center",
+          "textAlign": "center",
           "position": "relative",
           "left": "50%",
           "transform": "translateX(-50%)"
@@ -87,10 +87,10 @@ const MailTemplate = props => {
       style: {
         "height": "25%",
         "padding": "20px 25%",
-        "font-size": "1em",
+        "fontSize": "1em",
         "display": "flex",
-        "flex-direction": "column",
-        "justify-content": "center"
+        "flexDirection": "column",
+        "justifyContent": "center"
       },
       children: [/*#__PURE__*/_jsx("p", {
         children: "Template still in development. Thank you for taking a look at my work,"

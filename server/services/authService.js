@@ -59,12 +59,6 @@ const registerUser = async (userData) => {
 const loginUser = async (userData) => {
     const { email, password } = userData;
 
-    // Validate email format
-    const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (!emailReg.test(email)) {
-        throw new Error("Email format not valid");
-    }
-
     // Validation checks for user input data
     if (!email) {
         throw new Error("Please provide your email")
@@ -73,6 +67,12 @@ const loginUser = async (userData) => {
     if (!password) {
         throw new Error("Please provide your password")
         }
+
+    // Validate email format
+    const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!emailReg.test(email)) {
+        throw new Error("Email format not valid");
+    }
 
     // Check if a user with the provided email exists 
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [
@@ -92,6 +92,17 @@ const loginUser = async (userData) => {
 // Function to handle password rester request
 const forgotPassword = async (userData) => {
     const {email} = userData;
+
+    // Validation checks for user input data
+    if (!email) {
+        throw new Error("Please provide an email");
+    }
+
+    // Validate email format
+    const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!emailReg.test(email)) {
+        throw new Error("Email format not valid");
+    }
 
     // Check if user with the provided email is in the database
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [

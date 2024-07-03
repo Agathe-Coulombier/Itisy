@@ -1,0 +1,69 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Start with opacity 0 */
+    }
+    to {
+        opacity: 1; /* End with opacity 1 */
+    }
+}
+
+.modal {
+    position: fixed; /* Fixed positioning relative to the viewport */
+    width: 80%; /* 80% width of the viewport */
+    height: fit-content; /* Height adjusts to content */
+    max-height: 90vh; /* Limit height to 90% of viewport height */
+    overflow-y: auto; /* Enable vertical scrolling when content exceeds max-height */
+    background-color: #F6F4F3; /* Background color */
+    z-index: 11; /* Ensure modal is always on top */
+    left: 50%; /* Center horizontally */
+    top: 50%; /* Center vertically */
+    transform: translate(-50%, -50%); /* Centering trick */
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 5px 30px 0 rgb(0 0 0 / 50%); /* Box shadow for depth */
+    animation: fadeIn 0.8s ease both; /* Fade in animation */
+}
+
+.modal .modal_content {
+    margin: 20px; /* Margin around the modal content */
+}
+
+.modal .password {
+    display: flex; /* Flex container */
+    justify-content: right; /* Align items to the right */
+    align-items: stretch; /* Stretch items vertically */
+}
+
+.modal .password span {
+    position: absolute; /* Absolute positioning for the eye icon */
+    display: flex; /* Flex container */
+    padding: 10px; /* Padding around the eye icon */
+    color: gray; /* Icon color */
+	cursor: pointer; /* Cursor style */
+}
+
+.modal .message {
+    margin: 0; /* Remove margin */
+    padding: 30px 10px 0px 0; /* Padding for error message */
+    color: darkred; /* Error message color */
+    position: relative; /* Relative positioning */
+    width: fit-content; /* Width adjusts to content */
+    left: 100%; /* Move message to the right */
+    transform: translateX(-100%); /* Slide message to the left */
+}
+
+.modal h3 {
+    margin: 0; /* Remove margin */
+    padding-right: 30px; /* Right padding for heading */
+}
+
+.modal p {
+    margin: 0; /* Remove margin */
+}
+
+.modal .cross {
+    position: fixed; /* Fixed positioning */
+    right: 0; /* Align to the right */
+    padding: 20px; /* Padding around cross icon */
+    cursor: pointer; /* Cursor pointer */
+    color: #31241E; /* Cross icon color */
+}

@@ -1,0 +1,121 @@
+/* Main content Styles */
+.main_content {
+    min-height: calc(100vh - 84.3px); /* Full height minus navbar height */
+    margin-top: 84.3px; /* Navbar height offset */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Column direction to manage children */
+}
+
+/* Home Page Presentation */
+#homePage_Presentation {
+    flex: 1; /* Allow it to grow to fit the available space */
+    display: flex;
+    flex-direction: column; /* Column direction for children */
+}
+
+/* Banner Section Styles */
+.banner {
+    background-image: url("../../../Resources/firstpage/Egg.jpg");
+    background-size: cover;
+    background-position: 0% 93%;
+    width: 100%;
+    flex: 8; /* Takes up 8 times the space as compared to other sections */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /* Ensure padding is included in the total width/height */
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 0; /* Remove padding to avoid extra height */
+    font-size: clamp(1.25rem, 1.0714rem + 0.8929vw, 2.5rem); /* Responsive font size */
+}
+
+.banner h1 {
+    margin: 0.05em 10%; /* Top and bottom margin of 0.05em, left and right margin of 10% */
+}
+
+.banner .plan {
+    padding-left: 8%; /* Left padding of 8% */
+}
+
+.banner .get {
+    padding-top: 3%; /* Top padding of 3% */
+}
+
+.banner .eat {
+    padding-left: 18%; /* Left padding of 18% */
+    padding-bottom: 3%; /* Bottom padding of 3% */
+}
+
+/* Presentation Section Styles */
+.presentation {
+    flex: 2; /* Takes up 2 times the space as compared to other sections */
+    display: flex;
+    padding: 30px 10% 10px 10%; /* Top padding of 30px, right padding of 10%, bottom padding of 10px, left padding of 10% */
+    box-sizing: border-box; /* Ensure padding is included in the total width/height */
+}
+
+.speech {
+    flex: 4; /* Takes up 4 times the space as compared to other elements in the presentation section */
+    margin-right: 2.3%; /* Right margin of 2.3% */
+    display: flex;
+    flex-direction: column; /* Column direction for children */
+    justify-content: space-between; /* Spaced evenly between the items */
+}
+
+.speech p {
+    font-family: 'Poppins', sans-serif; /* Font family */
+    text-align: justify; /* Justify text alignment */
+    font-size: clamp(1rem, 0.4107rem + 0.4464vw, 1.425rem); /* Responsive font size */
+    margin: 0; /* Remove margin */
+}
+
+.speech button {
+    margin-bottom: 0; /* Remove bottom margin for the button */
+}
+
+/* Pictures Section Styles */
+.presentation .pictures {
+    flex: 6; /* Takes up 6 times the space as compared to other elements in the presentation section */
+    display: flex;
+    justify-content: space-between; /* Spaced evenly between the items */
+}
+
+.presentation .pictures img {
+    width: 31%; /* Width of 31% */
+    aspect-ratio: 1; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover content */
+    margin: 0; /* Remove margin */
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 576px) {
+    .banner {
+        height: 40%; /* Height of 40% */
+        padding: 0.5em 0; /* Top and bottom padding of 0.5em, left and right padding of 0 */
+        font-size: 0.9em; /* Font size of 0.9em */
+    }
+
+    .banner h1 {
+        margin: 0.1em 10%; /* Top and bottom margin of 0.1em, left and right margin of 10% */
+    }
+
+    .presentation {
+        flex-direction: column; /* Column direction for children */
+        height: 60%; /* Height of 60% */
+        padding: 10px 5% 10px 5%; /* Top padding of 10px, right padding of 5%, bottom padding of 10px, left padding of 5% */
+    }
+
+    .presentation .speech {
+        width: 100%; /* Width of 100% */
+        margin: 5% 0; /* Top and bottom margin of 5%, left and right margin of 0 */
+    }
+
+    .presentation .speech p {
+        font-size: 16px; /* Font size of 16px */
+        margin-bottom: 10%; /* Bottom margin of 10% */
+    }
+
+    .presentation .pictures {
+        width: 100%; /* Width of 100% */
+    }
+}

@@ -1,82 +1,94 @@
+/* Footer Container */
 #footer {
-    position: relative; 
-    bottom: 0;
-    height: 185px;
-    z-index: 10;
-    background-color:#F6F4F3;
+    position: relative; /* Positions the footer relative to its normal position */
+    bottom: 0; /* Places the footer at the bottom */
+    height: 185px; /* Sets the height of the footer */
+    z-index: 10; /* Ensures the footer is on top of other elements */
+    background-color: #F6F4F3; /* Sets the background color of the footer */
 }
 
-#footer hr{
-    margin:0 5%;
+/* Horizontal Rule in Footer */
+#footer hr {
+    margin: 0 5%; /* Adds margin to the sides of the horizontal rule */
 }
 
-.footer_body{
-    display:flex;
-    margin: 0 10%;
-    flex-direction: row;
-    justify-content:space-between;
+/* Footer Body */
+.footer_body {
+    display: flex; /* Uses flexbox for layout */
+    margin: 0 10%; /* Adds margin to the sides of the footer body */
+    flex-direction: row; /* Aligns items in a row */
+    justify-content: space-between; /* Distributes space between items */
 }
 
-.footer_body h1{
-    margin: 0;
-    padding: 14px 16px;
-    font-size: 1.5rem;    
-    font-weight: bold;
-    text-transform: uppercase;
+/* Footer Logo H1 */
+.footer_body h1 {
+    margin: 0; /* Removes margin */
+    padding: 14px 16px; /* Adds padding */
+    font-size: 1.5rem; /* Sets font size */
+    font-weight: bold; /* Makes text bold */
+    text-transform: uppercase; /* Transforms text to uppercase */
 }
 
-.footer_body h2{
-    margin: 0;
-    padding: 14px 0px;
-    font-size: 1.1rem;    
-    font-weight: bold;
-    text-transform: uppercase;
+/* Footer Section H2 */
+.footer_body h2 {
+    margin: 0; /* Removes margin */
+    padding: 14px 0px; /* Adds padding */
+    font-size: 1.1rem; /* Sets font size */
+    font-weight: bold; /* Makes text bold */
+    text-transform: uppercase; /* Transforms text to uppercase */
 }
 
-.footer_body ul{
-    list-style: none;
-    padding-left: 0;
+/* Footer Lists */
+.footer_body ul {
+    list-style: none; /* Removes list bullets */
+    padding-left: 0; /* Removes left padding */
 }
 
+/* Footer Links */
 .footer_body a {
-    margin-bottom: 16px;
-} 
+    margin-bottom: 16px; /* Adds margin to the bottom */
+}
 
+/* Footer Paragraphs */
 .footer_body p {
-    margin-bottom: 16px;
-} 
+    margin-bottom: 16px; /* Adds margin to the bottom */
+}
 
+/* Links General Styling */
 a {
-    /* cursor: pointer; */
-    display:inline-block;
-    text-decoration: underline;
-    color: inherit;
+    display: inline-block; /* Makes links inline-block */
+    text-decoration: underline; /* Underlines text */
+    color: inherit; /* Inherits parent color */
 }
 
+/* Footer Logo Container */
 .footer_logo {
-    cursor:pointer;
-    display:flex
+    cursor: pointer; /* Changes cursor to pointer */
+    display: flex; /* Uses flexbox for layout */
 }
 
-.footer_logo img{
-    height:2.2em;
-    margin-bottom: 1.1em;
+/* Footer Logo Image */
+.footer_logo img {
+    height: 2.2em; /* Sets image height */
+    margin-bottom: 1.1em; /* Adds margin to the bottom */
 }
 
-.footer_legal{
-    margin: 0 20% 0 0;
+/* Footer Legal Section */
+.footer_legal {
+    margin: 0 20% 0 0; /* Adds margin to the right */
 }
 
-.copyright{
-    font-size: 0.9rem;
-    display: flex;
-    justify-content: right;
-    margin: 0 5%;
+/* Footer Copyright */
+.copyright {
+    font-size: 0.9rem; /* Sets font size */
+    display: flex; /* Uses flexbox for layout */
+    justify-content: right; /* Aligns content to the right */
+    margin: 0 5%; /* Adds margin to the sides */
 }
 
-
-@media only screen and (max-width: 426px){
-    .footer_body{
-        flex-direction: column;
+/* Responsive Design for Small Screens */
+@media only screen and (max-width: 576px) {
+    .footer_body {
+        flex-direction: column; /* Changes layout to column on small screens */
     }
 }

@@ -1,5 +1,6 @@
 const React = require('react');
-// const logoTab = require('../Resources/logoTab.png');
+
+// Design made online with PushSubscriptionOptions, copied the HTML in the MailTemplate function
 
 const MailTemplate = (props) => {
     const htmlContent = `
@@ -149,7 +150,7 @@ const MailTemplate = (props) => {
                             <td align="center" style="padding:0;Margin:0;font-size:0" height="10"></td>
                             </tr>
                             <tr>
-                            <td align="left" style="padding:0;Margin:0;padding-right:20px;padding-left:20px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#86654B;font-size:14px" align="justify"><a style="mso-line-height-rule:exactly;text-decoration:underline;color:#86654B;font-size:14px" target="_blank" href="${props.url}">${props.url}</a></p></td>
+                            <td align="left" style="padding:0;Margin:0;padding-right:20px;padding-left:20px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#86654B;font-size:14px" align="center"><a style="mso-line-height-rule:exactly;text-decoration:underline;color:#86654B;font-size:14px" target="_blank" href="${props.url}">${props.url}</a></p></td>
                             </tr>
                         </table></td>
                         </tr>

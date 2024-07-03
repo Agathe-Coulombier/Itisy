@@ -1,122 +1,126 @@
+/* Navbar Container */
 #navbar {
-    position: fixed; 
-    top: 0;
-    left:0;
-    width: 100%; 
-    height: 64px;
-    z-index: 10;
-    background-color:#F6F4F3;
-    height:fit-content;
+    position: fixed; /* Fixes the navbar to the top of the viewport */
+    top: 0; /* Aligns the navbar to the top */
+    padding:0.5% 0;
+    left: 0; /* Aligns the navbar to the left */
+    width: 100%; /* Sets the navbar width to 100% of the viewport */
+    z-index: 10; /* Ensures the navbar is on top of other elements */
+    background-color: #F6F4F3; /* Sets the background color of the navbar */
+    height: fit-content; /* Ensures the height fits the content */
 }
 
+/* Navbar Items Container */
 #navbar .items {
-    display : flex;
-    margin: 0px 10%;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; /* Uses flexbox for layout */
+    margin: 0 10%; /* Adds margin to the sides */
+    align-items: center; /* Vertically centers the items */
+    justify-content: space-between; /* Distributes space between items */
 }
 
-.bar {
-    display: block;
-    width: 25px;
-    height: 3px;
-    margin: 5px auto;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    background-color: #31241E;
+/* Navbar Sub Items Container */
+#navbar .items .subItems {
+    display: flex; /* Uses flexbox for layout */
+    align-items: center; /* Vertically centers the sub-items */
+}
+
+/* List Style Removal */
+#navbar .items .right li {
+    list-style: none; /* Removes the default list style */
+}
+
+/* Hamburger Menu Styles */
+.hamburger {
+    color: #31241E; /* Sets the color of the hamburger menu */
+    display: none; /* Hides the hamburger menu by default */
+}
+
+/* Hamburger Menu Bar Styles */
+.hamburger .bar {
+    display: block; /* Displays the bars as block elements */
+    width: 25px; /* Sets the width of each bar */
+    height: 3px; /* Sets the height of each bar */
+    margin: 5px auto; /* Adds margin to the bars */
+    transition: all 0.3s ease-in-out; /* Adds a transition effect */
+    background-color: #31241E; /* Sets the background color of the bars */
+}
+
+/* Text Styles */
+#navbar .items .text {
+    font-size: 1em; /* Sets the font size */
+    line-height: 1.43; /* Sets the line height */
+    padding: 14px 16px; /* Adds padding to the text */
+    margin: 0; /* Removes margin */
+    text-decoration: none; /* Removes text decoration */
+    text-transform: uppercase; /* Transforms text to uppercase */
+    border: 3px solid transparent; /* Adds a transparent border */
+    transition: all 0.3s ease-in-out; /* Adds a transition effect */
 }
 
 /* Change the color of links on hover */
 #navbar .items h2:hover {
-    background-color: #ddd;
-    cursor:pointer;
+    border-color: #D1C8C1; /* Changes border color on hover */
+    border-radius: 10px; /* Adds border radius on hover */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
 }
 
-/* Add a color to the active/current link */
-#navbar .items .main {
-    color: #86654B;
-    font-size: 1.2em;
+/* Effect on Click */
+#navbar .items h2:active {
+    border-color: #86654B; /* Changes border color on click */
 }
 
-#navbar .items .subItems{
-    display: flex;
-    align-items: center;
+/* Logo and Text Styles */
+#navbar .items .left img {
+    height: 2.2em; /* Sets the height of the logo image */
+    margin-bottom: 1.1em; /* Adds margin to the bottom of the image */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
 }
 
-
-
-#navbar .items .right li{
-    list-style: none;
+#navbar .items .left .text {
+    font-size: 1.5em; /* Sets the font size of the text */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
 }
 
-.hamburger{
-    color:black;
-    display:none;
+/* Horizontal Rule Styles */
+#navbar hr {
+    margin: 0 5%; /* Adds margin to the sides of the horizontal rule */
 }
 
-#navbar .items .text {
-    font-size: 1em;
-    line-height: 1.43;
-    padding: 14px 16px;
-    margin: 0px;
-    text-decoration: none;
-    text-transform: uppercase;
-}
-
-#navbar .items .left img{
-    height:2.2em;
-    margin-bottom: 1.1em;
-    cursor:pointer;
-}
-
-#navbar .items .left .text  {
-    font-size: 1.5em;
-    cursor:pointer;
-}
-
-#navbar hr{
-    margin: 0px 5%;
-    
-}
-
+/* Navigation Menu Styles */
 .nav-menu {
-    display: flex ;
-    flex-direction: row;
-    align-items: center;
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: row; /* Aligns items in a row */
+    align-items: center; /* Vertically centers the items */
+    margin: 0; 
 }
 
+/* Responsive Design */
 @media only screen and (max-width: 768px) {
-
-    .nav-menu{
-        display:none
+    .nav-menu {
+        display: none; /* Hides the navigation menu on small screens */
     }
-    
+
     .nav-menu.active {
-        padding:0;
-        position: fixed;
-        right: 5%;
-        top: 64px;
-        display:flex;
-        flex-direction: column;
-        background-color: #F6F4F3;
-        width: fit-content;
-        border-radius: 10px;
-        text-align: left;
-        transition: 0.3s;
-        box-shadow:
-            0 10px 27px rgba(0, 0, 0, 0.05);
+        padding: 0; /* Removes padding */
+        position: fixed; /* Fixes the menu to a position */
+        right: 5%; /* Aligns the menu to the right */
+        top: 64px; /* Aligns the menu to the top */
+        display: flex; /* Uses flexbox for layout */
+        flex-direction: column; /* Aligns items in a column */
+        background-color: #F6F4F3; /* Sets the background color */
+        width: fit-content; /* Sets the width to fit the content */
+        border-radius: 10px; /* Adds border radius */
+        text-align: left; /* Aligns text to the left */
+        transition: 0.3s; /* Adds a transition effect */
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05); /* Adds a box shadow */
     }
 
     .nav-item ul {
-        margin: 2.5rem 0;
+        margin: 2.5rem 0; /* Adds margin to the top and bottom */
     }
 
     .hamburger {
-        cursor: pointer;
-        display:block;
+        cursor: pointer; /* Changes the cursor to a pointer */
+        display: block; /* Displays the hamburger menu on small screens */
     }
-
-
-
 }
-

@@ -1,35 +1,94 @@
+/* Use source code-like font for code elements */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-html{
-  margin:0;
-  padding:0;
+/* Reset margin, padding, and ensure HTML and #root take up full viewport */
+html, #root {
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
 }
 
-body{
-  margin:0;
-  padding:0;
+/* Reset margin, padding, and set body height to full viewport */
+body {
+  margin: 0;
+  padding: 0;
   height: 100%;
   top: 0;
   left: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #31241E;
-  background-color: #F6F4F3;
+  font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif; /* Set default font family with system fallbacks */
+  -webkit-font-smoothing: antialiased; /* Improve font rendering on WebKit */
+  -moz-osx-font-smoothing: grayscale; /* Improve font rendering on macOS */
+  color: #31241E; /* Set default text color */
+  background-color: #F6F4F3; /* Set default background color */
 }
 
-#root{
-  margin:0;
-  padding:0;
-  height: 100%;
-  top: 0;
-  left: 0;
+/* Button Styles */
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Button takes full width of its container */
+  margin: 10px 0; /* Top and bottom margin of 10px, no left-right margin */
+  padding: 20px; /* Padding inside the button */
+  background-color: #D1C8C1; /* Background color of the button */
+  border-radius: 10px; /* Rounded corners */
+  border: none; /* No border */
+  color: #F6F4F3; /* Text color */
+  cursor: pointer; /* Cursor style */
+  font-family: 'Montserrat', sans-serif; /* Font family */
+  font-weight: 800; /* Font weight */
+  font-size: 2.5ex; /* Font size */
+  text-transform: uppercase; /* Uppercase text */
+  transition: background-color 0.167s, box-shadow 0.167s, color 0.167s; /* Transition effect on hover/focus */
+  user-select: none; /* Disable text selection */
+  min-height: 40px; /* Minimum height of the button */
 }
 
+/* Hover and focus styles for primary button */
+.primary:hover,
+.primary:focus {
+  background-color: #B49C8A; /* Background color on hover/focus */
+  color: #F6F4F3; /* Text color on hover/focus */
+}
+
+/* Active state style for primary button */
+.primary:active {
+  background: #86654B; /* Background color on click */
+  color: rgba(255, 255, 255, 0.7); /* Text color on click */
+}
+
+/* Placeholder text color for input fields */
+input::placeholder {
+  color: #86654B; /* Font color for placeholder text */
+}
+
+/* Border color for input fields when not focused */
+input:not(:focus) {
+  border-color: #86654B; /* Border color when input is not focused */
+}
+
+/* Border color and thickness for input fields when focused */
+input:focus {
+  border: 2px solid #31241E; /* Border color and thickness when input is focused */
+  outline: none; /* Remove default focus outline */
+}
+
+/* Default styling for input fields */
+input {
+  font-family: 'Poppins', sans-serif; /* Font family */
+  font-size: 0.95rem; /* Font size */
+  color: #31241E; /* Text color */
+  text-align: justify; /* Text alignment */
+  display: block; /* Display as block element */
+  width: 100%; /* Full width */
+  margin-bottom: 15px; /* Bottom margin */
+  padding: 10px; /* Padding inside the input */
+  box-sizing: border-box; /* Include padding and border in total width/height */
+  border: 1px solid #ddd; /* Border style and color */
+  border-radius: 10px; /* Rounded corners */
+}

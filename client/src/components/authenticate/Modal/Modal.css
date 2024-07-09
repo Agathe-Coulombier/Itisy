@@ -27,13 +27,13 @@
     margin: 20px; /* Margin around the modal content */
 }
 
-.modal .password {
+.password {
     display: flex; /* Flex container */
     justify-content: right; /* Align items to the right */
     align-items: stretch; /* Stretch items vertically */
 }
 
-.modal .password span {
+.password span {
     position: absolute; /* Absolute positioning for the eye icon */
     display: flex; /* Flex container */
     padding: 10px; /* Padding around the eye icon */

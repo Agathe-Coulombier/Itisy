@@ -61,10 +61,17 @@ const HomePage = () => {
         document.getElementById("footer").style.filter = showModal ? "blur(0px)" : "blur(5px)";
     }
 
+    // Define the buttons to display in the NavBar
+    const buttonItems = [
+        { id: "register", className: "register", label: "Register" },
+        { id: "login", className: "login", label: "Login" },
+        { id: "contact", className: "contact", label: "Contact" }
+    ];
+
     // Render JSX
     return (
         <div id="main">
-            <NavBar toggleClick={toggleClick} /> {/* Render NavBar component with toggleClick function */}
+            <NavBar toggleClick={toggleClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
             
             <div className="main_content">
                 {showModal && <Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} />} {/* Render Modal component conditionally based on showModal state */}

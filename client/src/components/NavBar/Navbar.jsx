@@ -10,6 +10,8 @@ const NavBar = (props) => {
         setHambActive(!hambActive);
     };
 
+    console.log(props.buttonItems)
+
     return (
         <nav id="navbar">
             <div className="items">
@@ -23,30 +25,20 @@ const NavBar = (props) => {
                 <div className="right subItems">
                     {/* Navigation menu links */}
                     <ul className={`nav-menu ${hambActive ? 'active' : ''}`}>
-                        <li><h2 
-                            id="register" 
-                            className="text register" 
-                            onClick={() => {
-                                props.toggleClick("register");
-                                hambActive && handleHamburgerClick() ;
-                                }}
-                                >register</h2></li>
-                        <li><h2 
-                            id="login" 
-                            className="text login"
-                            onClick={() => {
-                                props.toggleClick("login");
-                                hambActive && handleHamburgerClick();
-                                }}
-                                >login</h2></li>
-                        <li><h2 
-                            id="contact" 
-                            className="text contact"
-                            onClick={() => {
-                                props.toggleClick("contact");
-                                hambActive && handleHamburgerClick();
-                                }}
-                                >contact</h2></li>
+                        {props.buttonItems.map((item, index) => (
+                            <li key={index}>
+                                <h2 
+                                    id={item.id} 
+                                    className={`text ${item.className}`}
+                                    onClick={() => {
+                                        props.toggleClick(item.id);
+                                        hambActive && handleHamburgerClick();
+                                    }}
+                                >
+                                    {item.label}
+                                </h2>
+                            </li>
+                        ))}
                     </ul>
 
                     {/* Hamburger menu icon */}

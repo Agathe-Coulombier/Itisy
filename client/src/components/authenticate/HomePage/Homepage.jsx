@@ -12,7 +12,15 @@ const HomePage = () => {
     const [showModal, setShowModal] = useState(false); // State to toggle modal visibility
     const modalRef = useRef(null); // Reference for modal DOM element
     const [formType, setForm] = useState(""); // State to track modal form type
+    const [user, setUser] = useState({ // Define state variables using useState hook
+        "email": "", 
+        "password": "", 
+        "confirmPassword": "", 
+        "firstName": "", 
+        "lastName": ""
+    });
 
+    console.log(user)
     // Function to toggle the modal visibility and set the form type
     const toggleClick = (authType) => {
         setShowModal(prev => !prev); // Toggle modal visibility
@@ -29,7 +37,13 @@ const HomePage = () => {
             if (modalRef.current && !modalRef.current.contains(e.target) && e.target.id !== formType) {
                 setShowModal(false); // Hide the modal
                 setForm(""); // Reset the form type
-                
+                setUser({ // Reset user auth forms
+                    "email": "", 
+                    "password": "", 
+                    "confirmPassword": "", 
+                    "firstName": "", 
+                    "lastName": ""
+                })
                 // Apply background blur effect based on modal visibility
                 handleBlurry(showModal);
             }
@@ -48,7 +62,13 @@ const HomePage = () => {
     const handleClickCloseIcon = () => {
         setShowModal(false); // Hide the modal
         setForm(""); // Reset the form type
-        
+        setUser({ // Reset user auth forms
+            "email": "", 
+            "password": "", 
+            "confirmPassword": "", 
+            "firstName": "", 
+            "lastName": ""
+        })
         // Apply background blur effect based on modal visibility
         handleBlurry(showModal);
     }
@@ -74,7 +94,7 @@ const HomePage = () => {
             <NavBar toggleClick={toggleClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
             
             <div className="main_content">
-                {showModal && <Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} />} {/* Render Modal component conditionally based on showModal state */}
+                {showModal && <Modal ref={modalRef} user={user} setUser={setUser} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} />} {/* Render Modal component conditionally based on showModal state */}
                 
                 <div id="homePage_Presentation">
                     <div className="banner">

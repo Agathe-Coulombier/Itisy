@@ -16,9 +16,9 @@ const Modal = forwardRef((props, ref) => { // Define Modal component using forwa
     const SelectedForm = FormComponents[props.formType]; // Select the appropriate form component based on the formType prop
     
     return (
-        <div id="authModal" className="modal" ref={ref}> {/* Render the modal container with id, class, and ref */}
+        <div id="authModal" className="modal auth" ref={ref}> {/* Render the modal container with id, class, and ref */}
             <Icon icon={cross} id="closeModal" className="cross" alt="Close page" onClick={props.closeIcon}/> {/* Render a close icon with onClick handler */}
-            {SelectedForm ? <SelectedForm setForm={props.setForm} /> : null} {/* Render the selected form component if it exists */}
+            {SelectedForm ? <SelectedForm setForm={props.setForm} user={props.user} setUser={props.setUser} /> : null} {/* Render the selected form component if it exists */}
         </div>
     );
 });

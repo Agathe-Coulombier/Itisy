@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
 const forgotPassword = async (req, res) => {
     try {
         await authService.forgotPassword(req.body);
-        res.status(200).json({message : "Mail sent successfully"})
+        res.status(200).json({message : "A mail has been successfully sent, check your spams if you can't find it"})
     }
     catch (error){
         console.error(error);

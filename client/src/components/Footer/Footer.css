@@ -88,6 +88,10 @@ a {
 
 /* Responsive Design for Small Screens */
 @media only screen and (max-width: 576px) {
+    #footer{
+        height: 420px;
+    }
+
     .footer_body {
         flex-direction: column; /* Changes layout to column on small screens */
     }

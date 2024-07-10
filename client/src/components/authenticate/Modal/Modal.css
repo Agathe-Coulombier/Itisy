@@ -41,14 +41,18 @@
 	cursor: pointer; /* Cursor style */
 }
 
-.modal .message {
+.auth .message {
     margin: 0; /* Remove margin */
-    padding: 30px 10px 0px 0; /* Padding for error message */
+    padding: 30px 10px 0px 10px; /* Padding for error message */
     color: darkred; /* Error message color */
     position: relative; /* Relative positioning */
-    width: fit-content; /* Width adjusts to content */
+    width: fit-content;
+    max-width:100%; /* Width adjusts to content */
     left: 100%; /* Move message to the right */
     transform: translateX(-100%); /* Slide message to the left */
+    word-break: break-word; /* For most modern browsers */
+    overflow-wrap: break-word; /* Ensures compatibility with older browsers */
+
 }
 
 .modal h3 {

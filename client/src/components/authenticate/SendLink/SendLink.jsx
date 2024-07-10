@@ -6,15 +6,14 @@ import { eyeBlocked } from 'react-icons-kit/icomoon/eyeBlocked'; // Importing ey
 
 const SendLink = (props) => {
     // State variables to manage form data, input fields, and error messages
-    const [user, setUser] = useState({ "email": "" }); // State for user's email address
     const [disabled, setDisabled] = useState(false); // State to manage button disabled state
     const [countdown, setCountdown] = useState(30); // State for countdown timer
-    const [error, setError] = useState(""); // State for error message handling
+    const [msg, setMsg] = useState(""); // State for message handling
 
     // Function to handle changes in the input fields
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUser({ ...user, [name]: value }); // Update user state with new input value
+        props.setUser({ ...props.user, [name]: value }); // Update user state with new input value
     };
 
     // Effect hook to manage countdown timer
@@ -38,6 +37,7 @@ const SendLink = (props) => {
     useEffect(() => {
         if (countdown === 0) {
             setDisabled(false); // Enable the button again after countdown finishes
+            setMsg(""); // Reset message
             setCountdown(30); // Reset countdown timer
         }
     }, [countdown]);
@@ -47,15 +47,15 @@ const SendLink = (props) => {
         e.preventDefault(); // Prevent default form submission behavior
 
         try {
-            const res = await axios.patch("http://localhost:4000/auth/send-link", user); // Send POST request with user data
+            const res = await axios.patch("http://localhost:4000/auth/send-link", props.user); // Send POST request with user data
             console.log(res); // Log response to console
             setDisabled(true); // Disable the button after successful submission
-            setError(""); // Clear any existing error messages
+            setMsg(res.data.message); // Set request message state based on server response
         } catch (error) {
             console.error("Error response:", error.response); // Log error response if request fails
             console.error("Error message:", error.message); // Log error message
             console.error("Error code:", error.code); // Log error code if available
-            setError(error.response.data.message); // Set error message state based on server response
+            setMsg(error.response.data.message); // Set error message state based on server response
         }
     };
 
@@ -72,13 +72,15 @@ const SendLink = (props) => {
                     id="email"
                     name="email"
                     placeholder="Email address"
-                    value={user.email}
+                    value={props.user.email}
                     onChange={handleInputChange} // Handle input changes with handleInputChange function
                     required />
 
-                {/* Display error message if there is any */}
-                <p className="message">
-                    {error}
+                {/* Display message if there is any */}
+                <p 
+                    className="message"
+                    style={{ color: msg === "A mail has been successfully sent, check your spams if you can't find it" ? 'darkgreen' : 'darkred' }}>
+                    {msg}
                 </p>
 
                 <div className="wrap">
@@ -88,7 +90,7 @@ const SendLink = (props) => {
                         className="primary"
                         disabled={disabled} // Disable button when disabled state is true
                         onClick={handleSubmit}> {/* Handle form submission with handleSubmit function */}
-                        {disabled ? `Wait ${countdown}s to send again` : 'Send a link'} {/* Display appropriate text based on disabled state */}
+                        {disabled ? `Nothing? ${countdown}s to wait` : 'Send a link'} {/* Display appropriate text based on disabled state */}
                     </button>
                 </div>
             </form>

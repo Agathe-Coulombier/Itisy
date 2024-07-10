@@ -114,18 +114,23 @@ const forgotPassword = async (userData) => {
 
     // Generate a reset link using JWT with a temporary token
     const resetSecret = require('config').get("Services")["api"]["RESET_SECRET"]
-    const resetLink = jwt.sign({user: user.rows[0].email},
-        resetSecret, { expiresIn: '30m'});
+    const token = jwt.sign({user: user.rows[0].email}, resetSecret, { expiresIn: '30m'});
     
     // Update the user's temporary token in the dB
-    await pool.query(`UPDATE users SET temp_token = $1 WHERE user_id = $2`, [resetLink, user.rows[0].user_id]);
-    
-    // Send password reset email with the generated reset link
-    sendEmail(user.rows[0], resetLink);
+    const updateResult = await pool.query(`UPDATE users SET temp_token = $1 WHERE user_id = $2`, [token, user.rows[0].user_id]);
+    if (updateResult.rowCount === 0) {
+        throw new Error("Failed to update the temporary token in the database");
+    }
+
+    // Fetch the updated user record to ensure temp_token is updated correctly
+    const updatedUser = await pool.query("SELECT * FROM users WHERE user_id = $1", [user.rows[0].user_id]);
+
+    sendEmail(updatedUser.rows[0], token);
 }
 
 // Function sending an email after a password reset request
 const sendEmail = async(user, token) => {
+
     // Set Sengrid API key
     sgMail.setApiKey(require('config').get("Services")["api"]["SENDGRID_API_KEY"])
 
@@ -133,7 +138,6 @@ const sendEmail = async(user, token) => {
     const firstName = user.firstname;
     const emailHtml = MailTemplate({ url: `http://localhost:3000/auth/reset-password?token=${token}`, firstName: firstName });
 
-    console.log(emailHtml)
     // Compose the email message
     const msg = {
         to: user.email,
@@ -152,30 +156,44 @@ const sendEmail = async(user, token) => {
 }
 
 // Function to handle resetting the user's password
-const resetPassword = async (user) => {
-    const resetLink = user.params.token;
-    const newPassword = user.body;
+const resetPassword = async (req) => {
+    const resetLink = req.params.token;
+    const newPassword = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
     const resetSecret = require('config').get("Services")["api"]["RESET_SECRET"]
+
+    // Validate password format
+    const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    if (!passwordReg.test(newPassword)) {
+        throw new Error("The password must contain at least 8 characters, including at least one upper case, one lower case, one number and one special character (!,?,#,&,$...)");
+    }
+
+    // Check if passwords are matching
+    if (newPassword !== confirmPassword) {
+        throw new Error("Passwords are not matching");
+    }
 
     // Verify the reset token using the secret
     if(resetLink) {
         jwt.verify(resetLink, resetSecret, (error, decodedToken) => {
             if(error) {
-                throw new Error ('Incorrect token or expired');
+                throw new Error ('Your link has expired');
             }
     })
     };
 
     // Fetch user data based on the temporary token
-    const userData = await pool.query(`SELECT * FROM users WHERE temp_token = $1`, [resetLink])
+    const user = await pool.query(`SELECT * FROM users WHERE temp_token = $1`, [resetLink])
+
     // Check the user has the valid token
-    if(!userData) {
-        res.status(400).json({ message: 'We could not find a match for this link' });
+    console.log(user.rows[0].user_id)
+    if(user.rows[0].user_id !== null) {
+        res.status(400).json({ message: 'Your link has expired' });
     } else {
         // Hash the new password
-        const hashPassword = await bcrypt.hash(newPassword.password, 10);
+        const hashPassword = await bcrypt.hash(newPassword, 10);
         // Update the user's password and remove the temporary token
-        await pool.query(`UPDATE users SET temp_token = null, password=$1 WHERE user_id = $2`, [hashPassword, userData.rows[0].user_id]);
+        await pool.query(`UPDATE users SET temp_token = null, password=$1 WHERE user_id = $2`, [hashPassword, user.rows[0].user_id]);
     }
 
 }

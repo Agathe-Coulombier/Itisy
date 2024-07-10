@@ -5,8 +5,6 @@ import { eye } from "react-icons-kit/icomoon/eye"; // Import eye icon from react
 import { eyeBlocked } from 'react-icons-kit/icomoon/eyeBlocked'; // Import eyeBlocked icon from react-icons-kit
 
 const Login = (props) => {
-    // State to manage user input for email and password
-    const [user, setUser] = useState({ email: "", password: "" });
     // State to manage error messages
     const [error, setError] = useState("");
     // State to toggle password visibility
@@ -15,14 +13,16 @@ const Login = (props) => {
     // Handle input change for email and password fields
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUser({ ...user, [name]: value });
+        props.setUser({ ...props.user, [name]: value });
     };
+
+    console.log("login props", props)
 
     // Handle form submission for login
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:4000/auth/login", user); // Send POST request to login endpoint
+            const res = await axios.post("http://localhost:4000/auth/login", props.user); // Send POST request to login endpoint
             console.log(res); // Log response data
         } catch (error) {
             console.error("Error response:", error.response); // Log error response if request fails
@@ -44,7 +44,7 @@ const Login = (props) => {
                     id="email"
                     name="email"
                     placeholder="Email address"
-                    value={user.email}
+                    value={props.user.email}
                     onChange={handleInputChange}
                     required />
 
@@ -55,7 +55,7 @@ const Login = (props) => {
                         id="password"
                         name="password"
                         placeholder="Password"
-                        value={user.password}
+                        value={props.user.password}
                         onChange={handleInputChange}
                         required />
                     <span>

@@ -10,8 +10,6 @@ const NavBar = (props) => {
         setHambActive(!hambActive);
     };
 
-    console.log(props.buttonItems)
-
     return (
         <nav id="navbar">
             <div className="items">

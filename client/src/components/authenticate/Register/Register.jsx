@@ -5,28 +5,20 @@ import { eyeBlocked } from 'react-icons-kit/icomoon/eyeBlocked'; // Import eyeBl
 import axios from "axios"; // Import axios for making HTTP requests
 
 const Register = (props) => { // Define Register component with props parameter
-    const [user, setUser] = useState({ // Define state variables using useState hook
-        "email": "", 
-        "password": "", 
-        "confirmPassword": "", 
-        "firstName": "", 
-        "lastName": ""
-    });
-
     const [iconPassword, setIconPassword] = useState(false); // State variable to toggle password visibility
     const [iconConfirmPassword, setIconConfirmPassword] = useState(false); // State variable to toggle confirm password visibility
     const [error, setError] = useState(""); // State variable to manage error messages
 
     const handleInputChange = (e) => { // Event handler to update user state on input change
         const { name, value } = e.target;
-        setUser({ ...user, [name]: value });
+        props.setUser({ ...props.user, [name]: value });
     };
 
     const handleSubmit = async (e) => { // Event handler to handle form submission
         e.preventDefault(); // Prevent default form submission behavior
 
         try {
-            const res = await axios.post("http://localhost:4000/auth/register", user); // Send POST request to register user
+            const res = await axios.post("http://localhost:4000/auth/register", props.user); // Send POST request to register user
             console.log(res); // Log response data to console
         } catch (error) {
             console.error("Error response:", error.response); // Log error response data to console if request fails
@@ -47,7 +39,7 @@ const Register = (props) => { // Define Register component with props parameter
                     id="firstName" 
                     name="firstName" 
                     placeholder="First name *" 
-                    value={user.firstName}
+                    value={props.user.firstName}
                     onChange={handleInputChange}
                     required /> {/* First name input field */}
 
@@ -56,7 +48,7 @@ const Register = (props) => { // Define Register component with props parameter
                     id="lastName" 
                     name="lastName" 
                     placeholder="Last name"
-                    value={user.lastName}
+                    value={props.user.lastName}
                     onChange={handleInputChange} /> {/* Last name input field */}
 
                 <input 
@@ -64,7 +56,7 @@ const Register = (props) => { // Define Register component with props parameter
                     id="email" 
                     name="email" 
                     placeholder="Email address *" 
-                    value={user.email}
+                    value={props.user.email}
                     onChange={handleInputChange}
                     required /> {/* Email address input field */}
 
@@ -74,7 +66,7 @@ const Register = (props) => { // Define Register component with props parameter
                         id="password" 
                         name="password"
                         placeholder="Password *" 
-                        value={user.password}
+                        value={props.user.password}
                         onChange={handleInputChange}
                         required /> {/* Password input field */}
 
@@ -92,7 +84,7 @@ const Register = (props) => { // Define Register component with props parameter
                         id="confirmPassword" 
                         name="confirmPassword"
                         placeholder="Confirm password *" 
-                        value={user.confirmPassword}
+                        value={props.user.confirmPassword}
                         onChange={handleInputChange}
                         required /> {/* Confirm password input field */}
 

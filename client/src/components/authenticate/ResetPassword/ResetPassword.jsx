@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useLocation} from 'react-router-dom';
-import LoadingIcons from 'react-loading-icons'
-import logoTab from "../../../Resources/logoTab.png";
+
+import { BiLoaderCircle } from "react-icons/bi";
+
+
 import {Icon} from 'react-icons-kit';
 import {eye} from "react-icons-kit/icomoon/eye";
 import {eyeBlocked} from 'react-icons-kit/icomoon/eyeBlocked';
-import passwordPic from "../../../Resources/resetPassword.png";
 import axios from "axios";
 import Footer from '../../Footer/Footer';
 import NavBar from '../../NavBar/Navbar';
@@ -38,10 +39,15 @@ const ResetPassword = (props) => {
             console.log(res); // Log response data
             setUser({"password":"", "confirmPassword":""});
             setSuccess(true);
+            setTimeout(() => {
+                window.location.href = '/'; // Redirect to the main page
+            }, 3000);
+
         } catch (error) {
             console.error("Error response:", error.response); // Log error response if request fails
             console.error("Error message:", error.message); // Log error message
             console.error("Error code:", error.code); // Log error code if available
+            console.log(error.response.data.message)
             setError(error.response.data.message); // Set error message state with response data
         }
     };
@@ -57,15 +63,16 @@ const ResetPassword = (props) => {
 
                 {success ? (
                 <div id="resetPassword" className="auth">
+                    < img src={'/images/auth/lock_open.svg'} alt="Lock closed"/>
                     <h1>Your password is updated</h1>
-                    <LoadingIcons.Grid id="loader"/>
+                    <BiLoaderCircle id="loader"/>
                 </div>
                 ) : (
 
                 <div id="resetPassword" className="auth">
                     <form>
 
-                        < img src={passwordPic} alt="password change"/>
+                        < img src={'/images/auth/lock_closed.svg'} alt="Lock closed"/>
 
                         < div className="password">
                         <input 

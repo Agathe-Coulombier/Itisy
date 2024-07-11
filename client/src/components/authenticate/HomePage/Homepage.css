@@ -15,7 +15,7 @@
 
 /* Banner Section Styles */
 .banner {
-    background-image: url("../../../Resources/firstpage/Egg.jpg");
+    background-image: url("../../../../public/images/auth/firstpage/Egg.jpg");
     background-size: cover;
     background-position: 0% 93%;
     width: 100%;

@@ -50,6 +50,8 @@
     max-width:100%; /* Width adjusts to content */
     left: 100%; /* Move message to the right */
     transform: translateX(-100%); /* Slide message to the left */
+    text-align: right;
+    text-wrap:stable;
     word-break: break-word; /* For most modern browsers */
     overflow-wrap: break-word; /* Ensures compatibility with older browsers */
 

@@ -92,7 +92,3 @@ input {
   border: 1px solid #ddd; /* Border style and color */
   border-radius: 10px; /* Rounded corners */
 }
-
-#loader{
-  color: #31241E;
-}

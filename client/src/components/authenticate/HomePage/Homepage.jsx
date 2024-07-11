@@ -3,9 +3,6 @@ import NavBar from '../../NavBar/Navbar'; // Import Navbar component
 import Modal from '../Modal/Modal'; // Import Modal component
 import Footer from '../../Footer/Footer'; // Import Footer component
 import "./Homepage.css"; // Import CSS for Homepage styling
-import bread from "../../../Resources/firstpage/Bread.jpg"; // Import image resources
-import pasta from "../../../Resources/firstpage/Pasta.jpg"; // Import image resources
-import fruitSalad from "../../../Resources/firstpage/FruitSalad.jpg"; // Import image resources
 
 const HomePage = () => {
     // State variables to manage modal visibility and form type
@@ -114,9 +111,9 @@ const HomePage = () => {
                             </button>
                         </div>
                         <div className="pictures">
-                            <img src={pasta} alt="pasta" />
-                            <img src={bread} alt="bread" />
-                            <img src={fruitSalad} alt="yogurt and strawberries" />
+                            <img src={'/images/auth/firstPage/Pasta.jpg'} alt="pasta" loading="lazy" />
+                            <img src={'/images/auth/firstPage/Bread.jpg'} alt="bread" loading="lazy" />
+                            <img src={'/images/auth/firstPage/FruitSalad.jpg'} alt="yogurt and strawberries" loading="lazy"/>
                         </div>
                     </div>
                 </div>

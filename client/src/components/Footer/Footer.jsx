@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Footer.css";
-import logoTab from "../../Resources/logoTab.png";
+// import logoTab from "../../../public/Images/logoTab.png"
 
 const Footer = (props) => {
     return (
@@ -10,7 +10,7 @@ const Footer = (props) => {
             
             <div className="footer_body">
                 <div className="footer_logo">
-                    <img src={logoTab} alt="Chef hat logo"/>
+                    <img src={'/images/logoTab.png'} alt="Chef hat logo"/>
                     <h1 className="logo">Itisy</h1>
                 </div>
 

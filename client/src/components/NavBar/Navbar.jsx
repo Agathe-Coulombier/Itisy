@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logoTab from "../../Resources/logoTab.png";
 import "./navbar.css";
 
 const NavBar = (props) => {
@@ -15,7 +14,7 @@ const NavBar = (props) => {
             <div className="items">
                 {/* Left side of the navbar */}
                 <div className="left subItems">
-                    <img src={logoTab} alt="Chef hat logo" />
+                    <img src={'/images/logoTab.png'} alt="Chef hat logo" />
                     <h1 className="text">itisy</h1>
                 </div>
 

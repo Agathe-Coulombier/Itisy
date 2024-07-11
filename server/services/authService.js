@@ -6,7 +6,6 @@ const sgMail = require("@sendgrid/mail");
 const {render} = require('@react-email/components');
 const MailTemplate = require("../../client/src/emails/MailTemplate.js");
 
-
 // Function to register a new user
 const registerUser = async (userData) => {
     const { firstName, lastName, email, password, confirmPassword } = userData;
@@ -185,15 +184,14 @@ const resetPassword = async (req) => {
     // Fetch user data based on the temporary token
     const user = await pool.query(`SELECT * FROM users WHERE temp_token = $1`, [resetLink])
 
-    // Check the user has the valid token
-    console.log(user.rows[0].user_id)
-    if(user.rows[0].user_id !== null) {
-        res.status(400).json({ message: 'Your link has expired' });
-    } else {
-        // Hash the new password
-        const hashPassword = await bcrypt.hash(newPassword, 10);
+    // Hash the new password
+    const hashPassword = await bcrypt.hash(newPassword, 10);
+
+    try{
         // Update the user's password and remove the temporary token
         await pool.query(`UPDATE users SET temp_token = null, password=$1 WHERE user_id = $2`, [hashPassword, user.rows[0].user_id]);
+    } catch (error) {
+        throw new Error('Your link has expired');
     }
 
 }

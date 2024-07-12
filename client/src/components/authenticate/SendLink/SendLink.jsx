@@ -47,7 +47,7 @@ const SendLink = (props) => {
         e.preventDefault(); // Prevent default form submission behavior
 
         try {
-            const res = await axios.patch("http://localhost:4000/auth/send-link", props.user); // Send POST request with user data
+            const res = await axios.patch("http://localhost:4000/auth/send-link", props.user, { withCredentials: true }); // Send POST request with user data
             console.log(res); // Log response to console
             setDisabled(true); // Disable the button after successful submission
             setMsg(res.data.message); // Set request message state based on server response

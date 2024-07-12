@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'; // Import necessary hooks and components
 import axios from "axios"; // Import axios for HTTP requests
 import {useNavigate} from "react-router-dom";
-import { AuthContext } from '../authContext';
+import { AuthContext } from '../../../hooks/authContext';
 import { Icon } from 'react-icons-kit'; // Import Icon component from react-icons-kit
 import { eye } from "react-icons-kit/icomoon/eye"; // Import eye icon from react-icons-kit
 import { eyeBlocked } from 'react-icons-kit/icomoon/eyeBlocked'; // Import eyeBlocked icon from react-icons-kit
@@ -12,15 +12,15 @@ const Login = (props) => {
     // State to toggle password visibility
     const [iconPassword, setIconPassword] = useState(false);
 
-    const { setIsAuthenticated } = useContext(AuthContext); // Destructure setIsAuthenticated from context
+    const navigate = useNavigate();
 
+    const { setIsAuthenticated } = useContext(AuthContext); // Destructure setIsAuthenticated from context
+    const {login} = useContext(AuthContext)
     // Handle input change for email and password fields
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         props.setUser({ ...props.user, [name]: value });
     };
-
-    const navigate = useNavigate();
 
     // Handle form submission for login
     const handleSubmit = async (e) => {
@@ -28,11 +28,12 @@ const Login = (props) => {
 
         
         try {
-            const res = await axios.post("http://localhost:4000/auth/login", props.user); // Send POST request to login endpoint
+            const res = await axios.post("http://localhost:4000/auth/login", props.user, { withCredentials: true }); // Send POST request to login endpoint
             console.log(res); // Log response data
 
             if (res.status === 200) {
                 setIsAuthenticated(true);
+                await login(props.user, res);
                 navigate('/dashboard'); // Redirect to the dashboard
             }
 

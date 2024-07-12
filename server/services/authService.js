@@ -59,13 +59,9 @@ const loginUser = async (userData) => {
     const { email, password } = userData;
 
     // Validation checks for user input data
-    if (!email) {
-        throw new Error("Please provide your email")
-    };
+    if (!email) throw new Error("Please provide your email");
 
-    if (!password) {
-        throw new Error("Please provide your password")
-        }
+    if (!password) throw new Error("Please provide your password");
 
     // Validate email format
     const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -74,20 +70,23 @@ const loginUser = async (userData) => {
     }
 
     // Check if a user with the provided email exists 
-    const user = await pool.query("SELECT * FROM users WHERE email = $1", [
-    email,
-    ]);
+    const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
     if (user.rows.length === 0) {
         throw new Error("User does not exist")
     }
 
     // Validate the user's password
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
-    if (!validPassword) {
-        throw new Error("Invalid password")
-    }
+    if (!validPassword) throw new Error("Invalid password");
 
-    return user.rows[0];
+    const userPayload = { id: user.rows[0].user_id, email: user.rows[0].email };
+    const accessToken = generateAccessToken(userPayload);
+    const refreshToken = generateRefreshToken(userPayload);
+
+    // Save refresh token in the database or a cache
+    await pool.query("UPDATE users SET refresh_token = $1 WHERE user_id = $2", [refreshToken, user.rows[0].user_id]);
+
+    return { userPayload, accessToken, refreshToken };
 }
 
 // Function to handle password rester request
@@ -195,8 +194,17 @@ const resetPassword = async (req) => {
     } catch (error) {
         throw new Error('Your link has expired');
     }
-
 }
+
+// Function to generate access token
+const generateAccessToken = (user) => {
+    return jwt.sign(user, require('config').get("Services")["auth"]["ACCESS_TOKEN_SECRET"], { expiresIn: '15m' });
+};
+
+// Function to generate refresh token
+const generateRefreshToken = (user) => {
+    return jwt.sign(user, require('config').get("Services")["auth"]["REFRESH_TOKEN_SECRET"], { expiresIn: '7d' });
+};
 
 module.exports = {
     registerUser,

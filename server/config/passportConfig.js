@@ -12,7 +12,6 @@ const authUser = async (email, password, done) => {
         const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
 
         // If user is found and authenticated, return the user object
-        console.log("user rows length : ", user.rows.length)
         if (user.rows.length > 0) {
             return done(null, user.rows[0]);
             
@@ -43,6 +42,5 @@ passport.deserializeUser(async (id, done) => {
         done(error, false);
     }
 });
-
 
 module.exports = passport;

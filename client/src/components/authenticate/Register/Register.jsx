@@ -3,7 +3,7 @@ import { Icon } from 'react-icons-kit'; // Import Icon component from react-icon
 import { eye } from "react-icons-kit/icomoon/eye"; // Import eye icon from react-icons-kit
 import { eyeBlocked } from 'react-icons-kit/icomoon/eyeBlocked'; // Import eyeBlocked icon from react-icons-kit
 import axios from "axios"; // Import axios for making HTTP requests
-import { AuthContext } from '../authContext';
+import { AuthContext } from '../../../hooks/authContext';
 import {useNavigate} from "react-router-dom";
 
 const Register = (props) => { // Define Register component with props parameter
@@ -23,7 +23,7 @@ const Register = (props) => { // Define Register component with props parameter
         e.preventDefault(); // Prevent default form submission behavior
 
         try {
-            const res = await axios.post("http://localhost:4000/auth/register", props.user); // Send POST request to register user
+            const res = await axios.post("http://localhost:4000/auth/register", props.user, { withCredentials: true }); // Send POST request to register user
             setIsAuthenticated(true);
             navigate('/dashboard'); // Redirect to the dashboard
             console.log(res); // Log response data to console

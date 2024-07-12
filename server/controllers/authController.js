@@ -13,16 +13,21 @@ const registerUser = async (req, res) => {
     }
 };
 
-const loginUser = (req, res, next) => {
-    passport.authenticate('local', async (err, user, info) => {
-        if (err) return next(err);
-        if (!user) return res.status(401).json({ message: info.message });
+const loginUser = async (req, res, next) => {
+    try {
+        const { userPayload, accessToken, refreshToken } = await authService.loginUser(req.body);
 
-        req.logIn(user, function(err) {
-            if (err) return next(err);
-            return res.status(200).json({ message: "User logged in successfully" });
+        // Return the tokens and user information to the client
+        return res.status(200).json({
+            message: "User logged in successfully",
+            userPayload,
+            accessToken,
+            refreshToken
         });
-    })(req, res, next);
+    } catch (error) {
+        console.error("Login error", error);
+        return res.status(401).json({ message: error.message });
+    }
 };
 
 // const loginUser = async (req, res) => {

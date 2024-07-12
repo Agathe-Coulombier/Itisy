@@ -35,7 +35,7 @@ const ResetPassword = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.patch(`http://localhost:4000/auth/resetPassword/${token}`, user); // Send PATCH request to resetPassword endpoint
+            const res = await axios.patch(`http://localhost:4000/auth/resetPassword/${token}`, user, { withCredentials: true }); // Send PATCH request to resetPassword endpoint
             console.log(res); // Log response data
             setUser({"password":"", "confirmPassword":""});
             setSuccess(true);

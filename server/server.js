@@ -15,6 +15,7 @@ app.use(session({
     secret: "Some secrets are meant to stay secrets forever",
     resave: false,
     saveUninitialized:true,
+    cookie: { secure: false } // Set to true if using HTTPS
 })); // Basic express session({..}) initialization.
 app.use(passport.initialize()); // Init passport on every route call.
 app.use(passport.session()); // allow passport to use "express-session".

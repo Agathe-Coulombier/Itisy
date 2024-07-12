@@ -4,7 +4,10 @@ import HomePage from "./components/authenticate/HomePage/Homepage.jsx";
 import MailTemplate from "./emails/MailTemplate.js";
 import ResetPassword from "./components/authenticate/ResetPassword/ResetPassword.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
-import { AuthProvider, AuthContext } from "./components/authenticate/authContext";
+import { ProtectedRoute } from "./hooks/protectedRoute.jsx";
+import { AuthProvider } from "./hooks/authContext.jsx";
+
+
 
 function App() {
   return (
@@ -38,10 +41,6 @@ function App() {
   );
 }
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useContext(AuthContext);
-  console.log("protected route, is auth ? ", isAuthenticated)
-  return isAuthenticated ? children : <Navigate to="/" />;
-};
+
 
 export default App;

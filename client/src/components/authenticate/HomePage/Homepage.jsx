@@ -10,14 +10,13 @@ const HomePage = () => {
     const modalRef = useRef(null); // Reference for modal DOM element
     const [formType, setForm] = useState(""); // State to track modal form type
     const [user, setUser] = useState({ // Define state variables using useState hook
-        "email": "", 
-        "password": "", 
+        "email": "test123@gmail.com", 
+        "password": "Test123*", 
         "confirmPassword": "", 
         "firstName": "", 
         "lastName": ""
     });
 
-    console.log(user)
     // Function to toggle the modal visibility and set the form type
     const toggleClick = (authType) => {
         setShowModal(prev => !prev); // Toggle modal visibility

@@ -13,7 +13,7 @@ const NavBar = (props) => {
         <nav id="navbar">
             <div className="items">
                 {/* Left side of the navbar */}
-                <div className="left subItems">
+                <div className="left subItems" onClick={() => {window.location.href = '/'}}>
                     <img src={'/images/logoTab.png'} alt="Chef hat logo" />
                     <h1 className="text">itisy</h1>
                 </div>

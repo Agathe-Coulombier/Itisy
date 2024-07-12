@@ -4,6 +4,8 @@ import Modal from '../authenticate/Modal/Modal'; // Import Modal component
 import Footer from '../Footer/Footer'; // Import Footer component
 import "./Dashboard.css"; // Import CSS for Homepage styling
 
+
+
 const Dashboard = () => {
 
     // Define the buttons to display in the NavBar

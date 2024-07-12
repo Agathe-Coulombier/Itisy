@@ -78,14 +78,16 @@ const loginUser = async (userData) => {
     email,
     ]);
     if (user.rows.length === 0) {
-    throw new Error("User does not exist")
+        throw new Error("User does not exist")
     }
 
     // Validate the user's password
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
     if (!validPassword) {
-    throw new Error("Invalid password")
+        throw new Error("Invalid password")
     }
+
+    return user.rows[0];
 }
 
 // Function to handle password rester request
@@ -196,44 +198,9 @@ const resetPassword = async (req) => {
 
 }
 
-// Initiates the Facebook Login flow
-const fbInit = async (req, res) => {
-    const APP_ID = require('config').get("Services")["api"]["facebook"]["APP_ID"];
-    const REDIRECT_URL = require('config').get("Services")["api"]["facebook"]["REDIRECT_URL"];
-    const url = `https://www.facebook.com/v13.0/dialog/oauth?client_id=${APP_ID}&redirect_uri=${REDIRECT_URL}&scope=email`;
-    res.redirect(url);
-    };
-
-// Callback URL for handling the Facebook Login response
-const fbLogin = async (req, res) => {
-    const APP_ID = require('config').get("Services")["api"]["facebook"]["APP_ID"];
-    const APP_SECRET = require('config').get("Services")["api"]["facebook"]["APP_SECRET"];
-    const { code } = req.query;
-
-    try {
-    // Exchange authorization code for access token
-    const { data } = await axios.get(`https://graph.facebook.com/v13.0/oauth/access_token?client_id=${APP_ID}&client_secret=${APP_SECRET}&code=${code}&redirect_uri=${REDIRECT_URI}`);
-
-    const { access_token } = data;
-
-    // Use access_token to fetch user profile
-    const { data: profile } = await axios.get(`https://graph.facebook.com/v13.0/me?fields=name,email&access_token=${access_token}`);
-
-    console.log(data.user)
-    // Code to handle user authentication and retrieval using the profile data
-
-    res.redirect('/');
-    } catch (error) {
-    console.error('Error:', error.response.data.error);
-    res.redirect('/login');
-    }
-};
-
 module.exports = {
     registerUser,
     loginUser,
     forgotPassword,
     resetPassword,
-    fbInit,
-    fbLogin,
 };

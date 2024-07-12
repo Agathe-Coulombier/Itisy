@@ -1,24 +1,31 @@
-import React, { useState } from 'react'; // Import React and useState hook from React
+import React, { useState, useContext } from 'react'; // Import React and useState hook from React
 import { Icon } from 'react-icons-kit'; // Import Icon component from react-icons-kit
 import { eye } from "react-icons-kit/icomoon/eye"; // Import eye icon from react-icons-kit
 import { eyeBlocked } from 'react-icons-kit/icomoon/eyeBlocked'; // Import eyeBlocked icon from react-icons-kit
 import axios from "axios"; // Import axios for making HTTP requests
+import { AuthContext } from '../authContext';
+import {useNavigate} from "react-router-dom";
 
 const Register = (props) => { // Define Register component with props parameter
     const [iconPassword, setIconPassword] = useState(false); // State variable to toggle password visibility
     const [iconConfirmPassword, setIconConfirmPassword] = useState(false); // State variable to toggle confirm password visibility
     const [error, setError] = useState(""); // State variable to manage error messages
+    const { setIsAuthenticated } = useContext(AuthContext); // Destructure setIsAuthenticated from context
 
     const handleInputChange = (e) => { // Event handler to update user state on input change
         const { name, value } = e.target;
         props.setUser({ ...props.user, [name]: value });
     };
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => { // Event handler to handle form submission
         e.preventDefault(); // Prevent default form submission behavior
 
         try {
             const res = await axios.post("http://localhost:4000/auth/register", props.user); // Send POST request to register user
+            setIsAuthenticated(true);
+            navigate('/dashboard'); // Redirect to the dashboard
             console.log(res); // Log response data to console
         } catch (error) {
             console.error("Error response:", error.response); // Log error response data to console if request fails

@@ -9,7 +9,7 @@ const Footer = (props) => {
             <br />
             
             <div className="footer_body">
-                <div className="footer_logo">
+                <div className="footer_logo" onClick={() => {window.location.href = '/'}}>
                     <img src={'/images/logoTab.png'} alt="Chef hat logo"/>
                     <h1 className="logo">Itisy</h1>
                 </div>

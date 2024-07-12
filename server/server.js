@@ -1,13 +1,24 @@
-const express = require("express");
+const express = require("express"); // Import Express
+const app = express(); // Initialize Express
+const session = require("express-session"); //Import Express-Session library
 const cors = require("cors");
-const bcrypt = require("bcrypt");
+const passport = require("./config/passportConfig.js"); //Import the main Passport library
 const pool = require("./databases/database.js");
-
-const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Allow only this origin to send requests with credentials
+    credentials: true // Allow credentials (cookies, authorization headers, etc.)
+}));
+app.use(session({
+    secret: "Some secrets are meant to stay secrets forever",
+    resave: false,
+    saveUninitialized:true,
+})); // Basic express session({..}) initialization.
+app.use(passport.initialize()); // Init passport on every route call.
+app.use(passport.session()); // allow passport to use "express-session".
+
 
 // Routes
 const authRoutes = require("./routes/authRoutes");

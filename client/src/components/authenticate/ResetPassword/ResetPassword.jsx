@@ -2,11 +2,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import {useLocation} from 'react-router-dom';
 
 import { BiLoaderCircle } from "react-icons/bi";
-
-
-import {Icon} from 'react-icons-kit';
-import {eye} from "react-icons-kit/icomoon/eye";
-import {eyeBlocked} from 'react-icons-kit/icomoon/eyeBlocked';
+import { FaRegEye, FaRegFile } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import Footer from '../../Footer/Footer';
 import NavBar from '../../NavBar/Navbar';
@@ -84,10 +81,7 @@ const ResetPassword = (props) => {
                             onChange={handleInputChange}
                             required />
                         <span >
-                            <Icon 
-                            icon={(iconPassword === false ? eyeBlocked : eye)}
-                            onClick={() => setIconPassword(!iconPassword)}
-                            />
+                            {(iconPassword === false ? <FaRegEyeSlash onClick={() => setIconPassword(!iconPassword)}/> : <FaRegEye onClick={() => setIconPassword(!iconPassword)}/>)}
                         </span>
                     </div>
 
@@ -101,10 +95,7 @@ const ResetPassword = (props) => {
                             onChange={handleInputChange}
                             required />
                         <span >
-                            <Icon 
-                            icon={(iconConfirmPassword === false ? eyeBlocked : eye)}
-                            onClick={() => setIconConfirmPassword(!iconConfirmPassword)}
-                            />
+                        {(iconPassword === false ? <FaRegEyeSlash onClick={() => setIconPassword(!iconPassword)}/> : <FaRegEye onClick={() => setIconPassword(!iconPassword)}/>)}
                         </span>
                     </div>
 

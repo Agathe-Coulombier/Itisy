@@ -52,12 +52,13 @@ const registerUser = async (userData) => {
     // Insert user into the database
     const insertSTMT = `INSERT INTO users (firstName, lastName, email, password) VALUES ('${firstName}', '${lastName}', '${email}', '${hashPassword}')`;
     await pool.query(insertSTMT);
+
 };
 
 // Function to authenticate and login a user
 const loginUser = async (userData) => {
     const { email, password } = userData;
-
+    
     // Validation checks for user input data
     if (!email) throw new Error("Please provide your email");
 
@@ -71,6 +72,7 @@ const loginUser = async (userData) => {
 
     // Check if a user with the provided email exists 
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    console.log(user.rows.length)
     if (user.rows.length === 0) {
         throw new Error("User does not exist")
     }

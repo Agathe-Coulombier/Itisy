@@ -9,32 +9,43 @@ const [isAuthenticated, setIsAuthenticated] = useState(false);
 const [user, setUser] = useState(null);
 const [accessToken, setAccessToken] = useLocalStorage('accessToken', null);
 const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', null);
+const [loading, setLoading] = useState(true); // Add a loading state
+const [authChecked, setAuthChecked] = useState(false);
 
 useEffect(() => {
     const checkAuth = async () => {
-
     try {
         if (accessToken) {
-            console.log("requesting...")
+        console.log("Requesting authentication check...");
         const response = await axios.get('http://localhost:4000/auth/check-auth', {
             headers: { Authorization: `Bearer ${accessToken}` }
         });
-        console.log(response.data)
+
         if (response.data.authenticated) {
             setIsAuthenticated(true);
             setUser(response.data.user);
-
-            console.log("is auth 2", isAuthenticated, user)
         } else {
             setIsAuthenticated(false);
+            setUser(null);
         }
         }
     } catch (error) {
         setIsAuthenticated(false);
+        setUser(null);
+    } finally {
+        setLoading(false);
+        setAuthChecked(true); 
     }
     };
+
     checkAuth();
 }, [accessToken]);
+
+useEffect(() => {
+    if (authChecked) {
+    console.log("Authentication state updated:", { isAuthenticated, user });
+    }
+}, [isAuthenticated, user, authChecked]);
 
 // Axios Interceptor for handling token refresh
 axios.interceptors.response.use(
@@ -54,18 +65,19 @@ axios.interceptors.response.use(
     }
 );
 
-
-
 const login = async (credentials, response) => {
     setAccessToken(response.data.accessToken);
     setRefreshToken(response.data.refreshToken);
     setIsAuthenticated(true);
     setUser(response.data.user);
 
-    console.log(response)
-    console.log("access token ", accessToken);
-    console.log("refresh token", refreshToken)
-    console.log("is auth ", isAuthenticated)
+    console.log("Login response:", response);
+    console.log("State after login:", {
+    accessToken: response.data.accessToken,
+    refreshToken: response.data.refreshToken,
+    isAuthenticated: true,
+    user: response.data.user
+    });
 };
 
 const logout = () => {
@@ -73,55 +85,17 @@ const logout = () => {
     setRefreshToken(null);
     setIsAuthenticated(false);
     setUser(null);
+    console.log("Logged out, state updated:", {
+    accessToken: null,
+    refreshToken: null,
+    isAuthenticated: false,
+    user: null
+    });
 };
 
 return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, login, logout, loading }}>
     {children}
     </AuthContext.Provider>
 );
 };
-
-
-// import React, { createContext, useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { useLocalStorage } from './useLocalStorage';
-
-// export const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//     const [isAuthenticated, setIsAuthenticated] = useState(false);
-//     const [loading, setLoading] = useState(true);
-
-//     useEffect(() => {
-//         // Check if user is authenticated when the component mounts
-//         axios.get('http://localhost:4000/auth/check-auth', { withCredentials: true })
-        
-
-//             .then(response => {
-//                 if (response.status === 200) {
-//                     setIsAuthenticated(true);
-//                 } else {
-//                     setIsAuthenticated(false);
-//                 }
-            
-//             })
-
-//             .catch(() => {
-//                 setIsAuthenticated(false);
-//             })
-
-//             .finally(() => {
-//                 setLoading(false);
-//             });
-
-//     }, []);
-
-
-//     console.log("front end to check is user auth")
-//     return (
-//         <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, loading, setLoading }}>
-//             {children}
-//         </AuthContext.Provider>
-//     );
-// };

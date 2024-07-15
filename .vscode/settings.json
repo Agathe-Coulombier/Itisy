@@ -4,5 +4,6 @@
         "firstName",
         "hamb",
         "lastName"
-    ]
+    ],
+    "CodeGPT.apiKey": "OpenAI"
 }

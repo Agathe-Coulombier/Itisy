@@ -5,7 +5,6 @@ import { AuthProvider, AuthContext } from "./authContext";
 
 export const ProtectedRoute = ({ children }) => {
     const { isAuthenticated, loading } = useContext(AuthContext);
-    console.log("is auth", isAuthenticated)
 
     if (loading) {
     return <p> Loading... </p>

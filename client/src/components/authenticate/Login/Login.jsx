@@ -1,21 +1,19 @@
-import React, { useEffect, useState, useContext } from 'react'; // Import necessary hooks and components
+import React, { useState, useContext } from 'react'; // Import necessary hooks and components
 import axios from "axios"; // Import axios for HTTP requests
 import {useNavigate} from "react-router-dom";
 import { AuthContext } from '../../../hooks/authContext';
-import { Icon } from 'react-icons-kit'; // Import Icon component from react-icons-kit
-import { eye } from "react-icons-kit/icomoon/eye"; // Import eye icon from react-icons-kit
-import { eyeBlocked } from 'react-icons-kit/icomoon/eyeBlocked'; // Import eyeBlocked icon from react-icons-kit
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const Login = (props) => {
     // State to manage error messages
     const [error, setError] = useState("");
     // State to toggle password visibility
     const [iconPassword, setIconPassword] = useState(false);
+    const { setIsAuthenticated, login } = useContext(AuthContext); // Destructure setIsAuthenticated from context
 
     const navigate = useNavigate();
 
-    const { setIsAuthenticated } = useContext(AuthContext); // Destructure setIsAuthenticated from context
-    const {login} = useContext(AuthContext)
     // Handle input change for email and password fields
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -29,7 +27,6 @@ const Login = (props) => {
         
         try {
             const res = await axios.post("http://localhost:4000/auth/login", props.user, { withCredentials: true }); // Send POST request to login endpoint
-            console.log(res); // Log response data
 
             if (res.status === 200) {
                 setIsAuthenticated(true);
@@ -72,10 +69,7 @@ const Login = (props) => {
                         onChange={handleInputChange}
                         required />
                     <span>
-                        <Icon
-                            icon={iconPassword === false ? eyeBlocked : eye} // Toggle between eyeBlocked and eye icons based on iconPassword state
-                            onClick={() => setIconPassword(!iconPassword)} // Toggle iconPassword state onClick
-                        />
+                    {(iconPassword === false ? <FaRegEyeSlash onClick={() => setIconPassword(!iconPassword)}/> : <FaRegEye onClick={() => setIconPassword(!iconPassword)}/>)}
                     </span>
                 </div>
 

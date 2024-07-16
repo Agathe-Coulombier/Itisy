@@ -60,9 +60,9 @@ const loginUser = async (userData) => {
     const { email, password } = userData;
     
     // Validation checks for user input data
-    if (!email) throw new Error("Please provide your email");
+    if (!email) throw new Error("Please provide an email");
 
-    if (!password) throw new Error("Please provide your password");
+    if (!password) throw new Error("Please provide a password");
 
     // Validate email format
     const emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -179,7 +179,7 @@ const resetPassword = async (req) => {
     if(resetLink) {
         jwt.verify(resetLink, resetSecret, (error, decodedToken) => {
             if(error) {
-                throw new Error ('Your link has expired');
+                throw new Error ("Your link has expired");
             }
     })
     };
@@ -194,7 +194,7 @@ const resetPassword = async (req) => {
         // Update the user's password and remove the temporary token
         await pool.query(`UPDATE users SET temp_token = null, password=$1 WHERE user_id = $2`, [hashPassword, user.rows[0].user_id]);
     } catch (error) {
-        throw new Error('Your link has expired');
+        throw new Error("Your link has expired");
     }
 }
 

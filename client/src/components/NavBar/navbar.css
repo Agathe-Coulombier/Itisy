@@ -92,6 +92,33 @@
     flex-direction: row; /* Aligns items in a row */
     align-items: center; /* Vertically centers the items */
     margin: 0; 
+    padding:0;
+}
+
+#languagesIcon{
+    cursor: pointer;
+}
+
+.lang-menu {
+    display: none; /* Hides the navigation menu on small screens */
+}
+#navbar .right {
+    position: relative; /* Ensures that the lang-menu is positioned relative to this container */
+}
+.lang-menu.active {
+    padding: 0; /* Removes padding */
+    position: absolute; /* Positions the menu relative to its nearest positioned ancestor */
+    left: 0; /* Aligns the menu to the right */
+    top: 100%; /* Positions the menu below the icon */
+    transform: translateX(-50%); /* Adjusts vertical alignment */
+    display: flex; /* Uses flexbox for layout */
+    flex-direction: column; /* Aligns items in a column */
+    background-color: #F6F4F3; /* Sets the background color */
+    width: fit-content; /* Sets the width to fit the content */
+    border-radius: 10px; /* Adds border radius */
+    text-align: left; /* Aligns text to the left */
+    transition: 0.3s; /* Adds a transition effect */
+    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05); /* Adds a box shadow */
 }
 
 /* Responsive Design */

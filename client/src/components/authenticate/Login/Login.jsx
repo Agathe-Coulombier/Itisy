@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'; // Import necessary hooks and components
 import axios from "axios"; // Import axios for HTTP requests
+import { useTranslation } from 'react-i18next';
 import {useNavigate} from "react-router-dom";
 import { AuthContext } from '../../../hooks/authContext';
 import { FaRegEye } from "react-icons/fa";
@@ -12,6 +13,8 @@ const Login = (props) => {
     const [iconPassword, setIconPassword] = useState(false);
     const { setIsAuthenticated, login } = useContext(AuthContext); // Destructure setIsAuthenticated from context
 
+
+    const {t} = useTranslation();
     const navigate = useNavigate();
 
     // Handle input change for email and password fields
@@ -45,7 +48,7 @@ const Login = (props) => {
     // Render JSX
     return (
         <div className="login modal_content"> {/* Login modal content */}
-            <h3> Sign in to organize your recipes</h3> {/* Heading */}
+            <h3> {t("Sign in to organize your recipes")}</h3> {/* Heading */}
             <br/> {/* Line break */}
             <form action=""> {/* Login form */}
 
@@ -53,7 +56,7 @@ const Login = (props) => {
                 <input type="email"
                     id="email"
                     name="email"
-                    placeholder="Email address"
+                    placeholder={t("Email address *")}
                     value={props.user.email}
                     onChange={handleInputChange}
                     required />
@@ -64,7 +67,7 @@ const Login = (props) => {
                         type={iconPassword === false ? "password" : "text"}
                         id="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder={t("Password *")}
                         value={props.user.password}
                         onChange={handleInputChange}
                         required />
@@ -77,12 +80,12 @@ const Login = (props) => {
                 <a
                     href="#"
                     onClick={() => props.setForm("sendLink")}>
-                    Forgot password ?
+                    {t("Forgot password?")}
                 </a>
 
                 {/* Display error message if exists */}
                 <p className="message">
-                    {error}
+                    {t(error)}
                 </p>
 
                 <div className="wrap">
@@ -90,17 +93,17 @@ const Login = (props) => {
                     <button type="submit"
                             className="primary"
                             onClick={handleSubmit}>
-                        Sign in
+                        {t("Sign in")}
                     </button>
                 </div>
             </form>
 
             {/* Link to register */}
-            <p>Not registered? &nbsp;
+            <p>{t("Not registered?")} &nbsp;
                 <a
                     href="#"
                     onClick={() => props.setForm("register")}>
-                    Create an account
+                    {t("Create an account")}
                 </a>
             </p>
         </div>

@@ -1,13 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./navbar.css";
+import { TfiWorld } from "react-icons/tfi";
+
 
 const NavBar = (props) => {
     const [hambActive, setHambActive] = useState(false);
+    const [langActive, setLangActive] = useState(false);
 
     // Toggle hamburger menu visibility
     const handleHamburgerClick = () => {
         setHambActive(!hambActive);
     };
+
+    // Toggle languages menu visibility
+    const handleLanguagesClick = () => {
+        setLangActive(prev => !prev);
+    };
+
+    // Handle clicks outside of the language menu or hamburger menu
+    useEffect(() => {
+    const handleClickOutside = (e) => {
+
+        if (langActive && e.target.id!=="languagesIcon" && e.target.parentElement.parentElement.id !=="langMenu") {
+            setLangActive(false);
+        }
+
+        if (hambActive && e.target.id!=="hambIcon" && e.target.parentElement.parentElement.id !=="hambMenu") {
+            setHambActive(false);
+        }
+    };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [langActive, hambActive]);
 
     return (
         <nav id="navbar">
@@ -20,8 +47,32 @@ const NavBar = (props) => {
 
                 {/* Right side of the navbar */}
                 <div className="right subItems">
+                    
+                    {/* < div id="lang"> */}
+                        <TfiWorld id="languagesIcon" className='text' onClick ={handleLanguagesClick}/>
+                        <ul id="langMenu" className={`lang-menu ${langActive ? 'active' : ''}`}>
+                            <li key="en">
+                                <h2 
+                                    className={`text`}
+                                    onClick={() => props.changeLanguage("en")}
+                                >
+                                    English
+                                </h2>
+                            </li>
+                            <li key="fr">
+                            <h2 
+                                className={`text`}
+                                onClick={() => props.changeLanguage("fr")}
+                            >
+                                Français
+                            </h2>
+                        </li>
+                        </ul>
+                    {/* </div> */}
+
+
                     {/* Navigation menu links */}
-                    <ul className={`nav-menu ${hambActive ? 'active' : ''}`}>
+                    <ul id="hambMenu" className={`nav-menu ${hambActive ? 'active' : ''}`}>
                         {props.buttonItems.map((item, index) => (
                             <li key={index}>
                                 <h2 
@@ -39,7 +90,7 @@ const NavBar = (props) => {
                     </ul>
 
                     {/* Hamburger menu icon */}
-                    <div className="hamburger" onClick={handleHamburgerClick}>
+                    <div id="hambIcon" className="hamburger" onClick={handleHamburgerClick}>
                         <span className="bar"></span>
                         <span className="bar"></span>
                         <span className="bar"></span>

@@ -24,6 +24,8 @@ app.use(passport.session()); // allow passport to use "express-session".
 // Routes
 const authRoutes = require("./routes/authRoutes");
 app.use("/auth", authRoutes);
+const recipesRoutes = require("./routes/recipesRoutes");
+app.use("/recipes", recipesRoutes);
 
 // Unknown route handler
 app.use((req, res) => {

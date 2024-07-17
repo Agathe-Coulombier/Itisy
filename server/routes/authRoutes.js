@@ -3,7 +3,7 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const { ensureAuthenticated } = require("../middleware/authMiddleware");
 
-// router.get("/redirect", authController.redirectHomepage);
+
 router.post("/register", authController.registerUser);
 router.post("/login", authController.loginUser);
 router.patch("/send-link", authController.forgotPassword);

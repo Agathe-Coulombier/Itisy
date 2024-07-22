@@ -48,7 +48,6 @@
 /* Text Styles */
 #navbar .items .text {
     font-size: 1em; /* Sets the font size */
-    line-height: 1.43; /* Sets the line height */
     padding: 14px 16px; /* Adds padding to the text */
     margin: 0; /* Removes margin */
     text-decoration: none; /* Removes text decoration */

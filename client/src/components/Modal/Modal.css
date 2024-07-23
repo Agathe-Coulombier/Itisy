@@ -23,7 +23,15 @@
     animation: fadeIn 0.8s ease both; /* Fade in animation */
 }
 
-.modal .modal_content {
+.modal .register {
+    margin: 20px; /* Margin around the modal content */
+}
+
+.modal .login {
+    margin: 20px; /* Margin around the modal content */
+}
+
+.modal .sendLink {
     margin: 20px; /* Margin around the modal content */
 }
 

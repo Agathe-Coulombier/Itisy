@@ -8,7 +8,7 @@ const RecipeList = (props) => {
     return (
         <div className="recipe-list">
             {props.recipes.map((recipe, index) => (
-                <RecipeCard key={index} index={index} recipe={recipe} />
+                <RecipeCard key={index} index={index} recipe={recipe} toggleClick={props.toggleClick} handleCardClick={props.handleCardClick}/>
             ))}
         </div>
     );

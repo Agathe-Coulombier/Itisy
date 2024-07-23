@@ -9,8 +9,11 @@ import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 
 
 const RecipeCard = (props) => {
+
+    const modalForm = props.index === 0 ? "addRecipe" : "viewRecipe";
+
     return (
-        <div className="recipe-card">
+        <div className="recipe-card" onClick={() =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index)}}>
             <img src={props.recipe.image_url} alt={props.recipe.title} className="recipe-image" />
             <h2 className="recipe-title">{props.recipe.title}</h2>
             {props.index !== 0 ? 

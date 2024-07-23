@@ -199,7 +199,7 @@ const websiteConfig = {
     },
     "750g.com": {
         title: { selector: ".u-title-page" },
-        imageUrl: { selector:".recipe-cover img", attribute: 'src' },
+        imageUrl: { selector:".recipe-cover source", attribute: 'srcset' },
         persons: { selector: ".ingredient-variator-label"},
         prepTime: { selector: ".recipe-steps-info-item time", index:0},
         restTime: { selector: ".recipe-steps-info-item time", index:2 },

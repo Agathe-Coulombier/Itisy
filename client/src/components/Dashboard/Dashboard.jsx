@@ -3,18 +3,36 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../hooks/authContext';
 import NavBar from '../NavBar/Navbar'; // Import Navbar component
-import Footer from '../Footer/Footer'; // Import Footer component
+import Footer from '../Footer/Footer'; // Import Footer component;
+import Modal from '../Modal/Modal';
+import { useModal } from '../Modal/modalConfig';
 import "./Dashboard.css"; // Import CSS for Homepage styling
 import RecipeList from '../recipes/RecipesList';
 
 const Dashboard = () => {
-
     const { setIsAuthenticated, logout, user } = useContext(AuthContext); // Destructure setIsAuthenticated from context
     const [ userRecipes, setUserRecipes ] = useState(
         {
         title:"Add a recipe",
         image_url: "https://iili.io/doeXZZB.png",
     });
+
+    // State variables to manage modal visibility and form type
+    const {
+        showModal,
+        modalRef,
+        formType,
+        setForm,
+        toggleClick,
+        handleClickCloseIcon,
+    } = useModal("", {email: user.email});
+
+    const [selectedRecipeIndex, setSelectedRecipeIndex] = useState(0)
+    // Callback function to handle data from the child
+    const handleCardClick = (index) => {
+        setSelectedRecipeIndex(index);
+    };
+
     const [loading, setLoading] = useState(true);
 
     const fetchUserRecipes = async () => {
@@ -26,7 +44,6 @@ const Dashboard = () => {
 
             if (res.status === 200) {
                 setUserRecipes([userRecipes, ...res.data.recipes]);
-                
             }
 
         } catch (error) {
@@ -44,15 +61,13 @@ const Dashboard = () => {
 
     const navigate = useNavigate();
 
-    const toggleClick = async (authType) => {
+    const logoutClick = async (authType) => {
         if (authType==="logout") {
             setIsAuthenticated(false);
             await logout();
             navigate('/'); // Redirect to the dashboard
         }
     };
-
-    console.log(userRecipes)
 
     // Define the buttons to display in the NavBar
     const buttonItems = [
@@ -65,12 +80,13 @@ const Dashboard = () => {
     // Render JSX
     return (
         <div id="main">
-            <NavBar toggleClick={toggleClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
-            
-            <div className="main_content">
+            <NavBar toggleClick={logoutClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
+            {showModal && <Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} recipes={userRecipes} selectedRecipeIndex={selectedRecipeIndex}/>}
+
+            <div className="main_content" id="contentBody">
                 <div className="recipesBoard">
                     <h1>My recipes</h1>
-                        {loading ? <p>Loading...</p> : <RecipeList recipes={userRecipes} />}
+                        {loading ? <p>Loading...</p> : <RecipeList recipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} />}
                     </div>
             </div>
 

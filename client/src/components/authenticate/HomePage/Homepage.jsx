@@ -27,7 +27,7 @@ const HomePage = () => {
         handleClickCloseIcon,
         user,
         setUser
-    } = useModal("", { email: "", password: "", confirmPassword: "", firstName: "", lastName: "" });
+    } = useModal("", { email: "test123@gmail.com", password: "Test123*", confirmPassword: "", firstName: "", lastName: "" });
 
     // Define the buttons to display in the NavBar
     const buttonItems = [
@@ -44,7 +44,7 @@ const HomePage = () => {
             <div className="main_content">
                 {showModal && <Modal ref={modalRef} user={user} setUser={setUser} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} />} {/* Render Modal component conditionally based on showModal state */}
                 
-                <div id="homePage_Presentation">
+                <div id="contentBody">
                     <div className="banner">
                         <h1 className="get">{t('Get.')}</h1>
                         <h1 className="plan">{t('Plan.')}</h1>

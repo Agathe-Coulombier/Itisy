@@ -7,7 +7,7 @@
 }
 
 /* Home Page Presentation */
-#homePage_Presentation {
+#contentBody {
     flex: 1; /* Allow it to grow to fit the available space */
     display: flex;
     flex-direction: column; /* Column direction for children */

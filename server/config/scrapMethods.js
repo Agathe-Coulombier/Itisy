@@ -136,7 +136,7 @@ const websiteConfig = {
     },
     "bbcgoodfood.com": {
         title: { selector: ".heading-1" },
-        imageUrl: { selector:".image__img", attribute: 'src' },
+        imageUrl: { selector:".post-header-image .image__container .image__img", attribute: 'src' },
         persons: { selector: ".recipe__cook-and-prep .icon-with-text__children", index:2},
         prepTime: { selector: ".recipe__cook-and-prep time", index: 0 },
         restTime: { },

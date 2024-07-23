@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../hooks/authContext';
 import NavBar from '../NavBar/Navbar'; // Import Navbar component
-import Modal from '../authenticate/Modal/Modal'; // Import Modal component
 import Footer from '../Footer/Footer'; // Import Footer component
 import "./Dashboard.css"; // Import CSS for Homepage styling
 import RecipeList from '../recipes/RecipesList';
@@ -11,10 +10,12 @@ import RecipeList from '../recipes/RecipesList';
 const Dashboard = () => {
 
     const { setIsAuthenticated, logout, user } = useContext(AuthContext); // Destructure setIsAuthenticated from context
-    const [ userRecipes, setUserRecipes ] = useState([]);
+    const [ userRecipes, setUserRecipes ] = useState(
+        {
+        title:"Add a recipe",
+        image_url: "https://iili.io/doeXZZB.png",
+    });
     const [loading, setLoading] = useState(true);
-
-    console.log("user", user)
 
     const fetchUserRecipes = async () => {
         try {
@@ -24,8 +25,8 @@ const Dashboard = () => {
             });
 
             if (res.status === 200) {
-                setUserRecipes(res.data.recipes);
-                console.log("Fetched Recipes:", res.data.recipes);
+                setUserRecipes([userRecipes, ...res.data.recipes]);
+                
             }
 
         } catch (error) {
@@ -41,8 +42,6 @@ const Dashboard = () => {
         fetchUserRecipes();
     }, []);
 
-    console.log("dashboard", userRecipes)
-
     const navigate = useNavigate();
 
     const toggleClick = async (authType) => {
@@ -52,6 +51,8 @@ const Dashboard = () => {
             navigate('/'); // Redirect to the dashboard
         }
     };
+
+    console.log(userRecipes)
 
     // Define the buttons to display in the NavBar
     const buttonItems = [
@@ -69,12 +70,8 @@ const Dashboard = () => {
             <div className="main_content">
                 <div className="recipesBoard">
                     <h1>My recipes</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <div className="recipesList">
-                        <h2> No recipe yet ?</h2>
                         {loading ? <p>Loading...</p> : <RecipeList recipes={userRecipes} />}
                     </div>
-                </div>
             </div>
 
             <Footer /> {/* Render Footer component */}

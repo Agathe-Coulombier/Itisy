@@ -72,7 +72,6 @@ const loginUser = async (userData) => {
 
     // Check if a user with the provided email exists 
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
-    console.log(user.rows.length)
     if (user.rows.length === 0) {
         throw new Error("User does not exist")
     }

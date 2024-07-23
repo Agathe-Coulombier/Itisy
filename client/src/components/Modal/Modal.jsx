@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react"; // Import necessary modules from React
-import Login from "../Login/Login"; // Import the Login component
-import Register from "../Register/Register"; // Import the Register component
-import SendLink from "../SendLink/SendLink"; // Import the SendLink component
+import Login from "../authenticate/Login/Login"; // Import the Login component
+import Register from "../authenticate/Register/Register"; // Import the Register component
+import SendLink from "../authenticate/SendLink/SendLink"; // Import the SendLink component
 import { CgClose } from "react-icons/cg";
 import "./Modal.css"; // Import local CSS file for styling
 

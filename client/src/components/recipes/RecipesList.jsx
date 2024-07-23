@@ -5,12 +5,10 @@ import './RecipesList.css'; // Custom CSS for styling
 
 const RecipeList = (props) => {
     
-    console.log("hello")
-    console.log(props)
     return (
         <div className="recipe-list">
             {props.recipes.map((recipe, index) => (
-                <RecipeCard key={index} recipe={recipe} />
+                <RecipeCard key={index} index={index} recipe={recipe} />
             ))}
         </div>
     );

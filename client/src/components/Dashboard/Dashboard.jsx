@@ -25,7 +25,7 @@ const Dashboard = () => {
         setForm,
         toggleClick,
         handleClickCloseIcon,
-    } = useModal("", {email: user.email});
+    } = useModal("", {});
 
     const [selectedRecipeIndex, setSelectedRecipeIndex] = useState(0)
     // Callback function to handle data from the child
@@ -37,6 +37,8 @@ const Dashboard = () => {
 
     const fetchUserRecipes = async () => {
         try {
+            console.log("USER", user)
+            if (!user) return;
             const res = await axios.get("http://localhost:4000/recipes/userRecipes", {
                 params: { userId: user.id }, 
                 withCredentials: true
@@ -56,8 +58,10 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        fetchUserRecipes();
-    }, []);
+        if (user) {
+            fetchUserRecipes();
+        }
+    }, [user]);
 
     const navigate = useNavigate();
 

@@ -12,7 +12,7 @@ const scrapMethods = require('../config/scrapMethods');
 const scrapeRecipe = async (data) => {
     const url = data.url;
     const domain = scrapMethods.getDomain(url);
-    console.log(domain);
+    console.log("Website to scrap: ", domain);
     const config = scrapMethods.websiteConfig[domain];
 
     if (!config) {
@@ -32,11 +32,41 @@ const scrapeRecipe = async (data) => {
     };
 
     // Use Puppeteer to fetch the page content
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
     await page.goto(url, { waitUntil: 'domcontentloaded' });
+
+    // If cookies in the website
+    if (config['cookies'] !== undefined) {
+        const handleCookies = async (retryCount = 3) => {
+            for (let i = 0; i < retryCount; i++) {
+                try {
+                    await page.waitForSelector(config['cookies'].selector, { timeout: 10000 });
+                    await page.click(config['cookies'].selector);
+                    console.log('Cookie consent accepted.');
+                    return;
+                } catch (error) {
+                    console.warn(`Retrying cookie consent (${i + 1}/${retryCount})...`);
+                }
+            }
+            console.warn('Cookie consent button not found or already accepted.');
+        };
+        await handleCookies();
+    }
+
+    // Show hidden overlay in case we need an element inside
+    if (config['overlay'] !== undefined ) {
+        // Wait for the button that triggers the overlay
+        await page.waitForSelector(config['overlay'].buttonSelector, { timeout: 10000 });
+
+        // Click the button to trigger the element overlay
+        await page.click(config['overlay'].buttonSelector);
+
+        // Wait for the element to appear in the overlay
+        await page.waitForSelector(config['overlay'].selector, { timeout: 10000 });
+    }
 
     const html_data = await page.content();
     await browser.close();

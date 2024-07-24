@@ -74,7 +74,7 @@ const websiteConfig = {
     },
     "allrecipes.com": {
         title: { selector: "#article-header--recipe_1-0 h1" },
-        imageUrl: { selector:".article-content picture source", attribute: 'srcset' },
+        imageUrl: { selector:".primary-image__media img", attribute: 'src' },
         persons: { selector: ".mm-recipes-details__value", index:3},
         prepTime: {  selector: ".mm-recipes-details__value", index:0 },
         restTime: {},
@@ -105,12 +105,13 @@ const websiteConfig = {
             if (data.steps.length === 0) {
                 data.steps = getListItems($, ".h-recipe .container .e-instructions p", trimString);
             }
+            data.imageUrl = data.imageUrl.split(' ')[0];
             return data;
         }
     },
     "recipetineats.com": {
         title: { selector: ".wprm-recipe-recipe-tin-eats h2" },
-        imageUrl: { selector:".wprm-recipe-recipe-tin-eats img", attribute: 'src' },
+        imageUrl: { selector:".wp-block-image img", attribute: 'src' },
         persons: { selector: ".wprm-recipe-recipe-tin-eats .wprm-recipe-servings-link span"},
         prepTime: {  selector: ".wprm-recipe-recipe-tin-eats .wprm-recipe-prep_time-minutes"},
         restTime: {selector: ".wprm-recipe-recipe-tin-eats .wprm-recipe-rest_time-minutes"},
@@ -126,13 +127,15 @@ const websiteConfig = {
     },
     "marmiton.org": {
         title: { selector: ".main-title > h1" },
-        imageUrl: { selector:".recipe-media-viewer-thumbnail img", attribute: 'data-src' },
+        imageUrl: { selector:".af_diapo__img-container img", attribute:"src"},
         persons: { selector: ".recipe-ingredients__qt-counter__value_container input", attribute:'value' },
         prepTime: { selector: ".recipe-preparation__time .time__details div div", index: 0 },
         restTime: { selector: ".recipe-preparation__time .time__details div div", index: 1 },
         cookTime: { selector: ".recipe-preparation__time .time__details div div", index: 2 },
         ingredients: { selector: ".card-ingredient-title", type: "list"},
-        steps: { selector: ".recipe-step-list p", type: "list"}
+        steps: { selector: ".recipe-step-list p", type: "list"},
+        cookies:{state: true, selector:'button#didomi-notice-agree-button'},
+        overlay:{state:true, buttonSelector:'.recipe-media-viewer-thumbnail-container img', selector:'.af_diapo__img-container img'}
     },
     "bbcgoodfood.com": {
         title: { selector: ".heading-1" },
@@ -150,7 +153,7 @@ const websiteConfig = {
         persons: { selector: ".article__detail-value", index:0},
         prepTime: { selector: ".article__detail-value", index:1 },
         restTime: {},
-        cookTime: { selector: ".article__detail-value", index:2 },
+        cookTime: {},
         ingredients: { selector: "ul.article-body__list li", type: "list"},
         steps: { selector: "ol.article-body__list p", type: "list"}
     },
@@ -174,17 +177,23 @@ const websiteConfig = {
         cookTime: { selector: ".app_recipe_resume span", index:4 },
         ingredients: { selector: ".app_recipe_list span", type: "list"},
         steps: { selector: ".app_recipe_section .bu_cuisine_recette_prepa", type: "list"}, 
-        format: formatIngredients
+        format: ($, data) => {
+            formatIngredients($, data);
+            
+            data.prepTime = data.prepTime.replace("Préparation ", "");
+            data.cookTime = data.cookTime.replace("Cuisson ", "");
+            return(data)
+        }
     },
     "simplyrecipes.com": {
         title: { selector: "#heading_1-0 h1" },
-        imageUrl: { selector:".article-content video", attribute: 'poster' },
+        imageUrl: { selector:".primary-image__media img", attribute: 'src' },
         persons: { selector: "#project-meta_1-0 .meta-text__data", index:3},
         prepTime: {  selector: "#project-meta_1-0 .meta-text__data", index:0 },
         restTime: {},
         cookTime: {  selector: "#project-meta_1-0 .meta-text__data", index:1 },
         ingredients: { selector: ".structured-ingredients__list-item p", type: "list"},
-        steps: { selector: "#mntl-sc-block_21-0 p", type: "list"}
+        steps: { selector: ".section--instructions ol li p", type: "list"}
     },
     "atelierdeschefs.fr": {
         title: { selector: ".Jumbotron_text__zT_ia h1" },

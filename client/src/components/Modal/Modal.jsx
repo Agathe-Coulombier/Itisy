@@ -20,9 +20,9 @@ const Modal = forwardRef((props, ref) => { // Define Modal component using forwa
 
     return (
         <div className="modal-overlay" >
-            <div id="modal-content" className="modal-content" ref={ref} > {/* Render the modal container with id, class, and ref */}
+            <div id="modal-container" className="modal-container" ref={ref} > {/* Render the modal container with id, class, and ref */}
                 <CgClose id="closeModal" className="cross" alt="Close page" onClick={props.closeIcon}/> {/* Render a close icon with onClick handler */}
-                {SelectedForm ? <SelectedForm setForm={props.setForm} user={props.user} setUser={props.setUser} recipes={props.recipes} selectedRecipeIndex={props.selectedRecipeIndex}/> : null} {/* Render the selected form component if it exists */}
+                {SelectedForm ? <SelectedForm setForm={props.setForm} user={props.user} setUser={props.setUser} userRecipes={props.userRecipes} selectedRecipeIndex={props.selectedRecipeIndex}/> : null} {/* Render the selected form component if it exists */}
             </div>
         </div>
     );

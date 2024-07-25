@@ -10,7 +10,7 @@ const scrapMethods = require('../config/scrapMethods');
 // puppeteer.use(StealthPlugin());
 
 const scrapeRecipe = async (data) => {
-    const url = data.url;
+    const url = data;
     const domain = scrapMethods.getDomain(url);
     console.log("Website to scrap: ", domain);
     const config = scrapMethods.websiteConfig[domain];

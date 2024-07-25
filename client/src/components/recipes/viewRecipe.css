@@ -20,14 +20,14 @@
     padding:20px;
 }
 
-.modal_content .recipe-title {
+.modal-content .recipe-title {
     text-align: center;
     font-size: 1.5em;
     height: fit-content;
     margin: 0 0 10px 0;
 }
 
-.modal_content .recipe-header .recipe-meta {display: flex;
+.modal-content .recipe-header .recipe-meta {display: flex;
     justify-content: space-between;
     font-size: 1em;
     color: #86654B;
@@ -45,7 +45,7 @@
     flex-direction: column;
 }
 
-.modal_content .recipe-image {
+.modal-content .recipe-image {
     height:70vh;
     object-fit: cover;
     border-radius: 0 0 0 20px;

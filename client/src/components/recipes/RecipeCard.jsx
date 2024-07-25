@@ -14,25 +14,25 @@ const RecipeCard = (props) => {
 
     return (
         <div className="recipe-card" onClick={() =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index)}}>
-            <img src={props.recipe.image_url} alt={props.recipe.title} className="recipe-image" />
-            <h2 className="recipe-title">{props.recipe.title}</h2>
+            <img src={props.userRecipe.image_url} alt={props.userRecipe.title} className="recipe-image" />
+            <h2 className="recipe-title">{props.userRecipe.title}</h2>
             {props.index !== 0 ? 
                 <div className="recipe-overlay">
                     <p>
                         <HiOutlineUserGroup className="recipe-item-logo" />
-                        {props.recipe.persons}
+                        {props.userRecipe.persons}
                     </p>
                     <p>
                         <TbBowlSpoon className="recipe-item-logo"/>
-                        {props.recipe.prep_time}
+                        {props.userRecipe.prep_time}
                     </p>
                     <p>
                         <TbCooker className="recipe-item-logo"/>
-                        {props.recipe.cook_time}
+                        {props.userRecipe.cook_time}
                     </p>
                     <p>
                         <RiFridgeLine className="recipe-item-logo"/>
-                        {props.recipe.rest_time}
+                        {props.userRecipe.rest_time}
                     </p>
                 </div>
                 :

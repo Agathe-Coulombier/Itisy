@@ -1,0 +1,178 @@
+/* AddRecipe Styles */
+.add-newRecipe {
+    background: #f8f8f8; /* Similar background color */
+    border-radius: 12px; /* Rounded corners */
+    padding: 20px; /* Padding inside the modal */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Box shadow for depth */
+    margin: 0 auto; /* Center the modal */
+    max-width: 1000px; /* Limit the width to fit within the screen */
+}
+
+.add-newRecipe h3 {
+    font-size: 24px; /* Font size for the heading */
+    margin-bottom: 20px; /* Margin below the heading */
+    text-align: center; /* Center align the heading */
+}
+
+.add-newRecipe .form-group {
+    margin-bottom: 15px; /* Margin below each form group */
+}
+
+.add-newRecipe label {
+    display: block; /* Block display for labels */
+    margin-bottom: 5px; /* Margin below labels */
+    font-size: 16px; /* Font size for labels */
+}
+
+.add-newRecipe input[type="text"],
+.add-newRecipe textarea {
+    width: 100%; /* Full width for inputs and textareas */
+    /* padding: 10px; */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners for inputs */
+    font-size: 14px; /* Font size for inputs */
+    box-sizing: border-box; /* Box sizing for consistent padding */
+    background: #D1C8C1; /* Match the background of the input container */
+    color: #86654B; /* Match the text color */
+    appearance: none; /* Remove default styling */
+    outline: none; /* Remove outline */
+}
+
+.add-newRecipe input[name="title"]::placeholder{
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    height: fit-content;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+}
+.add-newRecipe input[name="title"]{
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    height: fit-content;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+}
+
+.add-newRecipe input[type="text"]::placeholder,
+.add-newRecipe textarea::placeholder {
+    color: #86654B; /* Match the placeholder text color */
+}
+
+.add-newRecipe input[type="text"]:focus,
+.add-newRecipe textarea:focus {
+    background: white; /* Change background on focus */
+    border: 1px solid #ccc; /* Add a border on focus */
+    outline: none; /* Remove outline */
+}
+
+.add-newRecipe textarea {
+    height: 80px; /* Height for textareas */
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.add-newRecipe .scrapRecipe {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px; /* Space below the URL input section */
+}
+
+.add-newRecipe .scrapRecipe input {
+    flex: 7;
+}
+
+.add-newRecipe .scrapRecipe button {
+    flex: 3;
+}
+
+.add-newRecipe .recipe-content {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* .add-newRecipe .left-column {
+    background-color: #D1C8C1;
+    border-radius: 20px 0 0 20px;
+    flex: 3.5;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+} */
+
+.add-newRecipe .recipe-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-transform: uppercase;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.add-newRecipe .recipe-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1em;
+    color: #86654B;
+}
+
+.add-newRecipe .recipe-meta .meta-item {
+    display: flex;
+    align-items: center;
+}
+
+.add-newRecipe .recipe-meta .meta-item input {
+    margin-left: 10px;
+    flex: 1;
+}
+
+.add-newRecipe .recipe-image-input {
+    margin-bottom: 10px;
+}
+
+.add-newRecipe .recipe-image {
+    height: 300px; /* Fixed height for the image */
+    object-fit: cover;
+    border-radius: 0 0 0 20px;
+}
+
+.add-newRecipe .right-column {
+    flex: 6.5;
+    padding: 20px;
+}
+
+.add-newRecipe .recipe-ingredients,
+.add-newRecipe .recipe-steps {
+    margin-bottom: 20px;
+}
+
+.add-newRecipe .recipe-ingredients h2,
+.add-newRecipe .recipe-steps h2 {
+    font-size: 1.5em;
+    color: #86654B;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+}
+
+.add-newRecipe .recipe-ingredients textarea,
+.add-newRecipe .recipe-steps textarea {
+    height: 150px;
+}
+
+.add-newRecipe .primary {
+    background-color: #d0c1b1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.add-newRecipe .primary:hover {
+    background-color: #b8a295;
+}

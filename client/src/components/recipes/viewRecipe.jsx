@@ -13,13 +13,13 @@ const ViewRecipe = (props) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
 
-    const recipe = props.recipes[props.selectedRecipeIndex];
-
+    console.log(props.userRecipes[props.selectedRecipeIndex])
+    const recipe = props.userRecipes[props.selectedRecipeIndex];
     // Render JSX
     return (
         <div className="recipe-details">
 
-            <div className="recipe-content modal_content">
+            <div className="recipe-content modal-content">
                 <div className="left-column">
                     <div className="recipe-header">
                         <h1 className="recipe-title">{recipe.title}</h1>

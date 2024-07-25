@@ -2,8 +2,9 @@ const recipesService = require("../services/recipesService");
 
 const scrapeRecipe = async (req, res) => {
     try {
-        const data = await recipesService.scrapeRecipe(req.body);
-        res.status(200).json({ message: "Recipe scrapped successfully", data });
+        const { url } = req.query;
+        const newRecipe = await recipesService.scrapeRecipe(url);
+        res.status(200).json({ message: "Recipe scrapped successfully", newRecipe });
     } 
     catch (error) {
         console.error(error);

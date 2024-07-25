@@ -84,12 +84,12 @@ const Dashboard = () => {
     return (
         <div id="main">
             <NavBar toggleClick={logoutClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
-            {showModal && <Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} recipes={userRecipes} selectedRecipeIndex={selectedRecipeIndex}/>}
+            {showModal && <Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} selectedRecipeIndex={selectedRecipeIndex}/>}
 
             <div className="main_content" id="contentBody">
                 <div className="recipesBoard">
                     <h1>My recipes</h1>
-                        {loading ? <p>Loading...</p> : <RecipeList recipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} />}
+                        {loading ? <p>Loading...</p> : <RecipeList userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} />}
                     </div>
             </div>
 

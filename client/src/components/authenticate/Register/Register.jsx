@@ -47,7 +47,7 @@ const Register = (props) => { // Define Register component with props parameter
     };
 
     return (
-        <div className="register modal_content"> {/* Register form container */}
+        <div className="register modal-content"> {/* Register form container */}
             <h3> {t('Create an account')}</h3> {/* Heading */}
             <br/>
             <form action=""> {/* Registration form */}

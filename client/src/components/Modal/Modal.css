@@ -24,7 +24,7 @@
 }
 
 /* Modal container */
-.modal-content {
+.modal-container {
     position: absolute;
     top:70px;
     width: 80%;
@@ -33,11 +33,11 @@
     box-shadow: 0 5px 30px 0 rgb(0 0 0 / 50%);
     /* padding: 20px; */
     margin: auto;
-    z-index: 11; /* Ensure modal-content is always on top */
+    z-index: 11; /* Ensure modal-container is always on top */
 }
 
-/* Cross icon inside the modal-content */
-.modal-content .cross {
+/* Cross icon inside the modal-container */
+.modal-container .cross {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -46,11 +46,11 @@
 }
 
 /* Remove scrollbars from modal itself */
-.modal-content::-webkit-scrollbar {
+.modal-container::-webkit-scrollbar {
     display: none;
 }
 
-.modal-content {
+.modal-container {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
@@ -60,15 +60,15 @@ body.modal-open {
 }
 
 /* Authentication specification  */
-.modal-content .register {
+.modal-container .register {
     margin: 20px; /* Margin around the modal content */
 }
 
-.modal-content .login {
+.modal-container .login {
     margin: 20px; /* Margin around the modal content */
 }
 
-.modal-content .sendLink {
+.modal-container .sendLink {
     margin: 20px; /* Margin around the modal content */
 }
 
@@ -86,7 +86,7 @@ body.modal-open {
 	cursor: pointer; /* Cursor style */
 }
 
-.modal-content .message {
+.modal-container .message {
     margin: 0; /* Remove margin */
     padding: 30px 10px 0px 10px; /* Padding for error message */
     color: darkred; /* Error message color */
@@ -102,12 +102,12 @@ body.modal-open {
 
 }
 
-.modal-content h3 {
+.modal-container h3 {
     margin: 0; /* Remove margin */
     padding-right: 30px; /* Right padding for heading */
 }
 
-.modal-content p {
+.modal-container p {
     margin: 0; /* Remove margin */
 }
 

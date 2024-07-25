@@ -48,7 +48,7 @@ const Login = (props) => {
 
     // Render JSX
     return (
-        <div className="login modal_content"> {/* Login modal content */}
+        <div className="login modal-content"> {/* Login modal content */}
             <h3> {t("Sign in to organize your recipes")}</h3> {/* Heading */}
             <br/> {/* Line break */}
             <form action=""> {/* Login form */}

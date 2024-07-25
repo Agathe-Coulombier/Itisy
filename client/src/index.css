@@ -62,6 +62,41 @@ body {
   color: rgba(255, 255, 255, 0.7); /* Text color on click */
 }
 
+/* Button Styles */
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Button takes full width of its container */
+  height:auto;
+  padding: 10px; /* Padding inside the button */
+  margin: 0 0 16px 0;
+  background-color: #D1C8C1; /* Background color of the button */
+  border-radius: 5px; /* Rounded corners */
+  border: none; /* No border */
+  color: white; /* Text color */
+  cursor: pointer; /* Cursor style */
+  font-family: 'Montserrat', sans-serif; /* Font family */
+  font-weight: 600; /* Font weight */
+  font-size: 2ex; /* Font size */
+  text-transform: uppercase; /* Uppercase text */
+  transition: background-color 0.167s, box-shadow 0.167s, color 0.167s; /* Transition effect on hover/focus */
+  user-select: none; /* Disable text selection */
+}
+
+/* Hover and focus styles for primary button */
+.secondary:hover,
+.secondary:focus {
+  background-color: #B49C8A; /* Background color on hover/focus */
+  color: #F6F4F3; /* Text color on hover/focus */
+}
+
+/* Active state style for primary button */
+.secondary:active {
+  background: #86654B; /* Background color on click */
+  color: rgba(255, 255, 255, 0.7); /* Text color on click */
+}
+
 /* Placeholder text color for input fields */
 input::placeholder {
   color: #86654B; /* Font color for placeholder text */
@@ -80,7 +115,7 @@ input:focus {
 
 /* Default styling for input fields */
 input {
-  font-family: 'Poppins', sans-serif; /* Font family */
+  font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif;
   font-size: 0.95rem; /* Font size */
   color: #31241E; /* Text color */
   text-align: justify; /* Text alignment */

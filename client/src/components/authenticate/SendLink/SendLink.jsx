@@ -60,7 +60,7 @@ const SendLink = (props) => {
 
     // JSX structure for rendering the SendLink component
     return (
-        <div className="sendLink modal_content">
+        <div className="sendLink modal-content">
             <h3> Receive a link</h3>
             <br />
             <form action="">

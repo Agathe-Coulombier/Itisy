@@ -7,8 +7,8 @@ const RecipeList = (props) => {
     
     return (
         <div className="recipe-list">
-            {props.recipes.map((recipe, index) => (
-                <RecipeCard key={index} index={index} recipe={recipe} toggleClick={props.toggleClick} handleCardClick={props.handleCardClick}/>
+            {props.userRecipes.map((userRecipe, index) => (
+                <RecipeCard key={index} index={index} userRecipe={userRecipe} toggleClick={props.toggleClick} handleCardClick={props.handleCardClick}/>
             ))}
         </div>
     );

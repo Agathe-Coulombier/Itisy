@@ -35,6 +35,7 @@ const Login = (props) => {
                 setIsAuthenticated(true);
                 await login(props.user, res);
                 navigate('/dashboard'); // Redirect to the dashboard
+                document.body.classList.remove("modal-open");
             }
 
         } catch (error) {

@@ -2,9 +2,9 @@
 
 .recipe-details {
     position:relative;
+    width:95%;
     max-width: 1000px;
     margin: 0;
-    margin-right:40px;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -39,6 +39,7 @@
 
 .left-column {
     background-color: #D1C8C1;
+    border-radius: 20px 0 0 20px;
     flex: 3.5;
     display: flex;
     flex-direction: column;
@@ -47,7 +48,7 @@
 .modal_content .recipe-image {
     height:70vh;
     object-fit: cover;
-    border-radius: 0;
+    border-radius: 0 0 0 20px;
 }
 
 .right-column {

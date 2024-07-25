@@ -3,7 +3,7 @@
     position: relative; /* Positions the footer relative to its normal position */
     bottom: 0; /* Places the footer at the bottom */
     height: 185px; /* Sets the height of the footer */
-    z-index: 10; /* Ensures the footer is on top of other elements */
+    z-index: 9; /* Ensures the footer is on top of other elements */
     background-color: #F6F4F3; /* Sets the background color of the footer */
 }
 

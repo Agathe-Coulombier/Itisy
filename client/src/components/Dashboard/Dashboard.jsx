@@ -37,7 +37,6 @@ const Dashboard = () => {
 
     const fetchUserRecipes = async () => {
         try {
-            console.log("USER", user)
             if (!user) return;
             const res = await axios.get("http://localhost:4000/recipes/userRecipes", {
                 params: { userId: user.id }, 

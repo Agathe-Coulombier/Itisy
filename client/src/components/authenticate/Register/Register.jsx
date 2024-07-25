@@ -29,12 +29,13 @@ const Register = (props) => { // Define Register component with props parameter
             if (res.status === 200) {
 
                 const res = await axios.post("http://localhost:4000/auth/login", props.user, { withCredentials: true }); // Send POST request to login endpoint
-                console.log("Login response: ", res); // Log response data
+                // console.log("Login response: ", res); // Log response data
         
                     if (res.status === 200) {
                         setIsAuthenticated(true);
                         await login(props.user, res);
                         navigate('/dashboard'); // Redirect to the dashboard
+                        document.body.classList.remove("modal-open");
                     }
                 }
             } catch (error) {

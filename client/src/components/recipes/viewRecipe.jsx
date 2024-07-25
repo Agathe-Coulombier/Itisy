@@ -15,7 +15,6 @@ const ViewRecipe = (props) => {
 
     const recipe = props.recipes[props.selectedRecipeIndex];
 
-    console.log(recipe)
     // Render JSX
     return (
         <div className="recipe-details">

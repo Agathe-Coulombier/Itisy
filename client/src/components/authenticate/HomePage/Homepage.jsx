@@ -14,7 +14,6 @@ const HomePage = () => {
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
-        console.log(lng)
     }
 
     // State variables to manage modal visibility and form type

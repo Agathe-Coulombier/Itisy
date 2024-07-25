@@ -17,11 +17,13 @@ const Modal = forwardRef((props, ref) => { // Define Modal component using forwa
         "addRecipe": AddRecipe,
     };
     const SelectedForm = FormComponents[props.formType]; // Select the appropriate form component based on the formType prop
-    
+
     return (
-        <div id="authModal" className="modal auth" ref={ref}> {/* Render the modal container with id, class, and ref */}
-            <CgClose id="closeModal" className="cross" alt="Close page" onClick={props.closeIcon}/> {/* Render a close icon with onClick handler */}
-            {SelectedForm ? <SelectedForm setForm={props.setForm} user={props.user} setUser={props.setUser} recipes={props.recipes} selectedRecipeIndex={props.selectedRecipeIndex}/> : null} {/* Render the selected form component if it exists */}
+        <div className="modal-overlay" >
+            <div id="modal-content" className="modal-content" ref={ref} > {/* Render the modal container with id, class, and ref */}
+                <CgClose id="closeModal" className="cross" alt="Close page" onClick={props.closeIcon}/> {/* Render a close icon with onClick handler */}
+                {SelectedForm ? <SelectedForm setForm={props.setForm} user={props.user} setUser={props.setUser} recipes={props.recipes} selectedRecipeIndex={props.selectedRecipeIndex}/> : null} {/* Render the selected form component if it exists */}
+            </div>
         </div>
     );
 });

@@ -7,31 +7,68 @@
     }
 }
 
-.modal {
-    position: fixed; /* Fixed positioning relative to the viewport */
-    width: 80%; /* 80% width of the viewport */
-    height: fit-content; /* Height adjusts to content */
-    max-height: 90vh; /* Limit height to 90% of viewport height */
-    overflow-y: auto; /* Enable vertical scrolling when content exceeds max-height */
-    background-color: #F6F4F3; /* Background color */
-    z-index: 11; /* Ensure modal is always on top */
-    left: 50%; /* Center horizontally */
-    top: 50%; /* Center vertically */
-    transform: translate(-50%, -50%); /* Centering trick */
-    border-radius: 20px; /* Rounded corners */
-    box-shadow: 0 5px 30px 0 rgb(0 0 0 / 50%); /* Box shadow for depth */
-    animation: fadeIn 0.8s ease both; /* Fade in animation */
+/* Modal overlay background */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: flex-start; /* Align items to start vertically */
+    justify-content: center;
+    overflow: hidden; /* Prevent scrolling on the overlay itself */
+    z-index: 10; /* Ensure it's above other content */
+    overflow-y: scroll;
 }
 
-.modal .register {
+/* Modal container */
+.modal-content {
+    position: absolute;
+    top:70px;
+    width: 80%;
+    background-color: #F6F4F3;
+    border-radius: 20px;
+    box-shadow: 0 5px 30px 0 rgb(0 0 0 / 50%);
+    /* padding: 20px; */
+    margin: auto;
+    z-index: 11; /* Ensure modal-content is always on top */
+}
+
+/* Cross icon inside the modal-content */
+.modal-content .cross {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    color: #31241E;
+}
+
+/* Remove scrollbars from modal itself */
+.modal-content::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-content {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+body.modal-open {
+    overflow: hidden; /* Prevent body from scrolling */
+}
+
+/* Authentication specification  */
+.modal-content .register {
     margin: 20px; /* Margin around the modal content */
 }
 
-.modal .login {
+.modal-content .login {
     margin: 20px; /* Margin around the modal content */
 }
 
-.modal .sendLink {
+.modal-content .sendLink {
     margin: 20px; /* Margin around the modal content */
 }
 
@@ -44,12 +81,12 @@
 .password span {
     position: absolute; /* Absolute positioning for the eye icon */
     display: flex; /* Flex container */
-    padding: 10px; /* Padding around the eye icon */
+    padding: 14px; /* Padding around the eye icon */
     color: gray; /* Icon color */
 	cursor: pointer; /* Cursor style */
 }
 
-.auth .message {
+.modal-content .message {
     margin: 0; /* Remove margin */
     padding: 30px 10px 0px 10px; /* Padding for error message */
     color: darkred; /* Error message color */
@@ -65,19 +102,13 @@
 
 }
 
-.modal h3 {
+.modal-content h3 {
     margin: 0; /* Remove margin */
     padding-right: 30px; /* Right padding for heading */
 }
 
-.modal p {
+.modal-content p {
     margin: 0; /* Remove margin */
 }
 
-.modal .cross {
-    position: fixed; /* Fixed positioning */
-    right: 0; /* Align to the right */
-    padding: 20px; /* Padding around cross icon */
-    cursor: pointer; /* Cursor pointer */
-    color: #31241E; /* Cross icon color */
-}
+

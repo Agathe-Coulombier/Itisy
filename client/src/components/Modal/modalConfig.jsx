@@ -9,9 +9,9 @@ export const useModal = (initialFormType = "", initialUser = {}) => {
 
     const toggleClick = (authType, event) => {
         if(allowOpen){
-            setShowModal(prev => !prev);
+            setShowModal(true);
             setForm(authType);
-            handleBlurry(!showModal); 
+            document.body.classList.add("modal-open");
         }
     };
 
@@ -19,7 +19,7 @@ export const useModal = (initialFormType = "", initialUser = {}) => {
         setShowModal(false);
         setForm("");
         setUser(initialUser);
-        handleBlurry(false);
+        document.body.classList.remove("modal-open");
     };
 
     useEffect(() => {
@@ -29,9 +29,9 @@ export const useModal = (initialFormType = "", initialUser = {}) => {
                 setShowModal(false);
                 setForm("");
                 setUser(initialUser);
-                handleBlurry(false);
+                document.body.classList.remove("modal-open");
+                
                 setAllowOpen(false);
-
                 setTimeout(() => {
                     setAllowOpen(true); // Allow reopening after delay
                   }, 100); // Adjust the delay as needed
@@ -44,13 +44,7 @@ export const useModal = (initialFormType = "", initialUser = {}) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [formType, initialUser]);
-
-    const handleBlurry = (show) => {
-        document.getElementById("contentBody").style.filter = show ? "blur(5px)" : "blur(0px)";
-        document.getElementById("navbar").style.filter = show ? "blur(5px)" : "blur(0px)";
-        document.getElementById("footer").style.filter = show ? "blur(5px)" : "blur(0px)";
-    };
-
+    
     return {
         showModal,
         modalRef,

@@ -37,7 +37,7 @@ const RecipeCard = (props) => {
                 </div>
                 :
                 <div className="recipe-overlay">
-                    < TbSquareRoundedPlusFilled className="recipe-item-add" />             </div>
+                    < TbSquareRoundedPlusFilled className="recipe-item-modify" />             </div>
             }
         </div>
     );

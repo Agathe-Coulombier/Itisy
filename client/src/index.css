@@ -70,7 +70,6 @@ body {
   width: 100%; /* Button takes full width of its container */
   height:auto;
   padding: 10px; /* Padding inside the button */
-  margin: 0 0 16px 0;
   background-color: #D1C8C1; /* Background color of the button */
   border-radius: 5px; /* Rounded corners */
   border: none; /* No border */

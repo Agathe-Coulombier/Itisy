@@ -1,81 +1,76 @@
 /* AddRecipe Styles */
-.add-newRecipe {
-    background: #f8f8f8; /* Similar background color */
-    border-radius: 12px; /* Rounded corners */
-    padding: 20px; /* Padding inside the modal */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Box shadow for depth */
-    margin: 0 auto; /* Center the modal */
-    max-width: 1000px; /* Limit the width to fit within the screen */
+.add-newRecipe,
+.recipe-details {
+    background: #f8f8f8;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    margin: 0;
 }
 
-.add-newRecipe h3 {
-    font-size: 24px; /* Font size for the heading */
-    margin-bottom: 20px; /* Margin below the heading */
-    text-align: center; /* Center align the heading */
+.add-newRecipe .form-group,
+.recipe-ingredients, 
+.recipe-steps {
+    position:relative;
+    flex:4;
+    margin-bottom: 20px;
 }
 
-.add-newRecipe .form-group {
-    margin-bottom: 15px; /* Margin below each form group */
-}
 
-.add-newRecipe label {
-    display: block; /* Block display for labels */
-    margin-bottom: 5px; /* Margin below labels */
-    font-size: 16px; /* Font size for labels */
+.add-newRecipe label,
+.recipe-ingredients h2, 
+.recipe-steps h2 {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    color: #86654B;
+    text-transform: uppercase;
 }
 
 .add-newRecipe input[type="text"],
-.add-newRecipe textarea {
-    width: 100%; /* Full width for inputs and textareas */
-    /* padding: 10px; */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners for inputs */
-    font-size: 14px; /* Font size for inputs */
-    box-sizing: border-box; /* Box sizing for consistent padding */
-    background: #D1C8C1; /* Match the background of the input container */
-    color: #86654B; /* Match the text color */
-    appearance: none; /* Remove default styling */
-    outline: none; /* Remove outline */
+.add-newRecipe textarea{
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    box-sizing: border-box;
+    background: #D1C8C1;
+    color: #86654B;
+    appearance: none;
+    outline: none;
 }
 
-.add-newRecipe input[name="title"]::placeholder{
+.add-newRecipe input[name="title"],
+.add-newRecipe input[name="title"]::placeholder {
     text-align: center;
     font-size: 1.5em;
     font-weight: bold;
-    height: fit-content;
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-}
-.add-newRecipe input[name="title"]{
-    text-align: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    height: fit-content;
     margin: 0 0 10px 0;
     text-transform: uppercase;
 }
 
 .add-newRecipe input[type="text"]::placeholder,
 .add-newRecipe textarea::placeholder {
-    color: #86654B; /* Match the placeholder text color */
+    color: #86654B;
 }
 
 .add-newRecipe input[type="text"]:focus,
 .add-newRecipe textarea:focus {
-    background: white; /* Change background on focus */
-    border: 1px solid #ccc; /* Add a border on focus */
-    outline: none; /* Remove outline */
+    background: #F6F4F3;
+    border: 1px solid #F6F4F3;
+    outline: none;
 }
 
 .add-newRecipe textarea {
-    height: 80px; /* Height for textareas */
-    resize: vertical; /* Allow vertical resizing */
+    height: 80px;
+    resize: vertical;
 }
 
 .add-newRecipe .scrapRecipe {
     display: flex;
     gap: 15px;
-    margin-bottom: 20px; /* Space below the URL input section */
+    margin: 10px 0 20px 0;
 }
 
 .add-newRecipe .scrapRecipe input {
@@ -86,37 +81,34 @@
     flex: 3;
 }
 
-.add-newRecipe .recipe-content {
+.add-newRecipe .recipe-content,
+.recipe-content {
     display: flex;
-    margin-top: 20px;
+    border: 5px solid #D1C8C1;
+    border-radius: 30px;
+    margin-top: 10px;
 }
 
-/* .add-newRecipe .left-column {
-    background-color: #D1C8C1;
-    border-radius: 20px 0 0 20px;
-    flex: 3.5;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-} */
-
-.add-newRecipe .recipe-header {
+.add-newRecipe .recipe-header,
+.recipe-header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     text-transform: uppercase;
     height: auto;
-    margin-bottom: 20px;
 }
 
-.add-newRecipe .recipe-meta {
+.add-newRecipe .recipe-meta,
+.recipe-meta {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     font-size: 1em;
     color: #86654B;
 }
 
-.add-newRecipe .recipe-meta .meta-item {
+.add-newRecipe .recipe-meta .meta-item,
+.recipe-meta .meta-item {
     display: flex;
     align-items: center;
 }
@@ -126,40 +118,58 @@
     flex: 1;
 }
 
-.add-newRecipe .recipe-image-input {
-    margin-bottom: 10px;
-}
-
-.add-newRecipe .recipe-image {
-    height: 300px; /* Fixed height for the image */
+.add-newRecipe .recipe-image,
+.recipe-image {
+    height: 300px;
     object-fit: cover;
     border-radius: 0 0 0 20px;
 }
 
-.add-newRecipe .right-column {
+.add-newRecipe .recipe-image-container,
+.recipe-image-container {
+    position: relative;
+}
+
+.add-newRecipe .recipe-image-container .recipe-image-overlay,
+.recipe-image-container .recipe-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background: rgba(134, 101, 75, 0.5);
+    backdrop-filter: blur(8px);
+    color: #F6F4F3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.add-newRecipe .recipe-image-container:hover .recipe-image-overlay,
+.recipe-image-container:hover .recipe-image-overlay {
+    opacity: 1;
+}
+
+.recipe-image-overlay p {
+    margin: 10px 20%;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.add-newRecipe .right-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
     flex: 6.5;
     padding: 20px;
 }
 
-.add-newRecipe .recipe-ingredients,
-.add-newRecipe .recipe-steps {
-    margin-bottom: 20px;
-}
-
-.add-newRecipe .recipe-ingredients h2,
-.add-newRecipe .recipe-steps h2 {
-    font-size: 1.5em;
-    color: #86654B;
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-}
-
-.add-newRecipe .recipe-ingredients textarea,
-.add-newRecipe .recipe-steps textarea {
-    height: 150px;
-}
-
-.add-newRecipe .primary {
+.add-newRecipe .primary,
+.primary {
     background-color: #d0c1b1;
     color: white;
     border: none;
@@ -173,6 +183,8 @@
     margin-top: 20px;
 }
 
-.add-newRecipe .primary:hover {
+.add-newRecipe .primary:hover,
+.primary:hover {
     background-color: #b8a295;
 }
+

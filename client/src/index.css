@@ -115,11 +115,10 @@ input:focus {
 /* Default styling for input fields */
 input {
   font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif;
-  font-size: 0.95rem; /* Font size */
+  font-size: 1.1rem; /* Font size */
   color: #31241E; /* Text color */
   text-align: justify; /* Text alignment */
   display: block; /* Display as block element */
-  width: 100%; /* Full width */
   margin-bottom: 15px; /* Bottom margin */
   padding: 10px; /* Padding inside the input */
   box-sizing: border-box; /* Include padding and border in total width/height */

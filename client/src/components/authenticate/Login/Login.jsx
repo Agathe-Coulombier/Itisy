@@ -57,6 +57,7 @@ const Login = (props) => {
                 <input type="email"
                     id="email"
                     name="email"
+                    className="auth-input"
                     placeholder={t("Email address *")}
                     value={props.user.email}
                     onChange={handleInputChange}
@@ -67,6 +68,7 @@ const Login = (props) => {
                     <input
                         type={iconPassword === false ? "password" : "text"}
                         id="password"
+                        className="auth-input"
                         name="password"
                         placeholder={t("Password *")}
                         value={props.user.password}

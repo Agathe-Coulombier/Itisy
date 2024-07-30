@@ -14,56 +14,83 @@
     position:relative;
     flex:4;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
+.add-newRecipe .recipe-ingredients div,
+.add-newRecipe .recipe-steps div{
+    height: 100%;
+}
+
+.add-newRecipe .recipe-ingredients .secondary,
+.add-newRecipe .recipe-steps .secondary{
+    position:absolute;
+    width:fit-content;
+    height: 35px;
+    right:0;
+    top:-38px;
+}
 
 .add-newRecipe label,
-.recipe-ingredients h2, 
-.recipe-steps h2 {
+.add-newRecipe h2{
     display: block;
-    margin-bottom: 10px;
-    font-size: 1.5em;
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
     color: #86654B;
     text-transform: uppercase;
 }
 
 .add-newRecipe input[type="text"],
 .add-newRecipe textarea{
-    width: 100%;
-    margin: 0;
+    height:100%;
     border: none;
     border-radius: 5px;
-    font-size: 1.1em;
     box-sizing: border-box;
     background: #D1C8C1;
     color: #86654B;
     appearance: none;
     outline: none;
+    cursor: pointer;
 }
 
-.add-newRecipe input[name="title"],
-.add-newRecipe input[name="title"]::placeholder {
+.add-newRecipe textarea{
+    width:100%;
+}
+
+
+.add-newRecipe input[type="text"]:hover{
+    background:#F6F4F3;
+}
+
+#recipe-title-addRecipeForm,
+#recipe-title-addRecipeForm::placeholder {
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.5rem;
+    height: 30px;
     font-weight: bold;
-    margin: 0 0 10px 0;
+    padding: 0;
+    margin-bottom: 20px;
+    color: #31241E;
     text-transform: uppercase;
-}
-
-.add-newRecipe input[type="text"]::placeholder,
-.add-newRecipe textarea::placeholder {
-    color: #86654B;
+    overflow: hidden;
 }
 
 .add-newRecipe input[type="text"]:focus,
-.add-newRecipe textarea:focus {
+.add-newRecipe textarea:focus,
+.add-newRecipe textarea[name="title"]:hover {
     background: #F6F4F3;
     border: 1px solid #F6F4F3;
     outline: none;
+    overflow: hidden;
 }
 
+.add-newRecipe .recipe-ingredients:hover,
+.add-newRecipe .recipe-steps:hover {
+background:#F6F4F3;
+border-radius: 5px;
+};
+
 .add-newRecipe textarea {
-    height: 80px;
     resize: vertical;
 }
 
@@ -79,6 +106,7 @@
 
 .add-newRecipe .scrapRecipe button {
     flex: 3;
+    margin-bottom: 15px;
 }
 
 .add-newRecipe .recipe-content,
@@ -96,6 +124,7 @@
     justify-content: space-between;
     text-transform: uppercase;
     height: auto;
+    padding:20px;
 }
 
 .add-newRecipe .recipe-meta,
@@ -114,7 +143,9 @@
 }
 
 .add-newRecipe .recipe-meta .meta-item input {
+    cursor: pointer;
     margin-left: 10px;
+    margin-bottom:0;
     flex: 1;
 }
 
@@ -158,6 +189,11 @@
     margin: 10px 20%;
     font-size: 1.2rem;
     text-align: center;
+}
+
+.recipe-source{
+    margin: 20px;
+    padding:15px;
 }
 
 .add-newRecipe .right-column,

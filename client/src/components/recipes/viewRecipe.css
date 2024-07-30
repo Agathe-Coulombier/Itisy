@@ -41,7 +41,7 @@
 
 .left-column {
     background-color: #D1C8C1;
-    padding:20px;
+    /* padding:20px; */
     border-radius: 20px 0 0 20px;
     flex: 3.5;
     display: flex;
@@ -61,7 +61,7 @@
 
 .recipe-ingredients,
 .recipe-steps {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .recipe-ingredients h2,
@@ -74,7 +74,8 @@
 
 .recipe-ingredients ul,
 .recipe-steps ul {
-    padding-inline-start: 20px;
+    padding:0;
+    margin-left: 20px;
 }
 
 .recipe-ingredients li,

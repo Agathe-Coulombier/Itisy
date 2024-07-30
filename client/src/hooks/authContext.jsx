@@ -43,7 +43,7 @@ useEffect(() => {
 
 useEffect(() => {
     if (authChecked) {
-    console.log("Authentication state updated:", { isAuthenticated, user });
+    // console.log("Authentication state updated:", { isAuthenticated, user });
     }
 }, [isAuthenticated, user, authChecked]);
 

@@ -59,6 +59,10 @@ body.modal-open {
     overflow: hidden; /* Prevent body from scrolling */
 }
 
+.auth-input{
+    width:100%;
+}
+
 /* Authentication specification  */
 .modal-container .register {
     margin: 20px; /* Margin around the modal content */

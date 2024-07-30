@@ -8,10 +8,10 @@ import { RiFridgeLine } from "react-icons/ri";
 import { TbBowlSpoon } from "react-icons/tb";
 import { PiUploadSimpleBold } from "react-icons/pi";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
-import './addRecipe.css'; // Ensure you create this CSS file with the styles
+import './addRecipe.css';
 
 const AddRecipe = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation(); // Translations
     const navigate = useNavigate();
     const [url, setUrl] = useState('');
     const [newRecipe, setNewRecipe] = useState({
@@ -26,35 +26,49 @@ const AddRecipe = () => {
         source: ''
     });
 
-    const[loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [addRecipeField, setAddRecipeField] = useState(false);
     const [modifyList, setModifyList] = useState({ingredients:false, steps:false});
 
+    // Handle url field modifications
     const handleUrlChange = (e) => {
         setUrl(e.target.value);
     };
 
+    // Fetch the recipe based on the url pasted by the user
     const handleFetchRecipe = async () => {
         try {
             setLoading(true);
+            setAddRecipeField(false);
             const response = await axios.get("http://localhost:4000/recipes/scrap", { params: { url } } );
             setNewRecipe(response.data.newRecipe);
             setModifyList({ingredients:false, steps:false});
             setLoading(false);
             setAddRecipeField(true);
         } catch (error) {
+            setLoading(false);
             console.error('Error fetching newRecipe:', error);
         }
     };
 
+    // Automatically adjust the height of text areas
+    function adjustHeight(e) {
+            e.target.style.height = 'auto'; // Reset height to auto to recalculate
+            e.target.style.height = e.target.scrollHeight + 'px'; // Set height to scrollHeight
+            console.log(e.target.scrollHeight);
+    };
+
+    // Handle input field modifications
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewRecipe({
             ...newRecipe,
             [name]: value
         });
+        adjustHeight(e);
     };
 
+    // Add recipe to user cookbook
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -65,19 +79,26 @@ const AddRecipe = () => {
         }
     };
 
+    // Validating inputs modifications on keyboard/enter press (except list items)
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            if (e.target.type !== 'textarea'){
+            if (e.target.name !== 'ingredients' && e.target.name !== 'steps'){
                 e.preventDefault();
                 e.target.blur();
             }
         }
     };
 
-    const accessList = (eltType) => {
+    // Accessing the list items editor mode
+    const accessList = async (eltType, e) => {
+
+        // Turning the list of elements into a unique string made of one line per element
         if (newRecipe[eltType].length > 0 && !modifyList[eltType]){
             newRecipe[eltType] = newRecipe[eltType].join('\n');
         }
+
+        await adjustHeight(e);
+        // Allow modifications by the user
         setModifyList(prevState => ({
             ...prevState,
             [eltType]: true
@@ -86,47 +107,64 @@ const AddRecipe = () => {
         setTimeout(() => {
             const textarea = document.querySelector(`textarea[name=${eltType}]`);
             if (textarea) {
+                // Going to editor mode after clicking on the list items
+                
                 textarea.focus();
+                
+                // Place the cursor at the end of the text already entered
+                textarea.setSelectionRange(textarea.value.length,textarea.value.length);
             }
         }, 0);
-        console.log("accessList", modifyList)
+
+        // Make the input empty if nothing added yet
+        if (newRecipe[eltType] ==='Add a first ingredient' || newRecipe[eltType] === 'Add a first step') {
+            newRecipe[eltType] = '';
+        }
     };
 
-    // useEffect(() => {
-    // }, [modifyList]);
-
+    // Validating the list items edition
     const editList = (eltType, event) => {
         event.preventDefault();
-        if (newRecipe[eltType].length > 0 && !modifyList[eltType]){
+
+        // Turning the string into a list of items
+        if (newRecipe[eltType].length > 0 && modifyList[eltType]){
             newRecipe[eltType] = newRecipe[eltType].split('\n');
-        }
+            
+        // If nothing written by user, putting back the default values
+        } else {
+            if (eltType==='ingredients'){
+                newRecipe[eltType] = ['Add a first ingredient'];
+                } else if (eltType==='steps') {
+                    newRecipe[eltType] = ['Add a first step'];
+                }};
 
-
+        // Quitting the editing mode
         setTimeout(() => {
             setModifyList(prevState => ({
                 ...prevState,
                 [eltType]: false
             }));
-          }, 100); // Adjust the delay as needed
-
-
-
-        console.log("editList", modifyList)
+        }, 100);
     }
 
-    
-
+    // Plotting list items
     const renderList = (eltType) => {
-        if (newRecipe[eltType].length > 0){
+        
+        if (newRecipe[eltType].length > 1){
             return newRecipe[eltType].map((elt, index) => (
                 <li key={index}>{elt}</li>
             ));
         } else{
-            return <li> </li>
+            return <li> {newRecipe[eltType]}</li>
         }
-        console.log("renderList")
     };
 
+    // Trigger image input click
+    const handleImageClick = () => {
+        document.getElementById('imageInput').click(); 
+        };
+
+    // Upload an image for the recipe
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -138,13 +176,7 @@ const AddRecipe = () => {
             });
             };
         reader.readAsDataURL(file); 
-        console.log("handle image change ", newRecipe['imageUrl'])
-        }
-        };
-
-    const handleImageClick = () => {
-        document.getElementById('imageInput').click(); // Trigger file input click
-        };
+        }};
 
     return (
         <div className="add-newRecipe modal-content">
@@ -170,7 +202,7 @@ const AddRecipe = () => {
                     <div className="recipe-content">
                         <div className="left-column">
                             <div className="recipe-header">
-                                <input type="text" className="recipe-title" name="title" placeholder={t("add a title")} value={newRecipe.title} onChange={handleInputChange} />
+                                <textarea type="text" id="recipe-title-addRecipeForm" className="recipe-title" name="title" placeholder={t("add a title")} value={newRecipe.title} onChange={handleInputChange} />
                                 <div className="recipe-meta">
                                     <span className="meta-item">
                                         <HiOutlineUserGroup className="recipe-item-logo" />
@@ -213,13 +245,13 @@ const AddRecipe = () => {
                             <input className="recipe-source" type="text" name="source" placeholder={t("www.Recipe-Source.com")} value={newRecipe.source} onChange={handleInputChange} />
                         </div>
                         <div className="right-column">
-                            <div className="recipe-ingredients" onClick={() => accessList('ingredients')}>
-                                <h2>{t("Ingredients")}</h2>
+                            <h2>{t("Ingredients")}</h2>
+                            <div className="recipe-ingredients" onClick={(e) => accessList('ingredients', e)}>
                                 {modifyList["ingredients"] ?
                                 <div>
                                     <textarea
                                         name="ingredients"
-                                        placeholder={t("Ingredients")}
+                                        placeholder={t("Add a first ingredient")}
                                         value={newRecipe.ingredients}
                                         onChange={handleInputChange}
                                         rows="5"
@@ -232,13 +264,13 @@ const AddRecipe = () => {
                                 </ul>
                                 }
                             </div>
-                                <div className="recipe-steps" onClick={() => accessList('steps')}>
                                 <h2>{t("Steps")}</h2>
+                                <div className="recipe-steps" onClick={(e) => accessList('steps', e)}>
                                 {modifyList["steps"] ?
                                 <div>
                                     <textarea
                                         name="steps"
-                                        placeholder={t("Steps")}
+                                        placeholder={t("Add a first step")}
                                         value={newRecipe.steps}
                                         onChange={handleInputChange}
                                         rows="5"

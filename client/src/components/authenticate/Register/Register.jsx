@@ -56,6 +56,7 @@ const Register = (props) => { // Define Register component with props parameter
                     type="text" 
                     id="firstName" 
                     name="firstName" 
+                    className="auth-input"
                     placeholder={t("First name *")} 
                     value={props.user.firstName}
                     onChange={handleInputChange}
@@ -65,6 +66,7 @@ const Register = (props) => { // Define Register component with props parameter
                     type="text" 
                     id="lastName" 
                     name="lastName" 
+                    className="auth-input"
                     placeholder={t("Last name")}
                     value={props.user.lastName}
                     onChange={handleInputChange} /> {/* Last name input field */}
@@ -73,6 +75,7 @@ const Register = (props) => { // Define Register component with props parameter
                     type="email" 
                     id="email" 
                     name="email" 
+                    className="auth-input"
                     placeholder={t("Email address *")} 
                     value={props.user.email}
                     onChange={handleInputChange}
@@ -83,6 +86,7 @@ const Register = (props) => { // Define Register component with props parameter
                         type={iconPassword === false ? "password" : "text"}
                         id="password" 
                         name="password"
+                        className="auth-input"
                         placeholder={t("Password *")} 
                         value={props.user.password}
                         onChange={handleInputChange}
@@ -98,6 +102,7 @@ const Register = (props) => { // Define Register component with props parameter
                         type={iconConfirmPassword === false ? "password" : "text"}
                         id="confirmPassword" 
                         name="confirmPassword"
+                        className="auth-input"
                         placeholder={t("Confirm password *")} 
                         value={props.user.confirmPassword}
                         onChange={handleInputChange}

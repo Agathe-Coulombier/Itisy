@@ -20,6 +20,7 @@ body {
   height: 100%;
   top: 0;
   left: 0;
+  font-size: 1.1rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif; /* Set default font family with system fallbacks */
   -webkit-font-smoothing: antialiased; /* Improve font rendering on WebKit */
   -moz-osx-font-smoothing: grayscale; /* Improve font rendering on macOS */
@@ -113,7 +114,7 @@ input:focus {
 }
 
 /* Default styling for input fields */
-input {
+input, textarea {
   font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif;
   font-size: 1.1rem; /* Font size */
   color: #31241E; /* Text color */
@@ -124,4 +125,13 @@ input {
   box-sizing: border-box; /* Include padding and border in total width/height */
   border: 1px solid #ddd; /* Border style and color */
   border-radius: 10px; /* Rounded corners */
+}
+
+.loader-container{
+  display:flex;
+  margin:20px;
+  gap:20px;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
 }

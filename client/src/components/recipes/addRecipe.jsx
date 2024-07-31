@@ -8,9 +8,10 @@ import { RiFridgeLine } from "react-icons/ri";
 import { TbBowlSpoon } from "react-icons/tb";
 import { PiUploadSimpleBold } from "react-icons/pi";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
+import Loader from '../Loader/Loader'
 import './addRecipe.css';
 
-const AddRecipe = () => {
+const AddRecipe = (props) => {
     const { t } = useTranslation(); // Translations
     const navigate = useNavigate();
     const [url, setUrl] = useState('');
@@ -29,6 +30,17 @@ const AddRecipe = () => {
     const [loading, setLoading] = useState(false);
     const [addRecipeField, setAddRecipeField] = useState(false);
     const [modifyList, setModifyList] = useState({ingredients:false, steps:false});
+    const [originalValue, setOriginalValue] = useState({});
+    const [message, setMessage] = useState([false, '']);
+
+    const handleFocus = (e) => {
+        // Store the original value when the input gains focus
+        const { name, value } = e.target;
+        setOriginalValue((prev) => ({
+        ...prev,
+        [name]: value,
+        }));
+    };
 
     // Handle url field modifications
     const handleUrlChange = (e) => {
@@ -40,22 +52,30 @@ const AddRecipe = () => {
         try {
             setLoading(true);
             setAddRecipeField(false);
+            setMessage([false, '']);
             const response = await axios.get("http://localhost:4000/recipes/scrap", { params: { url } } );
             setNewRecipe(response.data.newRecipe);
             setModifyList({ingredients:false, steps:false});
             setLoading(false);
             setAddRecipeField(true);
+            setMessage([true, "Your recipe is scraped! You can modify it at your convenience before adding it to your cookbook."])
         } catch (error) {
             setLoading(false);
-            console.error('Error fetching newRecipe:', error);
+            console.error('Error fetching newRecipe:', error.response.data.message);
+            setMessage([false, error.response.data.message]);
         }
     };
 
     // Automatically adjust the height of text areas
-    function adjustHeight(e) {
+    function adjustHeight(e, textarea) {
+        console.log(e.target.scrollHeight)
+        if (textarea){
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        } else {
             e.target.style.height = 'auto'; // Reset height to auto to recalculate
             e.target.style.height = e.target.scrollHeight + 'px'; // Set height to scrollHeight
-            console.log(e.target.scrollHeight);
+        }
     };
 
     // Handle input field modifications
@@ -72,32 +92,43 @@ const AddRecipe = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/newRecipes', newRecipe);
-            navigate('/newRecipes');
+            await axios.post('http://localhost:4000/recipes/addRecipe', {
+                newRecipe: newRecipe, 
+                user_id: props.user.id
+            });
+            
+            navigate('/dashboard');
         } catch (error) {
             console.error('Error submitting newRecipe:', error);
         }
     };
 
-    // Validating inputs modifications on keyboard/enter press (except list items)
     const handleKeyPress = (e) => {
+        // Validating inputs modifications on keyboard/enter press (except list items)
         if (e.key === 'Enter') {
             if (e.target.name !== 'ingredients' && e.target.name !== 'steps'){
                 e.preventDefault();
                 e.target.blur();
+        // Restoring the initial value and blur the input field on escape press
+        }} else if (e.key === 'Escape') {
+        // Revert to original value on Escape key press
+        const { name } = e.target;
+        setNewRecipe((prev) => ({
+            ...prev,
+            [name]: originalValue[name] || '',
+        }));
+            e.target.blur();
             }
-        }
     };
 
     // Accessing the list items editor mode
-    const accessList = async (eltType, e) => {
+    const accessList = (eltType, e) => {
 
         // Turning the list of elements into a unique string made of one line per element
         if (newRecipe[eltType].length > 0 && !modifyList[eltType]){
             newRecipe[eltType] = newRecipe[eltType].join('\n');
         }
 
-        await adjustHeight(e);
         // Allow modifications by the user
         setModifyList(prevState => ({
             ...prevState,
@@ -105,14 +136,17 @@ const AddRecipe = () => {
         }));
 
         setTimeout(() => {
-            const textarea = document.querySelector(`textarea[name=${eltType}]`);
+            let textarea = document.querySelector(`textarea[name=${eltType}]`);
             if (textarea) {
+
                 // Going to editor mode after clicking on the list items
-                
-                textarea.focus();
+                textarea.focus({preventScroll:false});
                 
                 // Place the cursor at the end of the text already entered
                 textarea.setSelectionRange(textarea.value.length,textarea.value.length);
+
+                adjustHeight(e, textarea);
+                
             }
         }, 0);
 
@@ -182,9 +216,9 @@ const AddRecipe = () => {
         <div className="add-newRecipe modal-content">
             <h3>{t("Add a recipe to your cook book")}</h3>
             <br/>
-            <form onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
+            <form onSubmit={handleSubmit} onKeyDown={handleKeyPress} onFocus={handleFocus}>
                 <div className="scrapRecipe">
-                                        <input type="text" value={url} placeholder={t("Start by pasting the URL address of the recipe you spotted")} onChange={handleUrlChange} />
+                    <input type="text" value={url} placeholder={t("Start by pasting the URL address of the recipe you spotted")} onChange={handleUrlChange} />
                     <button type="button" className="secondary" onClick={handleFetchRecipe}>{t("Fetch Recipe")}</button>
                 </div>
                 {!addRecipeField && !loading ? 
@@ -196,8 +230,13 @@ const AddRecipe = () => {
                 }
                 
                 {loading &&
-                <p>Loading ...</p>
+                <div className="loader-container">
+                    <p>Your recipe content is loading, this may take a few minutes ...</p>
+                    <Loader />
+                    
+                </div>
                 }
+                <p className="fetching-status">{message[1] && t(message[1])}</p>
                 {addRecipeField &&
                     <div className="recipe-content">
                         <div className="left-column">

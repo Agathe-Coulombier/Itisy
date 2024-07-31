@@ -12,14 +12,9 @@
 .recipe-ingredients, 
 .recipe-steps {
     position:relative;
-    flex:4;
+    flex:5;
     margin-bottom: 20px;
     cursor: pointer;
-}
-
-.add-newRecipe .recipe-ingredients div,
-.add-newRecipe .recipe-steps div{
-    height: 100%;
 }
 
 .add-newRecipe .recipe-ingredients .secondary,
@@ -42,7 +37,9 @@
 
 .add-newRecipe input[type="text"],
 .add-newRecipe textarea{
-    height:100%;
+    line-height: 1.8rem;
+    margin-bottom:0px;
+    height:fit-content;
     border: none;
     border-radius: 5px;
     box-sizing: border-box;
@@ -51,6 +48,7 @@
     appearance: none;
     outline: none;
     cursor: pointer;
+
 }
 
 .add-newRecipe textarea{
@@ -66,13 +64,19 @@
 #recipe-title-addRecipeForm::placeholder {
     text-align: center;
     font-size: 1.5rem;
-    height: 30px;
+    height: 60px;
     font-weight: bold;
     padding: 0;
     margin-bottom: 20px;
     color: #31241E;
     text-transform: uppercase;
     overflow: hidden;
+}
+
+.modal-container .fetching-status{
+    display: flex;
+    justify-content: center;
+    margin-top : 20px;
 }
 
 .add-newRecipe input[type="text"]:focus,
@@ -97,7 +101,7 @@ border-radius: 5px;
 .add-newRecipe .scrapRecipe {
     display: flex;
     gap: 15px;
-    margin: 10px 0 20px 0;
+    margin: 10px 0 30px 0;
 }
 
 .add-newRecipe .scrapRecipe input {
@@ -106,7 +110,6 @@ border-radius: 5px;
 
 .add-newRecipe .scrapRecipe button {
     flex: 3;
-    margin-bottom: 15px;
 }
 
 .add-newRecipe .recipe-content,
@@ -192,6 +195,7 @@ border-radius: 5px;
 }
 
 .recipe-source{
+    text-align: end;
     margin: 20px;
     padding:15px;
 }

@@ -7,7 +7,7 @@ const scrapeRecipe = async (req, res) => {
         res.status(200).json({ message: "Recipe scrapped successfully", newRecipe });
     } 
     catch (error) {
-        console.error(error);
+        console.log(error.message)
         res.status(500).json({ message: error.message });
     }
 };
@@ -16,6 +16,7 @@ const addRecipe = async (req, res) => {
     try {
         await recipesService.addRecipe(req.body);
         res.status(200).json({ message: "Recipe added successfully" });
+        console.log('added')
     } 
     catch (error) {
         console.error(error);

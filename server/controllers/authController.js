@@ -51,6 +51,53 @@ const resetPassword = async (req, res) => {
     }
 }
 
+const logoutUser = async (req, res) => {
+    try {
+        const { userId } = req.body;
+
+        if (!userId) {
+            return res.status(400).json({ message: "Bad Request: userId is required" });
+        }
+
+        await authService.logout(userId);
+        res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+        console.error("logout error", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+const checkAuth = async (req, res) => {
+    try {
+        const user = await authService.checkAuth(req);
+        res.status(200).json({ authenticated: true, user });
+    } catch (error) {
+        console.error("check_auth error", error);
+        res.status(500).json({ authenticated: false, message: "Internal Server Error" });
+    }
+}
+
+const token = async (req, res) => {
+    try {
+        const refreshToken = req.body.token;
+        const user = req.body.user;
+
+        if (!refreshToken) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const { verifiedUser, newAccessToken } = await authService.token(refreshToken, user);
+        if (verifiedUser) {
+            res.json({ accessToken: newAccessToken });
+        } else {
+            res.status(403).json({ message: "Forbidden" });
+        }
+    } catch (error) {
+        console.error("token generation error", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 module.exports = {
-    registerUser, loginUser, forgotPassword, resetPassword, 
+    registerUser, loginUser, logoutUser, forgotPassword, resetPassword, checkAuth, token
 };

@@ -6,7 +6,6 @@ import './RecipesList.css'; // Custom CSS for styling
 const RecipeList = (props) => {
 
     const reversedUserRecipes = [props.userRecipes[0], ...props.userRecipes.slice(1).reverse()];
-    console.log("recipes", reversedUserRecipes)
     return (
         <div className="recipe-list">
             {reversedUserRecipes.map((userRecipe, index) => (

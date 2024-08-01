@@ -8,6 +8,7 @@ import Modal from '../Modal/Modal';
 import { useModal } from '../Modal/modalConfig';
 import "./Dashboard.css"; // Import CSS for Homepage styling
 import RecipeList from '../recipes/RecipesList';
+import { ProtectedRoute } from "../../hooks/protectedRoute";
 
 const Dashboard = () => {
     const { setIsAuthenticated, logout, user } = useContext(AuthContext); // Destructure setIsAuthenticated from context
@@ -68,8 +69,7 @@ const Dashboard = () => {
         if (authType==="logout") {
             setIsAuthenticated(false);
             await logout();
-            navigate('/'); // Redirect to the dashboard
-        }
+            }
     };
 
     // Define the buttons to display in the NavBar
@@ -83,14 +83,15 @@ const Dashboard = () => {
     return (
         <div id="main">
             <NavBar toggleClick={logoutClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
-            {showModal && <Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} user={user} selectedRecipeIndex={selectedRecipeIndex}/>}
+            {showModal && <ProtectedRoute><Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} user={user} selectedRecipeIndex={selectedRecipeIndex}/></ProtectedRoute>}
 
-            <div className="main_content" id="contentBody">
-                <div className="recipesBoard">
-                    <h1>My recipes</h1>
-                        {loading ? <p>Loading...</p> : <RecipeList userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user}/>}
-                    </div>
-            </div>
+                <div className="main_content" id="contentBody">
+                    <div className="recipesBoard">
+                        <h1>My recipes</h1>
+                            {loading ? <p>Loading...</p> : <RecipeList userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user}/>}
+                        </div>
+                </div>
+
 
             <Footer /> {/* Render Footer component */}
         </div>

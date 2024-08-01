@@ -90,6 +90,15 @@ const loginUser = async (userData) => {
     return { userPayload, accessToken, refreshToken };
 }
 
+const logout = async (userId) => {
+    try {
+        await pool.query("UPDATE users SET refresh_token = null WHERE user_id = $1", [userId]);
+    } catch (error) {
+        console.error("Error logging out user", error);
+        throw new Error("Failed to log out user");
+    }
+};
+
 // Function to handle password rester request
 const forgotPassword = async (userData) => {
     const {email} = userData;
@@ -199,7 +208,7 @@ const resetPassword = async (req) => {
 
 // Function to generate access token
 const generateAccessToken = (user) => {
-    return jwt.sign(user, require('config').get("Services")["auth"]["ACCESS_TOKEN_SECRET"], { expiresIn: '15m' });
+    return jwt.sign(user, require('config').get("Services")["auth"]["ACCESS_TOKEN_SECRET"], { expiresIn: '10m' });
 };
 
 // Function to generate refresh token
@@ -207,9 +216,39 @@ const generateRefreshToken = (user) => {
     return jwt.sign(user, require('config').get("Services")["auth"]["REFRESH_TOKEN_SECRET"], { expiresIn: '7d' });
 };
 
+const checkAuth = async (req) => {
+    return req.user;
+};
+
+const token = async (refreshToken, user) => {
+    return new Promise((resolve, reject) => {
+        jwt.verify(refreshToken, require('config').get("Services")["auth"]["REFRESH_TOKEN_SECRET"], async (err, decodedUser) => {
+            if (err) {
+                return resolve({ verifiedUser: false });
+            }
+
+            try {
+                const dbToken = await pool.query("SELECT refresh_token FROM users WHERE user_id = $1", [decodedUser.id]);
+                if (dbToken.rows.length === 0 || dbToken.rows[0].refresh_token !== refreshToken) {
+                    return resolve({ verifiedUser: false });
+                }
+
+                const newAccessToken = generateAccessToken({ id: decodedUser.id, email: decodedUser.email });
+                resolve({ verifiedUser: true, newAccessToken });
+            } catch (dbError) {
+                console.error("Database error", dbError);
+                reject(dbError);
+            }
+        });
+    });
+};
+
 module.exports = {
     registerUser,
     loginUser,
+    logout,
     forgotPassword,
     resetPassword,
+    checkAuth,
+    token
 };

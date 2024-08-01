@@ -13,7 +13,6 @@ const ViewRecipe = (props) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
 
-    console.log(props.userRecipes[props.selectedRecipeIndex])
     const recipe = props.userRecipes[props.selectedRecipeIndex];
     // Render JSX
     return (

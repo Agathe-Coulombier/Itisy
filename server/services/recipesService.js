@@ -121,15 +121,6 @@ const addRecipe = async (data) => {
     await pool.query(insertSTMT, values);
 }
 
-// const addRecipe = async (data) => {
-//     const recipe = data.recipe;
-//     const userId = data.user.id;
-    
-//     // Insert user into the database
-//     const insertSTMT = `INSERT INTO recipesBook (userId, title, persons, prepTime, restTime, cookTime, ingredients, steps, source) VALUES ('${user.userId}', '${recipe.title}', '${recipe.persons}', '${recipe.prepTime}', '${recipe.restTime}', '${recipe.cookTime}', '${recipe.ingredients}', '${recipe.steps}', '${recipe.source}')`;
-//     await pool.query(insertSTMT);
-// }
-
 const deleteRecipe = async (data) => {
     const recipeId = data.recipeId;
     const userId = data.user.id

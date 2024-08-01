@@ -14,8 +14,8 @@ const RecipeCard = (props) => {
 
     return (
         <div className="recipe-card" onClick={() =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index)}}>
-            <img src={props.userRecipe.image_url} alt={props.userRecipe.title} className="recipe-image" />
-            <h2 className="recipe-title">{props.userRecipe.title}</h2>
+            <img src={props.userRecipe?.image_url || 'https://iili.io/doeXZZB.png'} alt={props.userRecipe.title} className="recipe-image"/>
+            <h2 className="recipe-title">{props.userRecipe?.title || 'Add a recipe'}</h2>
             {props.index !== 0 ? 
                 <div className="recipe-overlay">
                     <p>

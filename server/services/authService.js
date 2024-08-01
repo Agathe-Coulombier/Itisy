@@ -208,7 +208,7 @@ const resetPassword = async (req) => {
 
 // Function to generate access token
 const generateAccessToken = (user) => {
-    return jwt.sign(user, require('config').get("Services")["auth"]["ACCESS_TOKEN_SECRET"], { expiresIn: '10m' });
+    return jwt.sign(user, require('config').get("Services")["auth"]["ACCESS_TOKEN_SECRET"], { expiresIn: '65s' });
 };
 
 // Function to generate refresh token
@@ -220,7 +220,7 @@ const checkAuth = async (req) => {
     return req.user;
 };
 
-const token = async (refreshToken, user) => {
+const refreshAccessToken = async (refreshToken, user) => {
     return new Promise((resolve, reject) => {
         jwt.verify(refreshToken, require('config').get("Services")["auth"]["REFRESH_TOKEN_SECRET"], async (err, decodedUser) => {
             if (err) {
@@ -250,5 +250,5 @@ module.exports = {
     forgotPassword,
     resetPassword,
     checkAuth,
-    token
+    refreshAccessToken
 };

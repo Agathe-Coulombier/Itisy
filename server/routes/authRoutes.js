@@ -8,7 +8,7 @@ router.post("/login", authController.loginUser);
 router.patch("/send-link", authController.forgotPassword);
 router.patch("/resetPassword/:token", authController.resetPassword);
 router.get('/check-auth', ensureAuthenticated, authController.checkAuth);
-router.post("/token", authController.token);
+router.post("/refreshAccessToken", authController.refreshAccessToken);
 router.post('/logout', authController.logoutUser);
 
 module.exports = router;

@@ -77,7 +77,7 @@ const checkAuth = async (req, res) => {
     }
 }
 
-const token = async (req, res) => {
+const refreshAccessToken = async (req, res) => {
     try {
         const refreshToken = req.body.token;
         const user = req.body.user;
@@ -86,7 +86,7 @@ const token = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized" });
         }
 
-        const { verifiedUser, newAccessToken } = await authService.token(refreshToken, user);
+        const { verifiedUser, newAccessToken } = await authService.refreshAccessToken(refreshToken, user);
         if (verifiedUser) {
             res.json({ accessToken: newAccessToken });
         } else {
@@ -99,5 +99,5 @@ const token = async (req, res) => {
 }
 
 module.exports = {
-    registerUser, loginUser, logoutUser, forgotPassword, resetPassword, checkAuth, token
+    registerUser, loginUser, logoutUser, forgotPassword, resetPassword, checkAuth, refreshAccessToken
 };

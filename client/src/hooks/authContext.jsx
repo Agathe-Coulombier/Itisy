@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocalStorage } from './useLocalStorage';  // Adjust the path as necessary
+import { useLocalStorage } from './useLocalStorage';  
 import { useNavigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
 
 export const AuthContext = createContext();
 
@@ -13,6 +14,22 @@ const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', null);
 const [loading, setLoading] = useState(true); // Add a loading state
 const [authChecked, setAuthChecked] = useState(false);
 const navigate = useNavigate();
+
+// Login function
+const login = async (credentials, response) => {
+    setAccessToken(response.data.accessToken);
+    setRefreshToken(response.data.refreshToken);
+    setIsAuthenticated(true);
+    setUser(response.data.user);
+    
+    console.log("Login response:", response);
+    console.log("State after login:", {
+        accessToken: response.data.accessToken,
+        refreshToken: response.data.refreshToken,
+        isAuthenticated: true,
+        user: response.data.user
+    });
+    };
 
 // Function to handle logout
 const logout = () => {
@@ -29,7 +46,7 @@ console.log("Logged out, state updated:", {
 });
 };
 
-// Check the access token on initial load and periodically
+// Check the access token on initial load / every time the token in modified / every min
 useEffect(() => {
 const checkAuth = async () => {
     try {
@@ -57,66 +74,48 @@ const checkAuth = async () => {
 };
 
 checkAuth();
+
+// Set periodic check to every 60 seconds
+const intervalId = setInterval(checkAuth, 60000); 
+// Cleanup on unmount
+return () => clearInterval(intervalId); 
 }, [accessToken]);
-
-// Token expiration check
-useEffect(() => {
-let timeout;
-
-if (accessToken) {
-    const tokenExpirationTime = 600000;
-    const expireAt = Date.now() + tokenExpirationTime;
-
-    const checkTokenExpiration = () => {
-    const currentTime = Date.now();
-    if (currentTime >= expireAt) {
-        logout(); // Log out if the token is expired
-    } else {
-        timeout = setTimeout(checkTokenExpiration, expireAt - currentTime);
-    }
-    };
-
-    timeout = setTimeout(checkTokenExpiration, tokenExpirationTime);
-}
-
-return () => clearTimeout(timeout);
-}, [accessToken, navigate, logout]);
 
 // Refresh token on user activity
 useEffect(() => {
+// Refresh access token after checking the refresh token is still valid
 const refreshAccessToken = async () => {
     try {
-    const response = await axios.post('http://localhost:4000/auth/token', { token: refreshToken });
-    console.log("refreshtoken", response)
-    if (response.status === 200) {
-        setAccessToken(response.data.accessToken);
-        // Clear and reset the token expiration check timer
-        clearTimeout(window.tokenCheckTimeout);    }
+    const response = await axios.post('http://localhost:4000/auth/refreshAccessToken', { token: refreshToken });
+    setAccessToken(response.data.accessToken)
     } catch (error) {
     console.error('Failed to refresh access token:', error);
-    logout(); // Log out if token refresh fails
+    logout();
     }
 };
-
+// Triggers the refreshAccessToken if user authenticated and toke expiracy <= 60s
 const resetExpiration = () => {
-    if (refreshToken) {
-    refreshAccessToken();
+    const tokenExpirationTime = accessToken? jwtDecode(accessToken).exp : 0;
+    const timeNow= Date.now() / 1000;
+
+    if (refreshToken && (tokenExpirationTime - timeNow) <= 60) {
+        refreshAccessToken();
     }
 };
-
-// Listeners for user activity
 // window.addEventListener('mousemove', resetExpiration);
 window.addEventListener('click', resetExpiration);
 window.addEventListener('keypress', resetExpiration);
-
 return () => {
     // window.removeEventListener('mousemove', resetExpiration);
     window.removeEventListener('click', resetExpiration);
     window.removeEventListener('keypress', resetExpiration);
 };
+        
 }, [refreshToken, setAccessToken, logout]);
 
-// Axios Interceptor for handling token refresh
+// Axios Interceptor: refreshes the token when an API request fails due to token 
+// expiration, ensuring that protected API calls are not blocked due to expired 
+// tokens
 useEffect(() => {
 const interceptor = axios.interceptors.response.use(
     response => response,
@@ -126,7 +125,7 @@ const interceptor = axios.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-        const response = await axios.post('http://localhost:4000/auth/token', { token: refreshToken, user: user });
+        const response = await axios.post('http://localhost:4000/auth/refreshAccessToken', { token: refreshToken, user: user });
         if (response.status === 200) {
             setAccessToken(response.data.accessToken);
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.accessToken;
@@ -140,25 +139,8 @@ const interceptor = axios.interceptors.response.use(
     return Promise.reject(error);
     }
 );
-
 return () => axios.interceptors.response.eject(interceptor);
 }, [refreshToken, setAccessToken, logout]);
-
-// Login function
-const login = async (credentials, response) => {
-setAccessToken(response.data.accessToken);
-setRefreshToken(response.data.refreshToken);
-setIsAuthenticated(true);
-setUser(response.data.user);
-
-console.log("Login response:", response);
-console.log("State after login:", {
-    accessToken: response.data.accessToken,
-    refreshToken: response.data.refreshToken,
-    isAuthenticated: true,
-    user: response.data.user
-});
-};
 
 return (
 <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, login, logout, loading }}>

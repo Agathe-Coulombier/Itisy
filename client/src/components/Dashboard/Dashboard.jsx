@@ -9,6 +9,7 @@ import { useModal } from '../Modal/modalConfig';
 import "./Dashboard.css"; // Import CSS for Homepage styling
 import RecipeList from '../recipes/RecipesList';
 import { ProtectedRoute } from "../../hooks/protectedRoute";
+import Loader from '../Loader/Loader';
 
 const Dashboard = () => {
     const { setIsAuthenticated, logout, user } = useContext(AuthContext); // Destructure setIsAuthenticated from context
@@ -83,12 +84,12 @@ const Dashboard = () => {
     return (
         <div id="main">
             <NavBar toggleClick={logoutClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
-            {showModal && <ProtectedRoute><Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} user={user} selectedRecipeIndex={selectedRecipeIndex}/></ProtectedRoute>}
+            {showModal && <ProtectedRoute><Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} user={user} selectedRecipeIndex={selectedRecipeIndex} fetchUserRecipes={fetchUserRecipes}/></ProtectedRoute>}
 
                 <div className="main_content" id="contentBody">
                     <div className="recipesBoard">
                         <h1>My recipes</h1>
-                            {loading ? <p>Loading...</p> : <RecipeList userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user}/>}
+                            {loading ? <div className="loader-container"> < Loader/> </div> : <RecipeList userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user}/>}
                         </div>
                 </div>
 

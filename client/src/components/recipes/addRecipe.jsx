@@ -31,7 +31,7 @@ const AddRecipe = (props) => {
     const [addRecipeField, setAddRecipeField] = useState(false);
     const [modifyList, setModifyList] = useState({ingredients:false, steps:false});
     const [originalValue, setOriginalValue] = useState({});
-    const [message, setMessage] = useState([false, '']);
+    const [message, setMessage] = useState([false, ' ', false, ' ']);
 
     const handleFocus = (e) => {
         // Store the original value when the input gains focus
@@ -58,11 +58,28 @@ const AddRecipe = (props) => {
             setModifyList({ingredients:false, steps:false});
             setLoading(false);
             setAddRecipeField(true);
-            setMessage([true, "Your recipe is scraped! You can modify it at your convenience before adding it to your cookbook."])
+            setMessage([true, "Your recipe is scraped! You can modify it at your convenience before adding it to your cookbook.", false, ''])
+            document.getElementById("fetching-status").style.color = "darkgreen";
         } catch (error) {
             setLoading(false);
             console.error('Error fetching newRecipe:', error.response.data.message);
-            setMessage([false, error.response.data.message]);
+            setMessage([true, error.response.data.message, false, ' ']);
+        }
+    };
+
+    // Add recipe to user cookbook
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:4000/recipes/addRecipe', {
+                newRecipe: newRecipe, 
+                user_id: props.user.id
+            });
+            props.closeModal();
+            props.fetchUserRecipes();
+        } catch (error) {
+            console.error('Error submitting newRecipe:', error)
+            setMessage([false, ' ', true, error.response.data.message]);
         }
     };
 
@@ -86,21 +103,6 @@ const AddRecipe = (props) => {
             [name]: value
         });
         adjustHeight(e);
-    };
-
-    // Add recipe to user cookbook
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('http://localhost:4000/recipes/addRecipe', {
-                newRecipe: newRecipe, 
-                user_id: props.user.id
-            });
-            
-            navigate('/dashboard');
-        } catch (error) {
-            console.error('Error submitting newRecipe:', error);
-        }
     };
 
     const handleKeyPress = (e) => {
@@ -163,7 +165,8 @@ const AddRecipe = (props) => {
         // Turning the string into a list of items
         if (newRecipe[eltType].length > 0 && modifyList[eltType]){
             newRecipe[eltType] = newRecipe[eltType].split('\n');
-            
+            console.log(newRecipe[eltType].type)
+
         // If nothing written by user, putting back the default values
         } else {
             if (eltType==='ingredients'){
@@ -236,7 +239,7 @@ const AddRecipe = (props) => {
                     
                 </div>
                 }
-                <p className="fetching-status">{message[1] && t(message[1])}</p>
+                <p className="fetching-status" id="fetching-status">{message[0] && t(message[1])}</p>
                 {addRecipeField &&
                     <div className="recipe-content">
                         <div className="left-column">
@@ -323,6 +326,7 @@ const AddRecipe = (props) => {
                                 }
                             </div>
                             <button className="primary" type="submit">{t("Add to my recipes")}</button>
+                            <p className="add-recipe-status">{message[2] && t(message[3])}</p>
                         </div>
                     
                     </div>

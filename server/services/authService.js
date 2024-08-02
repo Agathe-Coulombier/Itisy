@@ -208,7 +208,7 @@ const resetPassword = async (req) => {
 
 // Function to generate access token
 const generateAccessToken = (user) => {
-    return jwt.sign(user, require('config').get("Services")["auth"]["ACCESS_TOKEN_SECRET"], { expiresIn: '65s' });
+    return jwt.sign(user, require('config').get("Services")["auth"]["ACCESS_TOKEN_SECRET"], { expiresIn: '10m' });
 };
 
 // Function to generate refresh token

@@ -15,6 +15,10 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
     console.log("Website scrapping: ", domain);
     const config = scrapMethods.websiteConfig[domain];
 
+    if (!url){
+        throw new Error("Please provide a url");
+    }
+    
     if (!config) {
     throw new Error("This website isn't configured and therefore can't be scrapped.");
     }
@@ -56,26 +60,34 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
     }
 
     // Handle overlay if needed
-    if (config['overlay'] !== undefined) {
-        await page.waitForSelector(config['overlay'].buttonSelector, { timeout: 10000 });
-        await page.click(config['overlay'].buttonSelector);
-        await page.waitForSelector(config['overlay'].selector, { timeout: 10000 });
-    }
+    try {
+        if (config['overlay'] !== undefined) {
+            await page.waitForSelector(config['overlay'].buttonSelector, { timeout: 10000 });
+            await page.click(config['overlay'].buttonSelector);
+            await page.waitForSelector(config['overlay'].selector, { timeout: 10000 });
+        }
+    } catch (error){}
+
 
     const html_data = await page.content();
     await browser.close();
     const $ = cheerio.load(html_data);
 
     Object.keys(config).forEach(key => {
-        const { selector, index, attribute, type, value } = config[key];
+        try {
+        const { selector, index, attribute, type } = config[key];
         if (attribute) {
-        result[key] = scrapMethods.getAttribute($, selector, attribute);
+            result[key] = scrapMethods.getAttribute($, selector, attribute);
         } else if (index !== undefined) {
-        result[key] = scrapMethods.getTextByIndex($, selector, index);
+            result[key] = scrapMethods.getTextByIndex($, selector, index);
         } else if (type === "list") {
-        result[key] = scrapMethods.getListItems($, selector, scrapMethods.trimString);
+            result[key] = scrapMethods.getListItems($, selector, scrapMethods.trimString);
         } else {
-        result[key] = scrapMethods.getText($, selector);
+            result[key] = scrapMethods.getText($, selector);
+        }
+        } catch (error) {
+        console.warn(`Error retrieving ${key}:`, error.message);
+        result[key] = null; // Set the value to null if an error occurs
         }
     });
 
@@ -115,9 +127,38 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
 const addRecipe = async (data) => {
     const recipe = data.newRecipe;
     const userId = data.user_id;
+    const dateNow = Date.now();
+    console.log(recipe)
+    // Validate data before inserting
+    if (recipe.title === '') {
+        throw new Error ('Please provide a title')
+    }
 
-    values = [userId, recipe.title, recipe.imageUrl, recipe.persons, recipe.prepTime, recipe.restTime, recipe.cookTime, recipe.ingredients, recipe.steps, recipe.source]
-    const insertSTMT = `INSERT INTO recipesbook (user_id, title, image_url, persons, prep_time, rest_time, cook_time, ingredients, steps, source) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+    if (recipe.persons === '') {
+        throw new Error ('Please provide a number of servings')
+    }
+
+    if (recipe.ingredients[0] === 'Add a first ingredient') {
+        throw new Error ('Please provide ingredients')
+    }
+
+    if (typeof recipe.ingredients !== 'object') {
+        throw new Error ('Please validate the ingredients input')
+    }
+
+    if (recipe.steps[0] === 'Add a first step') {
+        throw new Error ('Please provide steps')
+    }
+
+    if (typeof recipe.steps !== 'object') {
+        throw new Error ('Please validate the steps input')
+    }
+
+    values = [userId, recipe.title, recipe.imageUrl, recipe.persons, recipe.prepTime, recipe.restTime, recipe.cookTime, recipe.ingredients, recipe.steps, recipe.source, dateNow]
+    console.log(values)
+
+
+    const insertSTMT = `INSERT INTO recipesbook (user_id, title, image_url, persons, prep_time, rest_time, cook_time, ingredients, steps, source, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
     await pool.query(insertSTMT, values);
 }
 
@@ -134,7 +175,7 @@ const userRecipes = async (data) => {
     const userId = data
     
     // Get all the user recipes
-    res = await pool.query(`SELECT * FROM recipesbook WHERE user_id = $1`, [userId]);
+    res = await pool.query(`SELECT * FROM recipesbook WHERE user_id = $1 ORDER BY created_at DESC`, [userId]);
 
     return res.rows;
 }

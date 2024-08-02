@@ -11,7 +11,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(false);
 const [user, setUser] = useState(null);
 const [accessToken, setAccessToken] = useLocalStorage('accessToken', null);
 const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', null);
-const [loading, setLoading] = useState(true); // Add a loading state
+const [loading, setLoading] = useState(true);
 const [authChecked, setAuthChecked] = useState(false);
 const navigate = useNavigate();
 
@@ -93,12 +93,12 @@ const refreshAccessToken = async () => {
     logout();
     }
 };
-// Triggers the refreshAccessToken if user authenticated and toke expiracy <= 60s
+// Triggers the refreshAccessToken if user authenticated and toke expiracy <= 3m
 const resetExpiration = () => {
     const tokenExpirationTime = accessToken? jwtDecode(accessToken).exp : 0;
     const timeNow= Date.now() / 1000;
 
-    if (refreshToken && (tokenExpirationTime - timeNow) <= 60) {
+    if (refreshToken && (tokenExpirationTime - timeNow) <= 180) {
         refreshAccessToken();
     }
 };

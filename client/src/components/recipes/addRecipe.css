@@ -73,10 +73,18 @@
     overflow: hidden;
 }
 
-.modal-container .fetching-status{
+/* .modal-container .fetching-status{
     display: flex;
     justify-content: center;
     margin-top : 20px;
+} */
+
+.modal-container .add-recipe-status,
+.modal-container .fetching-status {
+    position: relative;
+    display: flex;
+    color: darkred;
+    justify-content: right;
 }
 
 .add-newRecipe input[type="text"]:focus,

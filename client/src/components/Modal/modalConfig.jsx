@@ -16,6 +16,7 @@ export const useModal = (initialFormType = "", initialUser = {}) => {
     };
 
     const handleClickCloseIcon = () => {
+        console.log("quitting")
         setShowModal(false);
         setForm("");
         setUser(initialUser);

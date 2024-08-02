@@ -18,7 +18,7 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
     if (!url){
         throw new Error("Please provide a url");
     }
-    
+
     if (!config) {
     throw new Error("This website isn't configured and therefore can't be scrapped.");
     }
@@ -163,12 +163,12 @@ const addRecipe = async (data) => {
 }
 
 const deleteRecipe = async (data) => {
-    const recipeId = data.recipeId;
-    const userId = data.user.id
     
-    // Insert user into the database
-    const insertSTMT = `DELETE FROM recipeBooks WHERE recipeId = userId AND userId = userId; VALUES ('${recipeId}', '${userId}')`;
-    await pool.query(insertSTMT);
+    const recipeId = data.recipe_id;
+    const userId = data.user_id;
+    
+    const deleteSTMT = `DELETE FROM recipesbook WHERE recipe_id = $1 AND user_id = $2`;
+    await pool.query(deleteSTMT, [recipeId, userId]);
 }
 
 const userRecipes = async (data) => {

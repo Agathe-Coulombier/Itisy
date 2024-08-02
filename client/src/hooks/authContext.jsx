@@ -22,13 +22,13 @@ const login = async (credentials, response) => {
     setIsAuthenticated(true);
     setUser(response.data.user);
     
-    console.log("Login response:", response);
-    console.log("State after login:", {
-        accessToken: response.data.accessToken,
-        refreshToken: response.data.refreshToken,
-        isAuthenticated: true,
-        user: response.data.user
-    });
+    // console.log("Login response:", response);
+    // console.log("State after login:", {
+    //     accessToken: response.data.accessToken,
+    //     refreshToken: response.data.refreshToken,
+    //     isAuthenticated: true,
+    //     user: response.data.user
+    // });
     };
 
 // Function to handle logout
@@ -38,12 +38,12 @@ setRefreshToken(null);
 setIsAuthenticated(false);
 setUser(null);
 navigate('/');
-console.log("Logged out, state updated:", {
-    accessToken: null,
-    refreshToken: null,
-    isAuthenticated: false,
-    user: null
-});
+// console.log("Logged out, state updated:", {
+//     accessToken: null,
+//     refreshToken: null,
+//     isAuthenticated: false,
+//     user: null
+// });
 };
 
 // Check the access token on initial load / every time the token in modified / every min
@@ -51,7 +51,7 @@ useEffect(() => {
 const checkAuth = async () => {
     try {
     if (accessToken) {
-        console.log("Requesting authentication check...");
+        // console.log("Requesting authentication check...");
         const response = await axios.get('http://localhost:4000/auth/check-auth', {
         headers: { Authorization: `Bearer ${accessToken}` }
         });

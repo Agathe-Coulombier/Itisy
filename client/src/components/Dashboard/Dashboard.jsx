@@ -12,7 +12,7 @@ import { ProtectedRoute } from "../../hooks/protectedRoute";
 import Loader from '../Loader/Loader';
 
 const Dashboard = () => {
-    const { setIsAuthenticated, logout, user } = useContext(AuthContext); // Destructure setIsAuthenticated from context
+    const { setIsAuthenticated, logout, user} = useContext(AuthContext); // Destructure setIsAuthenticated from context
     const [ userRecipes, setUserRecipes ] = useState(
         {
         title:"Add a recipe",
@@ -31,11 +31,12 @@ const Dashboard = () => {
 
     const [selectedRecipeIndex, setSelectedRecipeIndex] = useState(0)
     // Callback function to handle data from the child
-    const handleCardClick = (index) => {
+    const handleCardClick = (index, e) => {
         setSelectedRecipeIndex(index);
     };
 
     const [loading, setLoading] = useState(true);
+
 
     const fetchUserRecipes = async () => {
         try {
@@ -89,7 +90,7 @@ const Dashboard = () => {
                 <div className="main_content" id="contentBody">
                     <div className="recipesBoard">
                         <h1>My recipes</h1>
-                            {loading ? <div className="loader-container"> < Loader/> </div> : <RecipeList userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user}/>}
+                            {loading ? <div className="loader-container"> < Loader/> </div> : <RecipeList userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user} fetchUserRecipes={fetchUserRecipes}/>}
                         </div>
                 </div>
 

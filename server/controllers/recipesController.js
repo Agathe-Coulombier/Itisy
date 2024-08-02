@@ -16,7 +16,6 @@ const addRecipe = async (req, res) => {
     try {
         await recipesService.addRecipe(req.body);
         res.status(200).json({ message: "Recipe added successfully" });
-        console.log('added')
     } 
     catch (error) {
         console.error(error);
@@ -25,8 +24,9 @@ const addRecipe = async (req, res) => {
 };
 
 const deleteRecipe = async (req, res) => {
+    console.log("controller", req.query)
     try {
-        await recipesService.deleteRecipe(req.body);
+        await recipesService.deleteRecipe(req.query);
         res.status(200).json({ message: "Recipe deleted successfully" });
     } 
     catch (error) {

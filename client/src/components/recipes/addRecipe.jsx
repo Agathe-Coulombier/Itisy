@@ -68,8 +68,8 @@ const AddRecipe = (props) => {
     };
 
     // Add recipe to user cookbook
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleAddRecipe = async (e) => {
+        e.stopPropagation();
         try {
             await axios.post('http://localhost:4000/recipes/addRecipe', {
                 newRecipe: newRecipe, 
@@ -219,7 +219,7 @@ const AddRecipe = (props) => {
         <div className="add-newRecipe modal-content">
             <h3>{t("Add a recipe to your cook book")}</h3>
             <br/>
-            <form onSubmit={handleSubmit} onKeyDown={handleKeyPress} onFocus={handleFocus}>
+            <form onSubmit={handleAddRecipe} onKeyDown={handleKeyPress} onFocus={handleFocus}>
                 <div className="scrapRecipe">
                     <input type="text" value={url} placeholder={t("Start by pasting the URL address of the recipe you spotted")} onChange={handleUrlChange} />
                     <button type="button" className="secondary" onClick={handleFetchRecipe}>{t("Fetch Recipe")}</button>

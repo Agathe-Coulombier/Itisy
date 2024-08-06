@@ -97,11 +97,11 @@
     z-index: 10;
 }
 
-.recipe-overlay .recipe-actions > * { /* Target all direct child elements */
+.recipe-overlay .recipe-actions > * {
     transition: transform 0.3s ease, color 0.3s ease; /* Apply transition */
 }
 
 .recipe-overlay .recipe-actions > *:hover {
     transform: scale(1.5); /* Increase size on hover */
-    color: #31241E; /* Change color to green on hover */
+    color: var(--text-color); /* Change color to green on hover */
 }

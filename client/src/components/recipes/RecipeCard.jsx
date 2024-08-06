@@ -15,8 +15,8 @@ import { MdOutlineLocalPrintshop } from "react-icons/md";
 
 const RecipeCard = (props) => {
 
-    const modalForm = props.index === 0 ? "addRecipe" : "viewRecipe";
-    console.log(props)
+    const modalForm = props.index === 0 ? "fetchRecipe" : "recipeContent";
+
     // Add recipe to user cookbook
     const handleDeleteRecipe = async (e) => {
         
@@ -65,14 +65,14 @@ const RecipeCard = (props) => {
                             </p>}
                     </div>
                     <div className='recipe-actions'>
-                        <FaRegEye className='recipe-actions-icon'/>
+                        <FaRegEye className='recipe-actions-icon' onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e)}}/>
                         <BiEditAlt className='recipe-actions-icon'/>
                         <MdOutlineLocalPrintshop className='recipe-actions-icon'/>
                         <AiOutlineDelete className='recipe-actions-icon' onClick={(e) => handleDeleteRecipe(e)}/>
                     </div>
                     </div>
                     :
-                    <div className="recipe-resume">
+                    <div className="recipe-resume" onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e)}}>
                         < TbSquareRoundedPlusFilled className="recipe-item-modify" />
                     </div>
                 }

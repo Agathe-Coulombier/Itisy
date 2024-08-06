@@ -31,7 +31,7 @@
 
 /* Hamburger Menu Styles */
 .hamburger {
-    color: #31241E; /* Sets the color of the hamburger menu */
+    color: var(--text-color); /* Sets the color of the hamburger menu */
     display: none; /* Hides the hamburger menu by default */
 }
 
@@ -42,7 +42,7 @@
     height: 3px; /* Sets the height of each bar */
     margin: 5px auto; /* Adds margin to the bars */
     transition: all 0.3s ease-in-out; /* Adds a transition effect */
-    background-color: #31241E; /* Sets the background color of the bars */
+    background-color: var(--text-color); /* Sets the background color of the bars */
 }
 
 /* Text Styles */

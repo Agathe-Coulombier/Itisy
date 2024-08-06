@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer'); // Add Puppeteer
 const pool = require("../databases/database");
 const { get } = require('../routes/recipesRoutes');
 const scrapMethods = require('../config/scrapMethods');
+const { editRecipe } = require('../controllers/recipesController');
 
 // Use the stealth plugin to evade detection
 // puppeteer.use(StealthPlugin());
@@ -25,11 +26,11 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
 
     let result = {
     title: null,
-    imageUrl: null,
+    image_url: null,
     persons: null,
-    prepTime: null,
-    restTime: null,
-    cookTime: null,
+    prep_time: null,
+    rest_time: null,
+    cook_time: null,
     ingredients: null,
     steps: null,
     source: domain,
@@ -85,6 +86,7 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
         } else {
             result[key] = scrapMethods.getText($, selector);
         }
+        
         } catch (error) {
         console.warn(`Error retrieving ${key}:`, error.message);
         result[key] = null; // Set the value to null if an error occurs
@@ -96,12 +98,20 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
         result = config.format($, result);
     }
 
+    if( domain ==="marmiton.org" && !result.image_url){
+        try{
+            result.image_url = scrapMethods.getAttribute($, "#recipe-media-viewer-main-picture", "data-src")
+        } catch (error){}
+    }
+
     result.persons = scrapMethods.extractNumbers(result.persons);
 
     // Check if data was fetched correctly
     if (result.title === '' && !result.ingredients.length && !result.steps.length && result.source !== '') {
         throw new Error("Data can't be retrieved from the url you provided");
     }
+
+    console.log("image url", result.image_url)
 
     return result;
     };
@@ -122,7 +132,6 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
     }
     }
 };
-
 
 const addRecipe = async (data) => {
     const recipe = data.newRecipe;
@@ -154,13 +163,63 @@ const addRecipe = async (data) => {
         throw new Error ('Please validate the steps input')
     }
 
-    values = [userId, recipe.title, recipe.imageUrl, recipe.persons, recipe.prepTime, recipe.restTime, recipe.cookTime, recipe.ingredients, recipe.steps, recipe.source, dateNow]
-    console.log(values)
-
+    values = [userId, recipe.title, recipe.image_url, recipe.persons, recipe.prep_time, recipe.rest_time, recipe.cook_time, recipe.ingredients, recipe.steps, recipe.source, dateNow]
 
     const insertSTMT = `INSERT INTO recipesbook (user_id, title, image_url, persons, prep_time, rest_time, cook_time, ingredients, steps, source, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
     await pool.query(insertSTMT, values);
 }
+
+const editRecipeInDB = async (data) => {
+    const recipe = data.recipe;
+    const recipe_id = data.recipe.recipe_id;
+    const dateNow = Date.now();
+    
+    // Validate data before inserting
+    if (recipe.title === '') {
+        throw new Error ('Please provide a title')
+    }
+
+    if (recipe.persons === '') {
+        throw new Error ('Please provide a number of servings')
+    }
+
+    if (recipe.ingredients[0] === 'Add a first ingredient') {
+        throw new Error ('Please provide ingredients')
+    }
+
+    if (typeof recipe.ingredients !== 'object') {
+        throw new Error ('Please validate the ingredients input')
+    }
+
+    if (recipe.steps[0] === 'Add a first step') {
+        throw new Error ('Please provide steps')
+    }
+
+    if (typeof recipe.steps !== 'object') {
+        throw new Error ('Please validate the steps input')
+    }
+    
+    // Parameterized query with error handling
+    const updateSTMT = `
+    UPDATE recipesbook
+    SET title = $2,
+    image_url = $3,
+    persons = $4,
+    prep_time = $5,
+    cook_time = $6,
+    rest_time = $7,
+    ingredients = $8,
+    steps = $9,
+    source = $10,
+    created_at = $11
+    WHERE recipe_id = $1
+    `;
+
+    values = [recipe_id, recipe.title, recipe.image_url, recipe.persons, recipe.prep_time, recipe.rest_time, recipe.cook_time, recipe.ingredients, recipe.steps, recipe.source, dateNow]
+
+    // Execute the query with parameter
+    const result = await pool.query(updateSTMT, values);
+    };
 
 const deleteRecipe = async (data) => {
     
@@ -186,5 +245,6 @@ module.exports =  {
     scrapeRecipe,
     addRecipe,
     deleteRecipe,
-    userRecipes
+    userRecipes,
+    editRecipeInDB
 };

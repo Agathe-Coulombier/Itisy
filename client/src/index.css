@@ -1,4 +1,14 @@
 /* Use source code-like font for code elements */
+:root {
+  --main-bg-color: #f8f8f8;
+  --accent-color: #86654B;
+  --secondary-bg-color: #D1C8C1;
+  --hover-bg-color: #F6F4F3;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --text-color: #31241E;
+  --border-radius: 30px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
@@ -24,7 +34,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif; /* Set default font family with system fallbacks */
   -webkit-font-smoothing: antialiased; /* Improve font rendering on WebKit */
   -moz-osx-font-smoothing: grayscale; /* Improve font rendering on macOS */
-  color: #31241E; /* Set default text color */
+  color: var(--text-color); /* Set default text color */
   background-color: #F6F4F3; /* Set default background color */
 }
 
@@ -109,7 +119,7 @@ input:not(:focus) {
 
 /* Border color and thickness for input fields when focused */
 input:focus {
-  border: 2px solid #31241E; /* Border color and thickness when input is focused */
+  border: 2px solid var(--text-color); /* Border color and thickness when input is focused */
   outline: none; /* Remove default focus outline */
 }
 
@@ -117,7 +127,7 @@ input:focus {
 input, textarea {
   font-family: -apple-system, BlinkMacSystemFont, 'Montserrat', sans-serif;
   font-size: 1.1rem; /* Font size */
-  color: #31241E; /* Text color */
+  color: var(--text-color); /* Text color */
   text-align: justify; /* Text alignment */
   display: block; /* Display as block element */
   margin-bottom: 15px; /* Bottom margin */

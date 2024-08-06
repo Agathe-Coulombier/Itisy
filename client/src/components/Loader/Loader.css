@@ -3,7 +3,7 @@
     --s: 28px;
     height: var(--s);
     aspect-ratio: 2.5;
-    --_g: #31241E 90%,#0000;
+    --_g: var(--text-color) 90%,#0000;
     --_g0: no-repeat radial-gradient(farthest-side          ,var(--_g));
     --_g1: no-repeat radial-gradient(farthest-side at top   ,var(--_g));
     --_g2: no-repeat radial-gradient(farthest-side at bottom,var(--_g));

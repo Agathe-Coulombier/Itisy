@@ -32,6 +32,7 @@ const Dashboard = () => {
     const [selectedRecipeIndex, setSelectedRecipeIndex] = useState(0)
     // Callback function to handle data from the child
     const handleCardClick = (index, e) => {
+        console.log("clicked")
         setSelectedRecipeIndex(index);
     };
 

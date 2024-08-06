@@ -2,8 +2,8 @@ import React, { forwardRef } from "react"; // Import necessary modules from Reac
 import Login from "../authenticate/Login/Login"; // Import the Login component
 import Register from "../authenticate/Register/Register"; // Import the Register component
 import SendLink from "../authenticate/SendLink/SendLink"; // Import the SendLink component
-import ViewRecipe from "../recipes/viewRecipe.jsx";
-import AddRecipe from "../recipes/addRecipe.jsx";
+import RecipeContent from "../recipes/RecipeContent.jsx";
+import FetchRecipe from "../recipes/FetchRecipe.jsx";
 import {useModal} from "./modalConfig"
 import { CgClose } from "react-icons/cg";
 import "./Modal.css"; // Import local CSS file for styling
@@ -18,8 +18,8 @@ const Modal = forwardRef((props, ref) => { // Define Modal component using forwa
         "login": Login,
         "register": Register,
         "sendLink": SendLink,
-        "viewRecipe": ViewRecipe,
-        "addRecipe": AddRecipe,
+        "recipeContent": RecipeContent,
+        "fetchRecipe": FetchRecipe,
     };
     const SelectedForm = FormComponents[props.formType]; // Select the appropriate form component based on the formType prop
 

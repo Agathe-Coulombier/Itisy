@@ -23,6 +23,17 @@ const addRecipe = async (req, res) => {
     }
 };
 
+const editRecipe = async (req, res) => {
+    try {
+        await recipesService.editRecipeInDB(req.body);
+        res.status(200).json({ message: "Recipe edited successfully" });
+    } 
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const deleteRecipe = async (req, res) => {
     console.log("controller", req.query)
     try {
@@ -49,6 +60,7 @@ const userRecipes = async (req, res) => {
 module.exports = {
     scrapeRecipe,
     addRecipe,
+    editRecipe,
     deleteRecipe,
     userRecipes,
 };

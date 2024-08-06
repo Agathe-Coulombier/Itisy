@@ -1,0 +1,20 @@
+.recipe-container .scrapRecipe {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0 30px;
+}
+
+.recipe-container .scrapRecipe input {
+    flex: 7;
+}
+
+.recipe-container .scrapRecipe button {
+    flex: 3;
+}
+
+.modal-container .add-recipe-status,
+.modal-container .fetching-status {
+    display: flex;
+    color: darkred;
+    justify-content: right;
+}

@@ -1,38 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'; // Import necessary hooks and components
+import axios from "axios"; // Import axios for HTTP requests
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from "react-router-dom";
+import './RecipeContent.css'
 import { TbCooker } from "react-icons/tb";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { RiFridgeLine } from "react-icons/ri";
 import { TbBowlSpoon } from "react-icons/tb";
-import { PiUploadSimpleBold } from "react-icons/pi";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
-import Loader from '../Loader/Loader'
-import './addRecipe.css';
+import { PiUploadSimpleBold } from "react-icons/pi";
+import { BiEditAlt } from "react-icons/bi";
+import { GrValidate } from "react-icons/gr";
 
-const AddRecipe = (props) => {
-    const { t } = useTranslation(); // Translations
-    const navigate = useNavigate();
-    const [url, setUrl] = useState('');
-    const [newRecipe, setNewRecipe] = useState({
-        title: '',
-        imageUrl: 'https://redthread.uoregon.edu/files/original/affd16fd5264cab9197da4cd1a996f820e601ee4.png',
-        prepTime: '',
-        cookTime: '',
-        restTime: '',
-        persons: '',
-        ingredients: ['Add a first ingredient'],
-        steps: ['Add a first step'],
-        source: ''
+
+
+const RecipeContent = (props) => {
+
+    const [recipe, setRecipe] = useState(() => {
+        if (props.newRecipe){
+            return props.newRecipe
+        } else if (props.selectedRecipeIndex === 0) {
+            return {
+                title: '',
+                image_url: 'https://redthread.uoregon.edu/files/original/affd16fd5264cab9197da4cd1a996f820e601ee4.png',
+                prep_time: '',
+                cook_time: '',
+                rest_time: '',
+                persons: '',
+                ingredients: ['Add a first ingredient'],
+                steps: ['Add a first step'],
+                source: ''
+            };
+        } else if (props.selectedRecipeIndex >= 0 && props.userRecipes[props.selectedRecipeIndex]) {
+            return props.userRecipes[props.selectedRecipeIndex];
+        } else {
+            return {}; // Fallback state
+        }
     });
 
-    const [loading, setLoading] = useState(false);
-    const [addRecipeField, setAddRecipeField] = useState(false);
+    const { t } = useTranslation(); 
+    const navigate = useNavigate();
+    const [url, setUrl] = useState('');
     const [modifyList, setModifyList] = useState({ingredients:false, steps:false});
     const [originalValue, setOriginalValue] = useState({});
     const [message, setMessage] = useState([false, ' ', false, ' ']);
-
+    const [editRecipe, setEditRecipe] = useState(false)
+    
     const handleFocus = (e) => {
         // Store the original value when the input gains focus
         const { name, value } = e.target;
@@ -42,49 +55,9 @@ const AddRecipe = (props) => {
         }));
     };
 
-    // Handle url field modifications
-    const handleUrlChange = (e) => {
-        setUrl(e.target.value);
-    };
-
-    // Fetch the recipe based on the url pasted by the user
-    const handleFetchRecipe = async () => {
-        try {
-            setLoading(true);
-            setAddRecipeField(false);
-            setMessage([false, '']);
-            const response = await axios.get("http://localhost:4000/recipes/scrap", { params: { url } } );
-            setNewRecipe(response.data.newRecipe);
-            setModifyList({ingredients:false, steps:false});
-            setLoading(false);
-            setAddRecipeField(true);
-            setMessage([true, "Your recipe is scraped! You can modify it at your convenience before adding it to your cookbook.", false, ''])
-            document.getElementById("fetching-status").style.color = "darkgreen";
-        } catch (error) {
-            setLoading(false);
-            console.error('Error fetching newRecipe:', error.response.data.message);
-            setMessage([true, error.response.data.message, false, ' ']);
-        }
-    };
-
-    // Add recipe to user cookbook
-    const handleAddRecipe = async (e) => {
-        e.stopPropagation();
-        try {
-            await axios.post('http://localhost:4000/recipes/addRecipe', {
-                newRecipe: newRecipe, 
-                user_id: props.user.id
-            });
-            props.closeModal();
-            props.fetchUserRecipes();
-        } catch (error) {
-            console.error('Error submitting newRecipe:', error)
-            setMessage([false, ' ', true, error.response.data.message]);
-        }
-    };
-
     // Automatically adjust the height of text areas
     function adjustHeight(e, textarea) {
+
         console.log(e.target.scrollHeight)
         if (textarea){
             textarea.style.height = 'auto';
@@ -95,11 +68,12 @@ const AddRecipe = (props) => {
         }
     };
 
+
     // Handle input field modifications
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewRecipe({
-            ...newRecipe,
+        setRecipe({
+            ...recipe,
             [name]: value
         });
         adjustHeight(e);
@@ -115,7 +89,7 @@ const AddRecipe = (props) => {
         }} else if (e.key === 'Escape') {
         // Revert to original value on Escape key press
         const { name } = e.target;
-        setNewRecipe((prev) => ({
+        setRecipe((prev) => ({
             ...prev,
             [name]: originalValue[name] || '',
         }));
@@ -127,8 +101,8 @@ const AddRecipe = (props) => {
     const accessList = (eltType, e) => {
 
         // Turning the list of elements into a unique string made of one line per element
-        if (newRecipe[eltType].length > 0 && !modifyList[eltType]){
-            newRecipe[eltType] = newRecipe[eltType].join('\n');
+        if (recipe[eltType].length > 0 && !modifyList[eltType]){
+            recipe[eltType] = recipe[eltType].join('\n');
         }
 
         // Allow modifications by the user
@@ -153,8 +127,8 @@ const AddRecipe = (props) => {
         }, 0);
 
         // Make the input empty if nothing added yet
-        if (newRecipe[eltType] ==='Add a first ingredient' || newRecipe[eltType] === 'Add a first step') {
-            newRecipe[eltType] = '';
+        if (recipe[eltType] ==='Add a first ingredient' || recipe[eltType] === 'Add a first step') {
+            recipe[eltType] = '';
         }
     };
 
@@ -163,16 +137,16 @@ const AddRecipe = (props) => {
         event.preventDefault();
 
         // Turning the string into a list of items
-        if (newRecipe[eltType].length > 0 && modifyList[eltType]){
-            newRecipe[eltType] = newRecipe[eltType].split('\n');
-            console.log(newRecipe[eltType].type)
+        if (recipe[eltType].length > 0 && modifyList[eltType]){
+            recipe[eltType] = recipe[eltType].split('\n');
+            console.log(recipe[eltType].type)
 
         // If nothing written by user, putting back the default values
         } else {
             if (eltType==='ingredients'){
-                newRecipe[eltType] = ['Add a first ingredient'];
+                recipe[eltType] = ['Add a first ingredient'];
                 } else if (eltType==='steps') {
-                    newRecipe[eltType] = ['Add a first step'];
+                    recipe[eltType] = ['Add a first step'];
                 }};
 
         // Quitting the editing mode
@@ -187,12 +161,12 @@ const AddRecipe = (props) => {
     // Plotting list items
     const renderList = (eltType) => {
         
-        if (newRecipe[eltType].length > 1){
-            return newRecipe[eltType].map((elt, index) => (
+        if (recipe[eltType].length > 1){
+            return recipe[eltType].map((elt, index) => (
                 <li key={index}>{elt}</li>
             ));
         } else{
-            return <li> {newRecipe[eltType]}</li>
+            return <li> {recipe[eltType]}</li>
         }
     };
 
@@ -207,71 +181,68 @@ const AddRecipe = (props) => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-            setNewRecipe({
-                ...newRecipe,
-                ['imageUrl']: reader.result
+            setRecipe({
+                ...recipe,
+                ['image_url']: reader.result
             });
             };
         reader.readAsDataURL(file); 
         }};
 
+        
+    // Edit recipe in user cookbook
+    const confirmRecipeEdition = async () => {
+        try {
+            console.log("youhou")
+            await axios.put('http://localhost:4000/recipes/editRecipe', {
+                recipe: recipe, 
+                user_id: props.user.id,
+                recipe_id: props.selectedRecipeIndex
+            });
+            setEditRecipe(false);
+        } catch (error) {
+            console.error('Error submitting newRecipe:', error)
+            setMessage([false, ' ', true, error.response.data.message]);
+        }
+    };
+
+    // Render JSX
     return (
-        <div className="add-newRecipe modal-content">
-            <h3>{t("Add a recipe to your cook book")}</h3>
-            <br/>
-            <form onSubmit={handleAddRecipe} onKeyDown={handleKeyPress} onFocus={handleFocus}>
-                <div className="scrapRecipe">
-                    <input type="text" value={url} placeholder={t("Start by pasting the URL address of the recipe you spotted")} onChange={handleUrlChange} />
-                    <button type="button" className="secondary" onClick={handleFetchRecipe}>{t("Fetch Recipe")}</button>
-                </div>
-                {!addRecipeField && !loading ? 
-                <p>
-                    {t("Do you want to start from scratch? ")}
-                    <a style={{cursor:"pointer"}} onClick={() => setAddRecipeField(true)}>{t("Click here")}</a>
-                </p>:
-                <p>{t(" ")}</p>
-                }
-                
-                {loading &&
-                <div className="loader-container">
-                    <p>Your recipe content is loading, this may take a few minutes ...</p>
-                    <Loader />
-                    
-                </div>
-                }
-                <p className="fetching-status" id="fetching-status">{message[0] && t(message[1])}</p>
-                {addRecipeField &&
+        <div className={editRecipe ? "recipe-container recipe-edit" : "recipe-container" }>
+            {!editRecipe ? < BiEditAlt className="edit-recipe-icon" onClick={() => setEditRecipe(true)}/> : <GrValidate className="edit-recipe-icon" style={{fontSize:"2rem"}} onClick={confirmRecipeEdition}/>}
+            <form onKeyDown={handleKeyPress} onFocus={handleFocus}>
                     <div className="recipe-content">
                         <div className="left-column">
                             <div className="recipe-header">
-                                <textarea type="text" id="recipe-title-addRecipeForm" className="recipe-title" name="title" placeholder={t("add a title")} value={newRecipe.title} onChange={handleInputChange} />
+                                <textarea rows="4" readOnly={!editRecipe} type="text" id="recipe-title-addRecipeForm " className="recipe-title" name="title" placeholder={t("add a title")} value={recipe.title} onChange={handleInputChange} />
                                 <div className="recipe-meta">
-                                    <span className="meta-item">
+                                    <span className="meta-item " style={{ display: editRecipe ? "flex" : !(recipe.persons==='' || recipe.persons ==='-') ? "flex" : "none" }}>
                                         <HiOutlineUserGroup className="recipe-item-logo" />
-                                        <input type="text" name="persons" placeholder={t("Servings")} value={newRecipe.persons} onChange={handleInputChange} />
+                                        <input readOnly={!editRecipe} type="text" name="persons" placeholder={t("Servings")} value={recipe.persons} onChange={handleInputChange} />
                                     </span>
-                                    <span className="meta-item">
+                                    <span className="meta-item " style={{ display: editRecipe ? "flex" : !(recipe.prep_time==='' || recipe.prep_time ==='-') ? "flex" : "none" }}>
                                         <TbBowlSpoon className="recipe-item-logo" />
-                                        <input type="text" name="prepTime" placeholder={t("Preparation time")} value={newRecipe.prepTime} onChange={handleInputChange} />
+                                        <input readOnly={!editRecipe} type="text" name="prep_time" placeholder={t("Preparation time")} value={recipe.prep_time} onChange={handleInputChange} />
                                     </span>
-                                    <span className="meta-item">
+                                    <span className="meta-item " style={{ display: editRecipe ? "flex" : !(recipe.cook_time==='' || recipe.cook_time ==='-') ? "flex" : "none" }}>
                                         <TbCooker className="recipe-item-logo" />
-                                        <input type="text" name="cookTime" placeholder={t("Cooking time")} value={newRecipe.cookTime} onChange={handleInputChange} />
+                                        <input readOnly={!editRecipe} type="text" name="cook_time" placeholder={t("Cooking time")} value={recipe.cook_time} onChange={handleInputChange} />
                                     </span>
-                                    <span className="meta-item">
+                                    <span className="meta-item " style={{ display: editRecipe ? "flex" : !(recipe.rest_time==='' || recipe.rest_time ==='-') ? "flex" : "none" }}>
                                         <RiFridgeLine className="recipe-item-logo" />
-                                        <input type="text" name="restTime" placeholder={t("Resting time")} value={newRecipe.restTime} onChange={handleInputChange} />
+                                        <input readOnly={!editRecipe} type="text" name="rest_time" placeholder={t("Resting time")} value={recipe.rest_time} onChange={handleInputChange} />
                                     </span>
                                 </div>
                             </div>
                             
-                            <div className='recipe-image-container' onClick={handleImageClick} style={{cursor : 'pointer'}}>
+                            <div className='recipe-image-container ' onClick={editRecipe ? handleImageClick : ()=> {}}>
                                 <img 
-                                    src={newRecipe.imageUrl} 
-                                    alt={newRecipe.title}
+                                    src={recipe.image_url} 
+                                    alt={recipe.title}
                                     className="recipe-image" 
                                 />
                                 <input
+                                    readOnly={!editRecipe}
                                     type="file"
                                     name="imageInput" 
                                     id="imageInput"
@@ -279,22 +250,25 @@ const AddRecipe = (props) => {
                                     accept="image/"
                                     onChange= {handleImageChange}
                                     />
-                                <div className="recipe-image-overlay">
-                                    <PiUploadSimpleBold className="recipe-item-modify"/>
-                                    <p>Upload a recipe cover</p>
-                                </div>
+                                {editRecipe &&
+                                    <div className="recipe-image-overlay">
+                                        <PiUploadSimpleBold className="recipe-item-modify"/>
+                                        <p>Upload a recipe cover</p>
+                                    </div>
+                                }
                             </div>
-                            <input className="recipe-source" type="text" name="source" placeholder={t("www.Recipe-Source.com")} value={newRecipe.source} onChange={handleInputChange} />
+                            <input readOnly={!editRecipe} className="recipe-source" type="text" name="source" placeholder={t("www.Recipe-Source.com")} value={recipe.source} onChange={handleInputChange} />
                         </div>
                         <div className="right-column">
                             <h2>{t("Ingredients")}</h2>
-                            <div className="recipe-ingredients" onClick={(e) => accessList('ingredients', e)}>
+                            <div className="recipe-ingredients " onClick={(e) => editRecipe && accessList('ingredients', e)}>
                                 {modifyList["ingredients"] ?
                                 <div>
                                     <textarea
+                                        readOnly={!editRecipe}
                                         name="ingredients"
                                         placeholder={t("Add a first ingredient")}
-                                        value={newRecipe.ingredients}
+                                        value={recipe.ingredients}
                                         onChange={handleInputChange}
                                         rows="5"
                                     ></textarea>
@@ -307,13 +281,14 @@ const AddRecipe = (props) => {
                                 }
                             </div>
                                 <h2>{t("Steps")}</h2>
-                                <div className="recipe-steps" onClick={(e) => accessList('steps', e)}>
+                                <div className="recipe-steps " onClick={(e) => editRecipe && accessList('steps', e)}>
                                 {modifyList["steps"] ?
                                 <div>
                                     <textarea
+                                        readOnly={!editRecipe}
                                         name="steps"
                                         placeholder={t("Add a first step")}
-                                        value={newRecipe.steps}
+                                        value={recipe.steps}
                                         onChange={handleInputChange}
                                         rows="5"
                                     ></textarea>
@@ -325,16 +300,16 @@ const AddRecipe = (props) => {
                                 </ul>
                                 }
                             </div>
-                            <button className="primary" type="submit">{t("Add to my recipes")}</button>
-                            <p className="add-recipe-status">{message[2] && t(message[3])}</p>
+                            
+                            
                         </div>
                     
                     </div>
-                }
+                
                 
             </form>
         </div>
     );
 };
 
-export default AddRecipe;
+export default RecipeContent; 

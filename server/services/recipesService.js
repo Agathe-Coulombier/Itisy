@@ -6,6 +6,8 @@ const pool = require("../databases/database");
 const { get } = require('../routes/recipesRoutes');
 const scrapMethods = require('../config/scrapMethods');
 const { editRecipe } = require('../controllers/recipesController');
+const multer = require('multer');
+const path = require('path');
 
 // Use the stealth plugin to evade detection
 // puppeteer.use(StealthPlugin());
@@ -183,6 +185,10 @@ const editRecipeInDB = async (data) => {
         throw new Error ('Please provide a number of servings')
     }
 
+    if (typeof(recipe.persons) !== 'number') {
+        recipe.persons = scrapMethods.extractNumbers(recipe.persons);
+    }
+
     if (recipe.ingredients[0] === 'Add a first ingredient') {
         throw new Error ('Please provide ingredients')
     }
@@ -239,6 +245,33 @@ const userRecipes = async (data) => {
     return res.rows;
 }
 
+let imageName = "";
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, "../image"), // Adjust the path as needed
+    filename: function (req, file, cb) {
+        imageName = Date.now() + path.extname(file.originalname);
+        cb(null, imageName);
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 3000000 },
+}).single("myImage");
+
+const uploadImage = (req, res) => {
+    return new Promise((resolve, reject) => {
+        upload(req, res, (err) => {
+            if (err) {
+                return reject(err);
+            }
+            console.log("Image uploaded successfully. Image name:", imageName); // Debug logging
+            resolve({
+                url: "http://localhost:4000/image/" + imageName
+            });
+        });
+    });
+};
 
 
 module.exports =  {
@@ -246,5 +279,6 @@ module.exports =  {
     addRecipe,
     deleteRecipe,
     userRecipes,
-    editRecipeInDB
+    editRecipeInDB,
+    uploadImage
 };

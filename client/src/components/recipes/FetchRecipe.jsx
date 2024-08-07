@@ -32,7 +32,7 @@ const FetchRecipe = (props) => {
     const [addRecipeField, setAddRecipeField] = useState(false);
     const [modifyList, setModifyList] = useState({ingredients:false, steps:false});
     const [originalValue, setOriginalValue] = useState({});
-    const [message, setMessage] = useState([false, ' ', false, ' ']);
+    const [message, setMessage] = useState([false, ' ', false, 'Add recipe']);
 
     // Handle url field modifications
     const handleUrlChange = (e) => {
@@ -50,7 +50,8 @@ const FetchRecipe = (props) => {
             setModifyList({ingredients:false, steps:false});
             setLoading(false);
             setAddRecipeField(true);
-            setMessage([true, "Your recipe is scraped! You can modify it at your convenience before adding it to your cookbook.", false, ''])
+            props.setEditRecipe(true);
+            setMessage([true, "Your recipe is scraped! Modify info if needed, then validate it.", false, ''])
             document.getElementById("fetching-status").style.color = "darkgreen";
             console.log(newRecipe)
         } catch (error) {
@@ -61,15 +62,14 @@ const FetchRecipe = (props) => {
     };
 
     // Add recipe to user cookbook
-    const handleAddRecipe = async (e) => {
+    const handleAddRecipe = async (e, newRecipe) => {
         e.stopPropagation();
         try {
-            console.log("add")
+            console.log('add', newRecipe)
             await axios.post('http://localhost:4000/recipes/addRecipe', {
                 newRecipe: newRecipe, 
                 user_id: props.user.id
             });
-            console.log("addRecipe", newRecipe)
             props.closeModal();
             props.fetchUserRecipes();
         } catch (error) {
@@ -78,17 +78,34 @@ const FetchRecipe = (props) => {
         }
     };
 
+
     return (
         <div className="add-newRecipe modal-content">
             <h3>{t("Add a recipe to your cook book")}</h3>
             <br/>
-            <form onSubmit={handleAddRecipe}>
-                <div className="scrapRecipe">
-                    <input type="text" value={url} placeholder={t("Start by pasting the URL address of the recipe you spotted")} onChange={handleUrlChange} />
-                    <button type="button" className="secondary" onClick={handleFetchRecipe}>{t("Fetch Recipe")}</button>
-                </div>
+            <form 
+                onSubmit={handleFetchRecipe}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleFetchRecipe();
+                    }
+                }}>
+                <div>
+                    {addRecipeField ? 
+                        <p className="fetch-a-recipe">
+                        {t("Do you want to fetch a recipe? ")}
+                        <a style={{cursor:"pointer"}} onClick={() => setAddRecipeField(false)}>{t("Click here")}</a>
+                        </p>
+                        :
+                        <div className="scrapRecipe">
+                            <input type="text" value={url} placeholder={t("Start by pasting the URL address of the recipe you spotted")} onChange={handleUrlChange} />
+                            <button type="button" className="secondary" onClick={handleFetchRecipe}>{t("Fetch Recipe")}</button>
+                        </div>
+                    }
+                                    </div>
                 {!addRecipeField && !loading ? 
-                <p>
+                <p className="start-from-scratch">
                     {t("Do you want to start from scratch? ")}
                     <a style={{cursor:"pointer"}} onClick={() => setAddRecipeField(true)}>{t("Click here")}</a>
                 </p>:
@@ -106,9 +123,7 @@ const FetchRecipe = (props) => {
                 <p className="fetching-status" id="fetching-status">{message[0] && t(message[1])}</p>
                 {addRecipeField && 
                 <div>
-                <button className="primary" type="submit" onClick={handleAddRecipe}>{t("Add to my recipes")}</button>
-                <p className="add-recipe-status">{message[2] && t(message[3])}</p>
-                < RecipeContent newRecipe={newRecipe} userRecipes={props.userRecipes} selectedRecipeIndex={props.selectedRecipeIndex} />
+                < RecipeContent mode={'add'} message={[message[2], message[3]]} handleAddRecipe={handleAddRecipe} editRecipe={props.editRecipe} setEditRecipe={props.setEditRecipe} newRecipe={newRecipe} userRecipes={props.userRecipes} selectedRecipeIndex={props.selectedRecipeIndex} />
                 </div>
                 }
         </div>

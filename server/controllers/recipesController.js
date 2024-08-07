@@ -57,10 +57,22 @@ const userRecipes = async (req, res) => {
     }
 };
 
+const uploadImage = async (req, res) => {
+    try {
+        const result = await recipesService.uploadImage(req, res);
+        console.log("Upload result:", result); // Debug logging
+        res.status(200).json(result);
+    } catch (error) {
+        console.error("Error in uploadImage controller:", error); // Debug logging
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     scrapeRecipe,
     addRecipe,
     editRecipe,
     deleteRecipe,
     userRecipes,
+    uploadImage
 };

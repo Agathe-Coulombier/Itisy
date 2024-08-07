@@ -1,6 +1,6 @@
 .recipesBoard{
     margin: 0 10%;
-    text-align: center;
+    text-align: left;
 }
 
 .recipesBoard h1 {
@@ -60,4 +60,16 @@
 
 .recipe-card button:hover {
     background-color: #444;
+}
+
+@media only screen and (max-width: 768px) {
+    .recipe-list {
+        gap:2%;
+    }
+
+    .recipesBoard h1{
+        font-size: 1.5rem;
+    }
+
+    
 }

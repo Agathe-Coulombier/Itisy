@@ -65,8 +65,8 @@ const RecipeCard = (props) => {
                             </p>}
                     </div>
                     <div className='recipe-actions'>
-                        <FaRegEye className='recipe-actions-icon' onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e)}}/>
-                        <BiEditAlt className='recipe-actions-icon'/>
+                        <FaRegEye className='recipe-actions-icon' onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e) ; props.setEditRecipe(false)}}/>
+                        <BiEditAlt className='recipe-actions-icon' onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e) ; props.setEditRecipe(true)}}/>
                         <MdOutlineLocalPrintshop className='recipe-actions-icon'/>
                         <AiOutlineDelete className='recipe-actions-icon' onClick={(e) => handleDeleteRecipe(e)}/>
                     </div>

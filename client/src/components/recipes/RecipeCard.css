@@ -105,3 +105,14 @@
     transform: scale(1.5); /* Increase size on hover */
     color: var(--text-color); /* Change color to green on hover */
 }
+
+@media only screen and (max-width: 768px) {
+    .recipe-card{
+        width:42.95%;
+        height:30vh;
+    }
+
+    .recipe-card .recipe-title{
+        font-size:1.05rem;
+    }
+}

@@ -11,6 +11,7 @@ import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import { PiUploadSimpleBold } from "react-icons/pi";
 import { BiEditAlt } from "react-icons/bi";
 import { GrValidate } from "react-icons/gr";
+import { MdOutlineLocalPrintshop } from "react-icons/md";
 
 
 
@@ -43,9 +44,9 @@ const RecipeContent = (props) => {
     const [url, setUrl] = useState('');
     const [modifyList, setModifyList] = useState({ingredients:false, steps:false});
     const [originalValue, setOriginalValue] = useState({});
-    const [message, setMessage] = useState([false, ' ', false, ' ']);
-    const [editRecipe, setEditRecipe] = useState(false)
-    
+    const [message, setMessage] = useState([false, ' ']);
+
+    console.log(props);
     const handleFocus = (e) => {
         // Store the original value when the input gains focus
         const { name, value } = e.target;
@@ -155,12 +156,14 @@ const RecipeContent = (props) => {
                 ...prevState,
                 [eltType]: false
             }));
+
         }, 100);
+
     }
 
     // Plotting list items
     const renderList = (eltType) => {
-        
+
         if (recipe[eltType].length > 1){
             return recipe[eltType].map((elt, index) => (
                 <li key={index}>{elt}</li>
@@ -175,74 +178,91 @@ const RecipeContent = (props) => {
         document.getElementById('imageInput').click(); 
         };
 
-    // Upload an image for the recipe
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-            setRecipe({
-                ...recipe,
-                ['image_url']: reader.result
+
+const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('myImage', file); // Ensure the key matches your backend
+
+        try {
+            const response = await axios.post('http://localhost:4000/recipes/upload-image', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
-            };
-        reader.readAsDataURL(file); 
-        }};
+
+            setRecipe((prevRecipe) => ({
+                ...prevRecipe,
+                image_url: response.data.url // Accessing the response data directly
+            }));
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+    }
+};
+
 
         
     // Edit recipe in user cookbook
-    const confirmRecipeEdition = async () => {
-        try {
-            console.log("youhou")
-            await axios.put('http://localhost:4000/recipes/editRecipe', {
-                recipe: recipe, 
-                user_id: props.user.id,
-                recipe_id: props.selectedRecipeIndex
-            });
-            setEditRecipe(false);
-        } catch (error) {
-            console.error('Error submitting newRecipe:', error)
-            setMessage([false, ' ', true, error.response.data.message]);
+    const confirmRecipeEdition = async (e) => {
+
+        if (props.mode==="view-edit") {
+            console.log('edit')
+            try {
+                await axios.put('http://localhost:4000/recipes/editRecipe', {
+                    recipe: recipe, 
+                    user_id: props.user.id,
+                    recipe_id: props.selectedRecipeIndex
+                }, { withCredentials: true });
+                props.setEditRecipe(false);
+            } catch (error) {
+                console.error('Error submitting newRecipe:', error)
+                console.log("erreur", error.response.data.message)
+                setMessage([true, error.response.data.message]);
+            }
+        } else { 
+            props.handleAddRecipe(e, recipe)
         }
+
     };
 
     // Render JSX
     return (
-        <div className={editRecipe ? "recipe-container recipe-edit" : "recipe-container" }>
-            {!editRecipe ? < BiEditAlt className="edit-recipe-icon" onClick={() => setEditRecipe(true)}/> : <GrValidate className="edit-recipe-icon" style={{fontSize:"2rem"}} onClick={confirmRecipeEdition}/>}
+        <div className={props.editRecipe ? "recipe-container recipe-edit" : "recipe-container" }>
             <form onKeyDown={handleKeyPress} onFocus={handleFocus}>
                     <div className="recipe-content">
                         <div className="left-column">
                             <div className="recipe-header">
-                                <textarea rows="4" readOnly={!editRecipe} type="text" id="recipe-title-addRecipeForm " className="recipe-title" name="title" placeholder={t("add a title")} value={recipe.title} onChange={handleInputChange} />
+                                <textarea rows="4" readOnly={!props.editRecipe} type="text" id="recipe-title-addRecipeForm " className="recipe-title" name="title" placeholder={t("add a title")} value={recipe.title} onChange={handleInputChange} />
                                 <div className="recipe-meta">
-                                    <span className="meta-item " style={{ display: editRecipe ? "flex" : !(recipe.persons==='' || recipe.persons ==='-') ? "flex" : "none" }}>
+                                    <span className="meta-item " style={{ display: props.editRecipe ? "flex" : !(recipe.persons==='' || recipe.persons ==='-') ? "flex" : "none" }}>
                                         <HiOutlineUserGroup className="recipe-item-logo" />
-                                        <input readOnly={!editRecipe} type="text" name="persons" placeholder={t("Servings")} value={recipe.persons} onChange={handleInputChange} />
+                                        <input readOnly={!props.editRecipe} type="number" name="persons" placeholder={t("Servings")} value={recipe.persons} onChange={handleInputChange} />
                                     </span>
-                                    <span className="meta-item " style={{ display: editRecipe ? "flex" : !(recipe.prep_time==='' || recipe.prep_time ==='-') ? "flex" : "none" }}>
+                                    <span className="meta-item " style={{ display: props.editRecipe ? "flex" : !(recipe.prep_time==='' || recipe.prep_time ==='-') ? "flex" : "none" }}>
                                         <TbBowlSpoon className="recipe-item-logo" />
-                                        <input readOnly={!editRecipe} type="text" name="prep_time" placeholder={t("Preparation time")} value={recipe.prep_time} onChange={handleInputChange} />
+                                        <input readOnly={!props.editRecipe} type="text" name="prep_time" placeholder={t("Preparation time")} value={recipe.prep_time} onChange={handleInputChange} />
                                     </span>
-                                    <span className="meta-item " style={{ display: editRecipe ? "flex" : !(recipe.cook_time==='' || recipe.cook_time ==='-') ? "flex" : "none" }}>
+                                    <span className="meta-item " style={{ display: props.editRecipe ? "flex" : !(recipe.cook_time==='' || recipe.cook_time ==='-') ? "flex" : "none" }}>
                                         <TbCooker className="recipe-item-logo" />
-                                        <input readOnly={!editRecipe} type="text" name="cook_time" placeholder={t("Cooking time")} value={recipe.cook_time} onChange={handleInputChange} />
+                                        <input readOnly={!props.editRecipe} type="text" name="cook_time" placeholder={t("Cooking time")} value={recipe.cook_time} onChange={handleInputChange} />
                                     </span>
-                                    <span className="meta-item " style={{ display: editRecipe ? "flex" : !(recipe.rest_time==='' || recipe.rest_time ==='-') ? "flex" : "none" }}>
+                                    <span className="meta-item " style={{ display: props.editRecipe ? "flex" : !(recipe.rest_time==='' || recipe.rest_time ==='-') ? "flex" : "none" }}>
                                         <RiFridgeLine className="recipe-item-logo" />
-                                        <input readOnly={!editRecipe} type="text" name="rest_time" placeholder={t("Resting time")} value={recipe.rest_time} onChange={handleInputChange} />
+                                        <input readOnly={!props.editRecipe} type="text" name="rest_time" placeholder={t("Resting time")} value={recipe.rest_time} onChange={handleInputChange} />
                                     </span>
                                 </div>
                             </div>
                             
-                            <div className='recipe-image-container ' onClick={editRecipe ? handleImageClick : ()=> {}}>
+                            <div className='recipe-image-container ' onClick={props.editRecipe ? handleImageClick : ()=> {}}>
                                 <img 
                                     src={recipe.image_url} 
                                     alt={recipe.title}
                                     className="recipe-image" 
                                 />
                                 <input
-                                    readOnly={!editRecipe}
+                                    readOnly={!props.editRecipe}
                                     type="file"
                                     name="imageInput" 
                                     id="imageInput"
@@ -250,22 +270,34 @@ const RecipeContent = (props) => {
                                     accept="image/"
                                     onChange= {handleImageChange}
                                     />
-                                {editRecipe &&
+                                {props.editRecipe &&
                                     <div className="recipe-image-overlay">
                                         <PiUploadSimpleBold className="recipe-item-modify"/>
                                         <p>Upload a recipe cover</p>
                                     </div>
                                 }
                             </div>
-                            <input readOnly={!editRecipe} className="recipe-source" type="text" name="source" placeholder={t("www.Recipe-Source.com")} value={recipe.source} onChange={handleInputChange} />
+                            <input readOnly={!props.editRecipe} className="recipe-source" type="text" name="source" placeholder={t("www.Recipe-Source.com")} value={recipe.source} onChange={handleInputChange} />
                         </div>
                         <div className="right-column">
+                            {!props.editRecipe ? 
+                            < BiEditAlt className="edit-recipe-icon" onClick={() => {props.setEditRecipe(true) ; setMessage([false, ' '])}}/>
+                            : 
+                            <div>
+                                <GrValidate className="edit-recipe-icon" style={{fontSize:"2rem"}} onClick={(e) => confirmRecipeEdition(e)}/>
+                                <p className="edit-recipe-status">
+                                    {props.mode==='view-edit' ?
+                                    message[0] && t(message[1]) :
+                                    props.message[0] && props.message[1] }
+                                </p>
+                            </div>}
+                            {!props.editRecipe ? < MdOutlineLocalPrintshop className="print-recipe-icon"/> : null}
                             <h2>{t("Ingredients")}</h2>
-                            <div className="recipe-ingredients " onClick={(e) => editRecipe && accessList('ingredients', e)}>
+                            <div className="recipe-ingredients " onClick={(e) => props.editRecipe && accessList('ingredients', e)}>
                                 {modifyList["ingredients"] ?
                                 <div>
                                     <textarea
-                                        readOnly={!editRecipe}
+                                        readOnly={!props.editRecipe}
                                         name="ingredients"
                                         placeholder={t("Add a first ingredient")}
                                         value={recipe.ingredients}
@@ -281,11 +313,11 @@ const RecipeContent = (props) => {
                                 }
                             </div>
                                 <h2>{t("Steps")}</h2>
-                                <div className="recipe-steps " onClick={(e) => editRecipe && accessList('steps', e)}>
+                                <div className="recipe-steps " onClick={(e) => props.editRecipe && accessList('steps', e)}>
                                 {modifyList["steps"] ?
                                 <div>
                                     <textarea
-                                        readOnly={!editRecipe}
+                                        readOnly={!props.editRecipe}
                                         name="steps"
                                         placeholder={t("Add a first step")}
                                         value={recipe.steps}

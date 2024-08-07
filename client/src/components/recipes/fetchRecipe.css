@@ -1,20 +1,37 @@
-.recipe-container .scrapRecipe {
+.add-newRecipe .scrapRecipe {
     display: flex;
     gap: 15px;
-    margin: 10px 0 30px;
+    margin: 10px 0 10px;
 }
 
-.recipe-container .scrapRecipe input {
+.add-newRecipe .scrapRecipe input {
     flex: 7;
+    margin:0;
+    padding: 0 30px;
+    border-radius: 30px;
 }
 
-.recipe-container .scrapRecipe button {
+.add-newRecipe .scrapRecipe button {
     flex: 3;
+    border-radius: 30px;
+}
+
+.add-newRecipe .start-from-scratch,
+.add-newRecipe .fetch-a-recipe {
+    padding-left:30px;
+    margin-bottom:10px;
+}
+
+.add-newRecipe .primary{
+    border-radius:30px;
 }
 
 .modal-container .add-recipe-status,
 .modal-container .fetching-status {
     display: flex;
     color: darkred;
+    padding-right:30px;
+    padding-bottom:10px;
     justify-content: right;
 }
+

@@ -38,6 +38,8 @@ const Dashboard = () => {
 
     const [loading, setLoading] = useState(true);
 
+    const [editRecipe, setEditRecipe] = useState(false)
+    
 
     const fetchUserRecipes = async () => {
         try {
@@ -77,21 +79,22 @@ const Dashboard = () => {
 
     // Define the buttons to display in the NavBar
     const buttonItems = [
-        { id: "register", className: "register", label: "Register" },
-        { id: "logout", className: "logout", label: "Logout" },
-        { id: "contact", className: "contact", label: "Contact" }
+        { id: "planner", className: "planner", label: "Planner" },
+        { id: "userProfile", className: "user-profile", label: "Me" },
+        { id: "logout", className: "logout", label: "Logout" }
     ];
 
     // Render JSX
     return (
         <div id="main">
             <NavBar toggleClick={logoutClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
-            {showModal && <ProtectedRoute><Modal ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} user={user} selectedRecipeIndex={selectedRecipeIndex} fetchUserRecipes={fetchUserRecipes}/></ProtectedRoute>}
+            {showModal && <ProtectedRoute><Modal editRecipe={editRecipe} setEditRecipe={setEditRecipe} ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} user={user} selectedRecipeIndex={selectedRecipeIndex} fetchUserRecipes={fetchUserRecipes}/></ProtectedRoute>}
 
                 <div className="main_content" id="contentBody">
                     <div className="recipesBoard">
                         <h1>My recipes</h1>
-                            {loading ? <div className="loader-container"> < Loader/> </div> : <RecipeList userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user} fetchUserRecipes={fetchUserRecipes}/>}
+                        < hr />
+                            {loading ? <div className="loader-container"> < Loader/> </div> : <RecipeList editRecipe={editRecipe} setEditRecipe={setEditRecipe} userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user} fetchUserRecipes={fetchUserRecipes}/>}
                         </div>
                 </div>
 

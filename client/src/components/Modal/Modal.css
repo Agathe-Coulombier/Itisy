@@ -118,3 +118,12 @@ body.modal-open {
 .modal-container p {
     margin: 0; /* Remove margin */
 }
+
+
+@media only screen and (max-width: 768px) {
+
+    .modal-container{
+        width:95%;
+    }
+
+}

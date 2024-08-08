@@ -123,6 +123,7 @@ body.modal-open {
 @media only screen and (max-width: 768px) {
 
     .modal-container{
+        top:40px;
         width:95%;
     }
 

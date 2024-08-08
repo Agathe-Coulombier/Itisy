@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'; // Import necessary hooks and components
 import { useTranslation } from 'react-i18next';
-import i18n from '../../../i18n';
 import NavBar from '../../NavBar/Navbar'; // Import Navbar component
 import Modal from '../../Modal/Modal'; // Import Modal component
 import { useModal } from '../../Modal/modalConfig';
@@ -8,13 +7,9 @@ import Footer from '../../Footer/Footer'; // Import Footer component
 import "./Homepage.css"; // Import CSS for Homepage styling
 
 
-const HomePage = () => {
+const HomePage = (props) => {
 
     const { t } = useTranslation();
-
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
-    }
 
     // State variables to manage modal visibility and form type
     const {
@@ -38,7 +33,7 @@ const HomePage = () => {
     // Render JSX
     return (
         <div id="main">
-            <NavBar changeLanguage={changeLanguage} toggleClick={toggleClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
+            <NavBar toggleClick={toggleClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
             
             <div className="main_content">
                 {showModal && <Modal ref={modalRef} user={user} setUser={setUser} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} />} {/* Render Modal component conditionally based on showModal state */}

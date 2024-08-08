@@ -7,9 +7,8 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { ProtectedRoute } from "./hooks/protectedRoute.jsx";
 import { AuthProvider } from "./hooks/authContext.jsx";
 
-
-
 function App() {
+
   return (
     <Router>
       <AuthProvider>
@@ -30,7 +29,7 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Dashboard  />
               </ProtectedRoute>
             }
           />

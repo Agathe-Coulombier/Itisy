@@ -1,8 +1,11 @@
 import React from 'react';
 import "./Footer.css";
+import { useTranslation } from 'react-i18next';
 // import logoTab from "../../../public/Images/logoTab.png"
 
 const Footer = (props) => {
+    const { t } = useTranslation();
+
     return (
         <footer id="footer">
             <hr />
@@ -21,25 +24,25 @@ const Footer = (props) => {
                             <p>Saint-Brieuc, Bretagne, France.</p>
                         </li>
                         <li>
-                            <a href="mailto:agathe.coulombier@gmail.com">Email Us</a>
+                            <a href="mailto:agathe.coulombier@gmail.com">{t('Email me')}</a>
                         </li>
                     </ul>
                 </div>
 
                 <div className="footer_legal">
-                    <h2>Legal</h2>
+                    <h2>{t('Legal')}</h2>
                     <ul>
                         <li>
-                            <a href="#/">Privacy Policy</a>
+                            <a href="#/">{t('Privacy Policy')}</a>
                         </li>
                         <li>
-                            <a href="#/">Terms of Use</a>
+                            <a href="#/">{t('Terms of Use')}</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div className="copyright">
-                <p>&copy; {new Date().getFullYear()} Itisy. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} {t('Itisy. All rights reserved.')}</p>
             </div>
         </footer>
     );

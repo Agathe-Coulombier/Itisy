@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "./navbar.css";
 import { TfiWorld } from "react-icons/tfi";
+import i18n from "../../i18n";
 
 
 const NavBar = (props) => {
@@ -16,6 +17,12 @@ const NavBar = (props) => {
     const handleLanguagesClick = () => {
         setLangActive(prev => !prev);
     };
+
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+        handleLanguagesClick();
+    }
+    
 
     // Handle clicks outside of the language menu or hamburger menu
     useEffect(() => {
@@ -54,7 +61,7 @@ const NavBar = (props) => {
                             <li key="en">
                                 <h2 
                                     className={`text`}
-                                    onClick={() => props.changeLanguage("en")}
+                                    onClick={() => changeLanguage("en")}
                                 >
                                     English
                                 </h2>
@@ -62,7 +69,7 @@ const NavBar = (props) => {
                             <li key="fr">
                             <h2 
                                 className={`text`}
-                                onClick={() => props.changeLanguage("fr")}
+                                onClick={() => changeLanguage("fr")}
                             >
                                 Français
                             </h2>

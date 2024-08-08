@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'; // Import necessary hooks and components
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../hooks/authContext';
 import NavBar from '../NavBar/Navbar'; // Import Navbar component
@@ -11,11 +13,13 @@ import RecipeList from '../recipes/RecipesList';
 import { ProtectedRoute } from "../../hooks/protectedRoute";
 import Loader from '../Loader/Loader';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+    const { t } = useTranslation();
+
     const { setIsAuthenticated, logout, user} = useContext(AuthContext); // Destructure setIsAuthenticated from context
     const [ userRecipes, setUserRecipes ] = useState(
         {
-        title:"Add a recipe",
+        title:t("Add a recipe"),
         image_url: "https://iili.io/doeXZZB.png",
     });
 
@@ -39,7 +43,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
 
     const [editRecipe, setEditRecipe] = useState(false)
-    
+
 
     const fetchUserRecipes = async () => {
         try {
@@ -79,9 +83,9 @@ const Dashboard = () => {
 
     // Define the buttons to display in the NavBar
     const buttonItems = [
-        { id: "planner", className: "planner", label: "Planner" },
-        { id: "userProfile", className: "user-profile", label: "Me" },
-        { id: "logout", className: "logout", label: "Logout" }
+        { id: "planner", className: "planner", label: t("Planner") },
+        { id: "userProfile", className: "user-profile", label: t("Me") },
+        { id: "logout", className: "logout", label: t("Logout") }
     ];
 
     // Render JSX
@@ -92,7 +96,7 @@ const Dashboard = () => {
 
                 <div className="main_content" id="contentBody">
                     <div className="recipesBoard">
-                        <h1>My recipes</h1>
+                        <h1>{t('My recipes')}</h1>
                         < hr />
                             {loading ? <div className="loader-container"> < Loader/> </div> : <RecipeList editRecipe={editRecipe} setEditRecipe={setEditRecipe} userRecipes={userRecipes} toggleClick={toggleClick} handleCardClick={handleCardClick} user={user} fetchUserRecipes={fetchUserRecipes}/>}
                         </div>

@@ -16,7 +16,7 @@ import { MdOutlineLocalPrintshop } from "react-icons/md";
 
 
 const RecipeContent = (props) => {
-
+    const { t } = useTranslation(); 
     const [recipe, setRecipe] = useState(() => {
         if (props.newRecipe){
             return props.newRecipe
@@ -28,8 +28,8 @@ const RecipeContent = (props) => {
                 cook_time: '',
                 rest_time: '',
                 persons: '',
-                ingredients: ['Add a first ingredient'],
-                steps: ['Add a first step'],
+                ingredients: [t('Add a first ingredient')],
+                steps: [t('Add a first step')],
                 source: ''
             };
         } else if (props.selectedRecipeIndex >= 0 && props.userRecipes[props.selectedRecipeIndex]) {
@@ -39,7 +39,7 @@ const RecipeContent = (props) => {
         }
     });
 
-    const { t } = useTranslation(); 
+
     const navigate = useNavigate();
     const [url, setUrl] = useState('');
     const [modifyList, setModifyList] = useState({ingredients:false, steps:false});
@@ -128,7 +128,7 @@ const RecipeContent = (props) => {
         }, 0);
 
         // Make the input empty if nothing added yet
-        if (recipe[eltType] ==='Add a first ingredient' || recipe[eltType] === 'Add a first step') {
+        if (recipe[eltType] ===t('Add a first ingredient') || recipe[eltType] === t('Add a first step')) {
             recipe[eltType] = '';
         }
     };
@@ -145,9 +145,9 @@ const RecipeContent = (props) => {
         // If nothing written by user, putting back the default values
         } else {
             if (eltType==='ingredients'){
-                recipe[eltType] = ['Add a first ingredient'];
+                recipe[eltType] = [t('Add a first ingredient')];
                 } else if (eltType==='steps') {
-                    recipe[eltType] = ['Add a first step'];
+                    recipe[eltType] = [t('Add a first step')];
                 }};
 
         // Quitting the editing mode
@@ -215,10 +215,11 @@ const handleImageChange = async (event) => {
                     user_id: props.user.id,
                     recipe_id: props.selectedRecipeIndex
                 }, { withCredentials: true });
+                props.fetchUserRecipes();
                 props.setEditRecipe(false);
+
             } catch (error) {
                 console.error('Error submitting newRecipe:', error)
-                console.log("erreur", error.response.data.message)
                 setMessage([true, error.response.data.message]);
             }
         } else { 
@@ -273,7 +274,7 @@ const handleImageChange = async (event) => {
                                 {props.editRecipe &&
                                     <div className="recipe-image-overlay">
                                         <PiUploadSimpleBold className="recipe-item-modify"/>
-                                        <p>Upload a recipe cover</p>
+                                        <p>{t('Upload a recipe cover')}</p>
                                     </div>
                                 }
                             </div>

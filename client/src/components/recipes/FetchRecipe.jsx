@@ -23,8 +23,8 @@ const FetchRecipe = (props) => {
         cook_time: '',
         rest_time: '',
         persons: '',
-        ingredients: ['Add a first ingredient'],
-        steps: ['Add a first step'],
+        ingredients: [t('Add a first ingredient')],
+        steps: [t('Add a first step')],
         source: ''
     });
 
@@ -94,7 +94,7 @@ const FetchRecipe = (props) => {
                 <div>
                     {addRecipeField ? 
                         <p className="fetch-a-recipe">
-                        {t("Do you want to fetch a recipe? ")}
+                        {t("Do you want to fetch a recipe?")}
                         <a style={{cursor:"pointer"}} onClick={() => setAddRecipeField(false)}>{t("Click here")}</a>
                         </p>
                         :
@@ -106,7 +106,7 @@ const FetchRecipe = (props) => {
                                     </div>
                 {!addRecipeField && !loading ? 
                 <p className="start-from-scratch">
-                    {t("Do you want to start from scratch? ")}
+                    {t("Do you want to start from scratch?")}
                     <a style={{cursor:"pointer"}} onClick={() => setAddRecipeField(true)}>{t("Click here")}</a>
                 </p>:
                 <p>{t(" ")}</p>
@@ -115,7 +115,7 @@ const FetchRecipe = (props) => {
                 
                 {loading &&
                 <div className="loader-container">
-                    <p>Your recipe content is loading, this may take a few minutes ...</p>
+                    <p>{t('Your recipe content is loading, this may take a few minutes ...')}</p>
                     <Loader />
                     
                 </div>

@@ -11,9 +11,10 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineLocalPrintshop } from "react-icons/md";
-
+import { useTranslation } from 'react-i18next';
 
 const RecipeCard = (props) => {
+    const { t } = useTranslation();
 
     const modalForm = props.index === 0 ? "fetchRecipe" : "recipeContent";
 
@@ -36,7 +37,7 @@ const RecipeCard = (props) => {
     return (
         <div className="recipe-card">
             <img src={props.userRecipe?.image_url || 'https://iili.io/doeXZZB.png'} alt={props.userRecipe.title} className="recipe-image"/>
-            <h2 className="recipe-title">{props.userRecipe?.title || 'Add a recipe'}</h2>
+            <h2 className="recipe-title">{props.userRecipe?.title || t('Add a recipe')}</h2>
             <div className='recipe-overlay'>
                 {props.index !== 0 ? 
                     <div>
@@ -44,25 +45,27 @@ const RecipeCard = (props) => {
                         <p className="recipe-title">
                             {props.userRecipe.title}
                         </p>
-                        <p>
+                        <div className='meta-info'>
+                        <span>
                             <HiOutlineUserGroup className="recipe-item-logo" />
                             {props.userRecipe.persons}
-                        </p>
+                        </span>
                         {!(props.userRecipe.prep_time==='' || props.userRecipe.prep_time ==='-') &&
-                            <p>
+                            <span>
                                 <TbBowlSpoon className="recipe-item-logo"/>
                                 {props.userRecipe.prep_time}
-                            </p>}
+                            </span>}
                         {!(props.userRecipe.cook_time==='' || props.userRecipe.cook_time ==='-') &&
-                            <p>
+                            <span>
                                 <TbCooker className="recipe-item-logo"/>
                                 {props.userRecipe.cook_time}
-                            </p>}
+                            </span>}
                         {!(props.userRecipe.rest_time==='' || props.userRecipe.rest_time ==='-') &&
-                            <p>
+                            <span>
                                 <RiFridgeLine className="recipe-item-logo"/>
                                 {props.userRecipe.rest_time}
-                            </p>}
+                            </span>}
+                        </div>
                     </div>
                     <div className='recipe-actions'>
                         <FaRegEye className='recipe-actions-icon' onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e) ; props.setEditRecipe(false)}}/>

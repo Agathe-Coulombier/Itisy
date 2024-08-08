@@ -131,6 +131,7 @@
     margin-bottom: 25px;
     margin-right: 20px;
     border-radius: 30px;
+
 }
 
 .recipe-ingredients h2,
@@ -323,7 +324,7 @@
 }
 
 .recipe-container textarea {
-    resize: vertical;
+    resize: none;
 }
 
 @media only screen and (max-width: 768px) {
@@ -348,7 +349,6 @@
         display:flex;
         flex-direction: column;
         font-size: 0.9em;
-        justify-content: space-between;
         width:32%;
         height: 170px;
     }

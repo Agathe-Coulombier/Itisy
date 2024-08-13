@@ -1,5 +1,5 @@
 // RecipeCard.js
-import React from 'react';
+import React, {useState, memo, useCallback} from 'react';
 import axios from 'axios';
 import './RecipeCard.css'; // Custom CSS for styling
 import { TbCooker } from "react-icons/tb";
@@ -13,9 +13,8 @@ import { FaRegEye } from "react-icons/fa";
 import { MdOutlineLocalPrintshop } from "react-icons/md";
 import { useTranslation } from 'react-i18next';
 
-const RecipeCard = (props) => {
+const RecipeCard = memo((props) => {
     const { t } = useTranslation();
-
     const modalForm = props.index === 0 ? "fetchRecipe" : "recipeContent";
 
     // Add recipe to user cookbook
@@ -34,12 +33,22 @@ const RecipeCard = (props) => {
         }
     };
 
+
+
+
+
+
+
+
     return (
         <div className="recipe-card">
             <img src={props.userRecipe?.image_url || 'https://iili.io/doeXZZB.png'} alt={props.userRecipe.title} className="recipe-image"/>
             <h2 className="recipe-title">{props.userRecipe?.title || t('Add a recipe')}</h2>
-            <div className='recipe-overlay'>
-                {props.index !== 0 ? 
+            <div className= {props.createFolder ? 'create-folder' : 'recipe-overlay'}>
+                {props.createFolder ? 
+                    <input type="checkbox" className="plus-minus" onClick={(e) => props.toggleRecipeItem(props.userRecipe.recipe_id)} />
+                    :
+                    (props.index !== 0 ? 
                     <div>
                     <div className="recipe-resume" onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e)}}>
                         <p className="recipe-title">
@@ -77,11 +86,11 @@ const RecipeCard = (props) => {
                     :
                     <div className="recipe-resume" onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e)}}>
                         < TbSquareRoundedPlusFilled className="recipe-item-modify" />
-                    </div>
+                    </div>)
                 }
             </div>
         </div>
     );
-};
+});
 
 export default RecipeCard;

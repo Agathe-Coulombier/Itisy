@@ -9,6 +9,50 @@
     text-transform: uppercase;
 }
 
+.recipesBoard .recipe-folders{
+    display:flex;
+    flex-direction: row;
+    gap: 1%;
+    width:100%;
+}
+
+.recipesBoard .recipe-folders span{
+    padding: 0 30px;
+    box-sizing: border-box;
+    border: 1px solid var(--text-color);
+    border-radius: var(--border-radius);
+    cursor:pointer;
+}
+
+.recipesBoard .recipe-folders .create-folder{
+    position: absolute;
+    display:flex;
+    gap: 5px;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    right:0;
+    transform: translateX(-100%);
+}
+
+.recipesBoard .recipe-folders span.selected{
+    background-color: #B49C8A;
+}
+
+.recipesBoard .recipe-folders span:focus {
+  background-color: #B49C8A; /* Background color on hover/focus */
+  color: #F6F4F3; /* Text color on hover/focus */
+}
+
+.recipesBoard .recipe-folders span:active {
+  background: #86654B; /* Background color on click */
+  color: rgba(255, 255, 255, 0.7); /* Text color on click */
+}
+
+.recipesBoard .recipe-folders p{
+    margin: 10px 0;
+}
+
 .recipe-list {
     width:100%;
     gap:3.3333%;
@@ -51,6 +95,8 @@
     border-radius: 5px;
     transition: background-color 0.3s;
 }
+
+
 
 .recipe-card button:hover {
     background-color: #444;

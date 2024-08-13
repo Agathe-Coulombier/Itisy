@@ -273,6 +273,40 @@ const uploadImage = (req, res) => {
     });
 };
 
+const createFolder= async (data) => {
+    recipes_id = data.recipesId;
+    user_id = data.userId;
+    folder_name = data.folderName;
+
+    await pool.query(
+        `UPDATE recipesbook
+        SET folders = array_append(folders, $1)
+        WHERE user_id = $2
+        AND recipe_id = ANY($3);`,
+        [folder_name, user_id, recipes_id]
+    );
+}
+
+const modifyFolder= async (data) => {
+    recipes_id = data.recipesId;
+    user_id = data.userId;
+    folder_name = data.folderName;
+
+    await client.query(
+        `UPDATE recipesbook
+        SET folders = array_remove(folders, $1)
+        WHERE user_id = $2;`,
+        [folder_name, user_id]
+    );
+
+    await pool.query(
+        `UPDATE recipesbook
+        SET folders = array_append(folders, $1)
+        WHERE user_id = $2
+        AND recipe_id = ANY($3);`,
+        [folder_name, user_id, recipes_id]
+    );
+} 
 
 module.exports =  {
     scrapeRecipe,
@@ -280,5 +314,7 @@ module.exports =  {
     deleteRecipe,
     userRecipes,
     editRecipeInDB,
-    uploadImage
+    uploadImage,
+    createFolder, 
+    modifyFolder
 };

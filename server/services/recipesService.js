@@ -237,12 +237,15 @@ const deleteRecipe = async (data) => {
 }
 
 const userRecipes = async (data) => {
-    const userId = data
+    const userId = data.userId;
+    const folder = data.folder;
     
     // Get all the user recipes
-    res = await pool.query(`SELECT * FROM recipesbook WHERE user_id = $1 ORDER BY created_at DESC`, [userId]);
-
-    return res.rows;
+    recipesRes = await pool.query(`SELECT * FROM recipesbook WHERE user_id = $1 AND $2 = ANY(folders) ORDER BY created_at DESC`, [userId, folder]);
+    // Get all the user folders
+    foldersRes = await pool.query(`SELECT folders FROM users WHERE user_id = $1`, [userId]);
+    
+    return {recipes:recipesRes.rows, folders:foldersRes.rows[0].folders}
 }
 
 let imageName = "";
@@ -285,6 +288,14 @@ const createFolder= async (data) => {
         AND recipe_id = ANY($3);`,
         [folder_name, user_id, recipes_id]
     );
+
+    await pool.query(
+        `UPDATE users
+        SET folders = array_append(folders, $1)
+        WHERE user_id = $2;`,
+        [folder_name, user_id]
+    );
+
 }
 
 const modifyFolder= async (data) => {

@@ -5,10 +5,10 @@
     border-radius: 0;
     padding: 10px;
     margin: 5px 0;
-    width:20%;
+    box-sizing: border-box;
+    flex:0 0 24.25%;
     height:50vh;
     overflow: hidden;
-    /* max-width: 300px; */
     text-align: center;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(134,101,75,0.1);

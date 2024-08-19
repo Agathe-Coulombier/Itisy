@@ -56,6 +56,12 @@
     transition: all 0.3s ease-in-out; /* Adds a transition effect */
 }
 
+#navbar .items .active{
+    color:var(--accent-color);
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 /* Change the color of links on hover */
 #navbar .items h2:hover {
     border-color: #D1C8C1; /* Changes border color on hover */

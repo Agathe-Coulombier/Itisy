@@ -12,6 +12,9 @@ import "./Dashboard.css"; // Import CSS for Homepage styling
 import RecipeList from '../recipes/RecipesList';
 import { ProtectedRoute } from "../../hooks/protectedRoute";
 import Loader from '../Loader/Loader';
+import { RiArrowDropDownLine } from "react-icons/ri";
+
+import { PiFolderSimplePlus } from "react-icons/pi";
 import { RiAddBoxLine } from "react-icons/ri";
 
 const Dashboard = memo((props) => {
@@ -23,6 +26,7 @@ const Dashboard = memo((props) => {
         title:t("Add a recipe"),
         image_url: "https://iili.io/doeXZZB.png",
     });
+    const[ userFolders, setUserFolders ] = useState({folders:[], selectedFolder: "All my recipes"});
 
     // State variables to manage modal visibility and form type
     const {
@@ -44,34 +48,34 @@ const Dashboard = memo((props) => {
     const [loading, setLoading] = useState(true);
 
     const [editRecipe, setEditRecipe] = useState(false)
-    const [createFolder, setCreateFolder] = useState(true)
+    const [createFolder, setCreateFolder] = useState(false)
+    const [showFolders, setShowFolders] = useState(false);
 
-    const fetchUserRecipes = useCallback (async () => {
+    const fetchUserRecipes = useCallback(async () => {
+        if (!user) return;
+        
         try {
-            if (!user) return;
             const res = await axios.get("http://localhost:4000/recipes/userRecipes", {
-                params: { userId: user.id }, 
+                params: { userId: user.id, folder: userFolders.selectedFolder },
                 withCredentials: true
             });
 
             if (res.status === 200) {
-                setUserRecipes([userRecipes, ...res.data.recipes]);
+                const { recipes, folders } = res.data.data;
+                setUserRecipes([userRecipes, ...recipes]); // Only update recipes
+                setUserFolders(prev => ({
+                    ...prev,
+                    folders // Only update folders if needed
+                }));
             }
-
         } catch (error) {
-            console.error("Error response:", error.response); // Log error response if request fails
-            console.error("Error message:", error.message); // Log error message
-            console.error("Error code:", error.code); // Log error code if available
+            console.error("Error response:", error.response);
+            console.error("Error message:", error.message);
+            console.error("Error code:", error.code);
         } finally {
             setLoading(false);
         }
-    });
-
-    useCallback(useEffect(() => {
-        if (user) {
-            fetchUserRecipes();
-        }
-    }, [user]));
+    }, [user, userFolders.selectedFolder]);
 
     const navigate = useNavigate();
 
@@ -97,17 +101,25 @@ const Dashboard = memo((props) => {
 
     // Define the buttons to display in the NavBar
     const buttonItems = [
-        { id: "planner", className: "planner", label: t("Planner") },
-        { id: "userProfile", className: "user-profile", label: t("Me") },
+        { id: "myrecipes", className: "myrecipes", label: t("My recipes"), active:true },
         { id: "logout", className: "logout", label: t("Logout") }
     ];
 
     const handleFolderCreation = () => {
         setCreateFolder(false);
-
-        
     }
+
+    const handleFolderSelection = (folder) => {
+        setUserFolders(prevUserFolders => ({
+            ...prevUserFolders,
+            selectedFolder: folder
+        }));
+        setShowFolders(false);
+    };
     
+    useEffect(() => {
+        fetchUserRecipes();
+    }, [user, userFolders.selectedFolder]);
 
     // Render JSX
     return (
@@ -116,19 +128,29 @@ const Dashboard = memo((props) => {
             {showModal && <ProtectedRoute><Modal editRecipe={editRecipe} setEditRecipe={setEditRecipe} ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} user={user} selectedRecipeIndex={selectedRecipeIndex} fetchUserRecipes={fetchUserRecipes}/></ProtectedRoute>}
                 <div className="main_content" id="contentBody">
                     <div className="recipesBoard">
-                        <h1>{t('My recipes')}</h1>
                             {!createFolder &&
                             <div className='recipe-folders'>
-                            <span className='selected'>
-                                <p>{t("All my recipes")}</p>
+                            <span onClick={() => setShowFolders(!showFolders)}>
+                                <p>{userFolders.selectedFolder}</p>
+                                <RiArrowDropDownLine />
                             </span>
-                            <span>
-                                <p>{t("Filter")}</p>
-                            </span>
-                            <span className='create-folder' onClick={() => setCreateFolder(true)}>
-                                < RiAddBoxLine/>
-                                <p>{t("Folder")}</p>
-                            </span>
+                            <div className= {showFolders? 'dropdown open' : 'dropdown'}>
+                                {userFolders.folders.length === 1 ? 
+                                    <span onClick={() => setCreateFolder(true)}>
+                                        <p>No folder yet...</p>
+                                        < PiFolderSimplePlus />
+                                    </span>
+                                    :
+                                    userFolders.folders.map( (folder, index) => (
+                                        folder !== userFolders.selectedFolder && 
+                                        <span onClick={() => handleFolderSelection(folder)}>
+                                            <p>{folder}</p>
+                                        </span>
+                                    ))}
+                            </div>
+                            <div className='create-folder' onClick={() => setCreateFolder(true)}>
+                                < PiFolderSimplePlus />
+                            </div>
                         </div>}
                         {createFolder &&
                         <div className="create-folder">

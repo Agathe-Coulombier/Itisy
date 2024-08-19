@@ -48,8 +48,8 @@ const deleteRecipe = async (req, res) => {
 
 const userRecipes = async (req, res) => {
     try {
-        recipes = await recipesService.userRecipes(req.query.userId);
-        res.status(200).json({ message: "Recipes extracted successfully", recipes });
+        const data = await recipesService.userRecipes(req.query);
+        res.status(200).json({ message: "Recipes extracted successfully", data });
     } 
     catch (error) {
         console.error(error);

@@ -84,7 +84,7 @@ const NavBar = (props) => {
                             <li key={index}>
                                 <h2 
                                     id={item.id} 
-                                    className={`text ${item.className}`}
+                                    className={item.active ? `text ${item.className} active` : `text ${item.className}`}
                                     onClick={() => {
                                         props.toggleClick(item.id);
                                         hambActive && handleHamburgerClick();

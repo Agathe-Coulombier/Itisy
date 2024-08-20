@@ -138,8 +138,13 @@ const scrapeRecipe = async (data, retries = 4, delay = 1000) => {
 const addRecipe = async (data) => {
     const recipe = data.newRecipe;
     const userId = data.user_id;
+    let folderName = data.folder_name;
     const dateNow = Date.now();
-    console.log(recipe)
+
+    if (folderName !== "All my recipes") {
+        folderName = ["All my recipes", folderName];
+    }
+
     // Validate data before inserting
     if (recipe.title === '') {
         throw new Error ('Please provide a title')
@@ -165,9 +170,14 @@ const addRecipe = async (data) => {
         throw new Error ('Please validate the steps input')
     }
 
-    values = [userId, recipe.title, recipe.image_url, recipe.persons, recipe.prep_time, recipe.rest_time, recipe.cook_time, recipe.ingredients, recipe.steps, recipe.source, dateNow]
+    if (recipe.folder !== "All my recipes"){
+        console.log("coucou")
+        recipe.folder = ["All my recipes", recipe.folder];
+    }
 
-    const insertSTMT = `INSERT INTO recipesbook (user_id, title, image_url, persons, prep_time, rest_time, cook_time, ingredients, steps, source, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
+    values = [userId, recipe.title, recipe.image_url, recipe.persons, recipe.prep_time, recipe.rest_time, recipe.cook_time, recipe.ingredients, recipe.steps, recipe.source, dateNow, folderName];
+
+    const insertSTMT = `INSERT INTO recipesbook (user_id, title, image_url, persons, prep_time, rest_time, cook_time, ingredients, steps, source, created_at, folders) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`;
     await pool.query(insertSTMT, values);
 }
 
@@ -231,9 +241,20 @@ const deleteRecipe = async (data) => {
     
     const recipeId = data.recipe_id;
     const userId = data.user_id;
-    
-    const deleteSTMT = `DELETE FROM recipesbook WHERE recipe_id = $1 AND user_id = $2`;
-    await pool.query(deleteSTMT, [recipeId, userId]);
+    const folderName = data.folder_name;
+
+    if (folderName === "All my recipes") {
+        const deleteSTMT = `DELETE FROM recipesbook WHERE recipe_id = $1 AND user_id = $2`;
+        await pool.query(deleteSTMT, [recipeId, userId]);
+    } else {
+        await pool.query(
+            `UPDATE recipesbook
+            SET folders = array_remove(folders, $1)
+            WHERE recipe_id = $2
+            AND user_id = $3;`,
+            [folderName, recipeId, userId]
+        );
+    }
 }
 
 const userRecipes = async (data) => {
@@ -277,9 +298,25 @@ const uploadImage = (req, res) => {
 };
 
 const createFolder= async (data) => {
+
     recipes_id = data.recipesId;
     user_id = data.userId;
     folder_name = data.folderName;
+
+    if (folder_name === "") {
+        throw new Error("Please provide a folder's name");
+    }
+
+    // Check if the folder name doesn't already exist
+    const folderAlreadyExisting = await pool.query(
+    `SELECT * 
+    FROM users
+    WHERE $1 = ANY(folders);`, [folder_name]
+    );
+    if (folderAlreadyExisting.rows.length > 0) {
+        throw new Error("Please choose a new folder name");
+    }
+
 
     await pool.query(
         `UPDATE recipesbook
@@ -301,13 +338,32 @@ const createFolder= async (data) => {
 const modifyFolder= async (data) => {
     recipes_id = data.recipesId;
     user_id = data.userId;
-    folder_name = data.folderName;
+    new_folder_name = data.newFolderName;
+    old_folder_name = data.oldFolderName;
+    
+    if (new_folder_name === "") {
+        new_folder_name = old_folder_name;
+    }
 
-    await client.query(
+    await pool.query(
+        `UPDATE users
+        SET folders = array_remove(folders, $1)
+        WHERE user_id = $2;`,
+        [old_folder_name, user_id]
+    );
+
+    await pool.query(
+        `UPDATE users
+        SET folders = array_append(folders, $1)
+        WHERE user_id = $2;`,
+        [new_folder_name, user_id]
+    );
+
+    await pool.query(
         `UPDATE recipesbook
         SET folders = array_remove(folders, $1)
         WHERE user_id = $2;`,
-        [folder_name, user_id]
+        [old_folder_name, user_id]
     );
 
     await pool.query(
@@ -315,8 +371,28 @@ const modifyFolder= async (data) => {
         SET folders = array_append(folders, $1)
         WHERE user_id = $2
         AND recipe_id = ANY($3);`,
-        [folder_name, user_id, recipes_id]
+        [new_folder_name, user_id, recipes_id]
     );
+} 
+
+const deleteFolder= async (data) => {
+    user_id = data.userId;
+    folder_name = data.folderName;
+
+    await pool.query(
+        `UPDATE users
+        SET folders = array_remove(folders, $1)
+        WHERE user_id = $2;`,
+        [folder_name, user_id]
+    );
+
+    await pool.query(
+        `UPDATE recipesbook
+        SET folders = array_remove(folders, $1)
+        WHERE user_id = $2;`,
+        [folder_name, user_id]
+    );
+
 } 
 
 module.exports =  {
@@ -327,5 +403,6 @@ module.exports =  {
     editRecipeInDB,
     uploadImage,
     createFolder, 
-    modifyFolder
+    modifyFolder,
+    deleteFolder
 };

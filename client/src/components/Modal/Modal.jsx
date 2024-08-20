@@ -27,7 +27,7 @@ const Modal = forwardRef((props, ref) => { // Define Modal component using forwa
         <div className="modal-overlay" >
             <div id="modal-container" className="modal-container" ref={ref} > {/* Render the modal container with id, class, and ref */}
                 <CgClose id="closeModal" className="cross" alt="Close page" onClick={props.closeIcon}/> {/* Render a close icon with onClick handler */}
-                {SelectedForm ? <SelectedForm setEditRecipe={props.setEditRecipe} mode='view-edit' editRecipe={props.editRecipe} fetchUserRecipes={props.fetchUserRecipes} closeModal={props.closeIcon} setForm={props.setForm} user={props.user} setUser={props.setUser} userRecipes={props.userRecipes} selectedRecipeIndex={props.selectedRecipeIndex}/> : null} {/* Render the selected form component if it exists */}
+                {SelectedForm ? <SelectedForm currentFolder={props.currentFolder} setEditRecipe={props.setEditRecipe} mode='view-edit' editRecipe={props.editRecipe} fetchUserRecipes={props.fetchUserRecipes} closeModal={props.closeIcon} setForm={props.setForm} user={props.user} setUser={props.setUser} userRecipes={props.userRecipes} selectedRecipeIndex={props.selectedRecipeIndex}/> : null} {/* Render the selected form component if it exists */}
             </div>
         </div>
     );

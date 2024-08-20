@@ -34,7 +34,7 @@ const Login = (props) => {
             if (res.status === 200) {
                 setIsAuthenticated(true);
                 await login(props.user, res);
-                navigate('/dashboard'); // Redirect to the dashboard
+                navigate('/dashboard/view'); // Redirect to the dashboard
                 document.body.classList.remove("modal-open");
             }
 

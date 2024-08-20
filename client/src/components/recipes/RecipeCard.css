@@ -63,48 +63,15 @@
     opacity: 1;
 }
 
+.recipe-card.ticked .create-folder,
+.recipe-card.ticked .create-folder div{
+    background: rgba(134, 101, 75, 0);
+}
+
 .recipe-card .create-folder{
     top:0;
     left:0;
 }
-
-/* .recipe-card .create-folder div input{
-    appearance: none;
-    position:absolute;
-    padding:0;
-    margin:10px;
-    bottom:0;
-    right:0;
-    height:30px;
-    width:50px;
-    border-radius: 30px;
-} */
-
-/* input[type="checkbox"]:checked {
-    background-color: var(--accent-color);
-    color:white;
-} */
-
-
-
-/* Custom tick mark
-.recipe-card .create-folder div input[type="checkbox"]::after {
-    content: "";
-    position: absolute;
-    top: 6px;
-    left: 10px;
-    width: 6px;
-    height: 12px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-    display: none; /* Initially hidden */
-
-
-.recipe-card.ticked{
-    background: rgba(134, 101, 75, 0.5);
-}
-
 
 .recipe-card:hover .recipe-overlay:hover{
     opacity: 1; /* Show overlay on hover */
@@ -173,12 +140,12 @@
 }
 
 .recipe-overlay .recipe-actions > * {
-    transition: transform 0.3s ease, color 0.3s ease; /* Apply transition */
+    transition: transform 0.3s ease, color 0.3s ease; 
 }
 
 .recipe-overlay .recipe-actions > *:hover {
-    transform: scale(1.5); /* Increase size on hover */
-    color: var(--text-color); /* Change color to green on hover */
+    transform: scale(1.5); 
+    color: var(--text-color); 
 }
 
 @media only screen and (max-width: 768px) {
@@ -211,7 +178,7 @@ input.plus-minus {
     border-radius: 30px;
     width: 30px;
     height: 30px;
-    border: 1px solid var(--primary);
+    border: 1px dashed var(--accent-color);
     background-size: 300% 300%;
     transition: transform .3s;
     transform: scale(var(--scale, 1)) translateZ(0);
@@ -243,6 +210,7 @@ input.plus-minus {
         --name: checked;
         --name-icon-b: checked-icon;
         --name-icon-a: unchecked-icon;
+        border: 1px solid var(--accent-color);
     }
 }
 

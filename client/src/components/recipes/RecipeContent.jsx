@@ -46,7 +46,6 @@ const RecipeContent = (props) => {
     const [originalValue, setOriginalValue] = useState({});
     const [message, setMessage] = useState([false, ' ']);
 
-    console.log(props);
     const handleFocus = (e) => {
         // Store the original value when the input gains focus
         const { name, value } = e.target;
@@ -59,7 +58,6 @@ const RecipeContent = (props) => {
     // Automatically adjust the height of text areas
     function adjustHeight(e, textarea) {
 
-        console.log(e.target.scrollHeight)
         if (textarea){
             textarea.style.height = 'auto';
             textarea.style.height = textarea.scrollHeight + 'px';
@@ -140,7 +138,6 @@ const RecipeContent = (props) => {
         // Turning the string into a list of items
         if (recipe[eltType].length > 0 && modifyList[eltType]){
             recipe[eltType] = recipe[eltType].split('\n');
-            console.log(recipe[eltType].type)
 
         // If nothing written by user, putting back the default values
         } else {
@@ -208,7 +205,6 @@ const handleImageChange = async (event) => {
     const confirmRecipeEdition = async (e) => {
 
         if (props.mode==="view-edit") {
-            console.log('edit')
             try {
                 await axios.put('http://localhost:4000/recipes/editRecipe', {
                     recipe: recipe, 

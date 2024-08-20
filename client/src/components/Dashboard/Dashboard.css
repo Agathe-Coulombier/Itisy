@@ -9,98 +9,6 @@
     text-transform: uppercase;
 }
 
-.recipesBoard .recipe-folders{
-    position:relative;
-    display:flex;
-    flex-direction: row;
-    gap:5px;
-    width:100%;
-}
-
-.recipesBoard .recipe-folders .create-folder {
-    position:absolute;
-    right:0;
-    font-size: 30px;
-    font-weight: 100;
-    box-sizing: border-box;
-    text-align: justify;
-    display: flex;
-    align-items: center;
-    height: 40px; 
-    width:40px;
-    cursor:pointer;
-}
-
-
-.recipesBoard .recipe-folders span,
-.recipesBoard .recipe-folders .dropdown{
-    padding: 0 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    cursor:pointer;
-    box-shadow: 0 2px 5px rgba(134,101,75,0.1);
-    background-color: #fff;
-    width:24.25%;
-}
-
-.recipesBoard .recipe-folders .dropdown{
-    opacity:0;
-    position:absolute;
-    z-index: 10;
-    top:43px;
-    display: flex;
-    flex-direction: column;
-}
-
-.recipesBoard .recipe-folders .dropdown span{
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-    background-color: #fff;
-    width: 100%;
-    margin:0;
-    padding:0;
-    box-shadow: none;
-}
-
-.recipesBoard .recipe-folders .dropdown.open{
-    opacity:1;
-}
-
-/* .recipesBoard .recipe-folders .create-folder{
-    position: absolute;
-    display:flex;
-    gap: 5px;
-    flex-direction:row;
-    justify-content: center;
-    align-items: center;
-    right:0;
-    transform: translateX(-100%);
-} */
-
-/* .recipesBoard .recipe-folders span.selected{
-    background-color: #B49C8A;
-} */
-
-.recipesBoard .recipe-folders span:focus {
-  background-color: #B49C8A; /* Background color on hover/focus */
-  color: #F6F4F3; /* Text color on hover/focus */
-}
-
-.recipesBoard .recipe-folders span:active {
-  background: #86654B; /* Background color on click */
-  color: rgba(255, 255, 255, 0.7); /* Text color on click */
-}
-
-.recipesBoard .recipe-folders p{
-    margin: 10px 0;
-}
-
 .recipe-list {
     width:100%;
     gap:1%;
@@ -121,8 +29,6 @@
 
 .recipe-card {
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
     width: 200px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);

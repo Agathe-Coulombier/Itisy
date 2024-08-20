@@ -25,7 +25,8 @@ const FetchRecipe = (props) => {
         persons: '',
         ingredients: [t('Add a first ingredient')],
         steps: [t('Add a first step')],
-        source: ''
+        source: '',
+        folder:props.currentFolder
     });
 
     const [loading, setLoading] = useState(false);
@@ -53,7 +54,7 @@ const FetchRecipe = (props) => {
             props.setEditRecipe(true);
             setMessage([true, "Your recipe is scraped! Modify info if needed, then validate it.", false, ''])
             document.getElementById("fetching-status").style.color = "darkgreen";
-            console.log(newRecipe)
+
         } catch (error) {
             setLoading(false);
             console.error('Error fetching newRecipe:', error.response.data.message);
@@ -68,7 +69,8 @@ const FetchRecipe = (props) => {
             console.log('add', newRecipe)
             await axios.post('http://localhost:4000/recipes/addRecipe', {
                 newRecipe: newRecipe, 
-                user_id: props.user.id
+                user_id: props.user.id,
+                folder_name: props.currentFolder
             });
             props.closeModal();
             props.fetchUserRecipes();
@@ -123,7 +125,7 @@ const FetchRecipe = (props) => {
                 <p className="fetching-status" id="fetching-status">{message[0] && t(message[1])}</p>
                 {addRecipeField && 
                 <div>
-                < RecipeContent mode={'add'} message={[message[2], message[3]]} handleAddRecipe={handleAddRecipe} editRecipe={props.editRecipe} setEditRecipe={props.setEditRecipe} newRecipe={newRecipe} userRecipes={props.userRecipes} selectedRecipeIndex={props.selectedRecipeIndex} />
+                < RecipeContent mode={'add'} message={[message[2], message[3]]} handleAddRecipe={handleAddRecipe} editRecipe={true} setEditRecipe={props.setEditRecipe} newRecipe={newRecipe} userRecipes={props.userRecipes} selectedRecipeIndex={props.selectedRecipeIndex} />
                 </div>
                 }
         </div>

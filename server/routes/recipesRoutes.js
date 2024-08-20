@@ -11,5 +11,6 @@ router.post("/upload-image", recipesController.uploadImage);
 
 router.patch('/createFolder', recipesController.createFolder);
 router.patch('/modifyFolder', recipesController.modifyFolder);
+router.patch('/deleteFolder', recipesController.deleteFolder);
 
 module.exports = router;

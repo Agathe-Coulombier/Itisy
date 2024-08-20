@@ -1,5 +1,5 @@
 // RecipeCard.js
-import React, {useState, memo, useCallback} from 'react';
+import React, {useState, memo, useCallback, useEffect} from 'react';
 import axios from 'axios';
 import './RecipeCard.css'; // Custom CSS for styling
 import { TbCooker } from "react-icons/tb";
@@ -12,10 +12,24 @@ import { BiEditAlt } from "react-icons/bi";
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineLocalPrintshop } from "react-icons/md";
 import { useTranslation } from 'react-i18next';
+import { PiCurrencyKztFill } from 'react-icons/pi';
 
 const RecipeCard = memo((props) => {
     const { t } = useTranslation();
     const modalForm = props.index === 0 ? "fetchRecipe" : "recipeContent";
+    const [ticked, setTicked] = useState(false); 
+    
+    useEffect(() => {
+        console.log(props.trackMode)
+        if (props.trackMode === 'modify-folder') {
+            if (props.userRecipe.folders && props.userRecipe.folders.includes(props.currentFolder)) {
+                setTicked(true);
+            } else {
+                setTicked(false);
+            }} else {
+                setTicked(false);
+            }
+    }, [props.userRecipe.folders, props.currentFolder]); 
 
     // Add recipe to user cookbook
     const handleDeleteRecipe = async (e) => {
@@ -24,7 +38,8 @@ const RecipeCard = memo((props) => {
             await axios.delete('http://localhost:4000/recipes/deleteRecipe',{
                 params: {
                     recipe_id: props.userRecipe.recipe_id, 
-                    user_id: props.user.id
+                    user_id: props.user.id,
+                    folder_name: props.currentFolder
             }});
             props.fetchUserRecipes();
         } catch (error) {
@@ -32,21 +47,15 @@ const RecipeCard = memo((props) => {
             // setMessage([false, ' ', true, error.response.data.message]);
         }
     };
-
-
-
-
-
-
-
+    
 
     return (
-        <div className="recipe-card">
+        <div className= {ticked ? "recipe-card ticked" : "recipe-card"}>
             <img src={props.userRecipe?.image_url || 'https://iili.io/doeXZZB.png'} alt={props.userRecipe.title} className="recipe-image"/>
             <h2 className="recipe-title">{props.userRecipe?.title || t('Add a recipe')}</h2>
-            <div className= {props.createFolder ? 'create-folder' : 'recipe-overlay'}>
-                {props.createFolder ? 
-                    <input type="checkbox" className="plus-minus" onClick={(e) => props.toggleRecipeItem(props.userRecipe.recipe_id)} />
+            <div className= {props.trackMode ==='create-folder' || props.trackMode ==='modify-folder' ? 'create-folder' : 'recipe-overlay'}>
+                {props.trackMode === 'create-folder' || props.trackMode === 'modify-folder' ? 
+                    <input type="checkbox" checked={ticked} className="plus-minus" onChange={(e) => {props.toggleRecipeItem(props.userRecipe.recipe_id); setTicked(!ticked)}} />
                     :
                     (props.index !== 0 ? 
                     <div>

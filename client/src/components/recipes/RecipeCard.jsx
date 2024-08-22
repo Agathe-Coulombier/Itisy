@@ -20,7 +20,6 @@ const RecipeCard = memo((props) => {
     const [ticked, setTicked] = useState(false); 
     
     useEffect(() => {
-        console.log(props.trackMode)
         if (props.trackMode === 'modify-folder') {
             if (props.userRecipe.folders && props.userRecipe.folders.includes(props.currentFolder)) {
                 setTicked(true);
@@ -47,10 +46,10 @@ const RecipeCard = memo((props) => {
             // setMessage([false, ' ', true, error.response.data.message]);
         }
     };
-    
 
+    console.log(props.userRecipe)
     return (
-        <div className= {ticked ? "recipe-card ticked" : "recipe-card"}>
+        <div className= {ticked ? "recipe-card ticked" : "recipe-card"} onClick={() => props.setSelectedRecipeIndex(props.index)}>
             <img src={props.userRecipe?.image_url || 'https://iili.io/doeXZZB.png'} alt={props.userRecipe.title} className="recipe-image"/>
             <h2 className="recipe-title">{props.userRecipe?.title || t('Add a recipe')}</h2>
             <div className= {props.trackMode ==='create-folder' || props.trackMode ==='modify-folder' ? 'create-folder' : 'recipe-overlay'}>
@@ -88,7 +87,7 @@ const RecipeCard = memo((props) => {
                     <div className='recipe-actions'>
                         <FaRegEye className='recipe-actions-icon' onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e) ; props.setEditRecipe(false)}}/>
                         <BiEditAlt className='recipe-actions-icon' onClick={(e) =>{ props.toggleClick(modalForm) ; props.handleCardClick(props.index, e) ; props.setEditRecipe(true)}}/>
-                        <MdOutlineLocalPrintshop className='recipe-actions-icon'/>
+                        <MdOutlineLocalPrintshop className='recipe-actions-icon' onClick={() => props.handlePrint(props.userRecipes[props.index])}/>
                         <AiOutlineDelete className='recipe-actions-icon' onClick={(e) => handleDeleteRecipe(e)}/>
                     </div>
                     </div>

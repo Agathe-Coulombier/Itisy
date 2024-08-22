@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // Import necessary hooks and components
+import React, { useState, useEffect, forwardRef } from 'react'; // Import necessary hooks and components
 import axios from "axios"; // Import axios for HTTP requests
 import { useTranslation } from 'react-i18next';
 import {useNavigate} from "react-router-dom";
@@ -15,7 +15,7 @@ import { MdOutlineLocalPrintshop } from "react-icons/md";
 
 
 
-const RecipeContent = (props) => {
+const RecipeContent = forwardRef ((props, ref) => {
     const { t } = useTranslation(); 
     const [recipe, setRecipe] = useState(() => {
         if (props.newRecipe){
@@ -38,7 +38,6 @@ const RecipeContent = (props) => {
             return {}; // Fallback state
         }
     });
-
 
     const navigate = useNavigate();
     const [url, setUrl] = useState('');
@@ -175,6 +174,13 @@ const RecipeContent = (props) => {
         document.getElementById('imageInput').click(); 
         };
 
+    useEffect(() => {
+        // Set the ref to point to the RecipeContent component
+        if (props.setRecipeContentRef) {
+            props.setRecipeContentRef(document.getElementById('recipe-content'));
+        }
+        }, [props.setRecipeContentRef]);
+
 
 const handleImageChange = async (event) => {
     const file = event.target.files[0];
@@ -224,11 +230,12 @@ const handleImageChange = async (event) => {
 
     };
 
+
     // Render JSX
     return (
         <div className={props.editRecipe ? "recipe-container recipe-edit" : "recipe-container" }>
             <form onKeyDown={handleKeyPress} onFocus={handleFocus}>
-                    <div className="recipe-content">
+                    <div className="recipe-content" id="recipe-content" ref={props.recipeContentRef}>
                         <div className="left-column">
                             <div className="recipe-header">
                                 <textarea rows="4" readOnly={!props.editRecipe} type="text" id="recipe-title-addRecipeForm " className="recipe-title" name="title" placeholder={t("add a title")} value={recipe.title} onChange={handleInputChange} />
@@ -288,7 +295,7 @@ const handleImageChange = async (event) => {
                                     props.message[0] && props.message[1] }
                                 </p>
                             </div>}
-                            {!props.editRecipe ? < MdOutlineLocalPrintshop className="print-recipe-icon"/> : null}
+                            {!props.editRecipe ? < MdOutlineLocalPrintshop className="print-recipe-icon" onClick={() => props.onPrint(recipe)}/> : null}
                             <h2>{t("Ingredients")}</h2>
                             <div className="recipe-ingredients " onClick={(e) => props.editRecipe && accessList('ingredients', e)}>
                                 {modifyList["ingredients"] ?
@@ -339,6 +346,6 @@ const handleImageChange = async (event) => {
             </form>
         </div>
     );
-};
+});
 
 export default RecipeContent; 

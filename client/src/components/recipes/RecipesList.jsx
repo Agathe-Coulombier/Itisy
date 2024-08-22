@@ -4,7 +4,6 @@ import RecipeCard from './RecipeCard';
 
 const RecipeList = memo((props) => {
 
-    console.log('recipelist', props.currentFolder)
     useEffect(() => {
         if (props.trackMode === 'view') {
             props.setRecipesToDisplay([props.userRecipes[0], ...props.userRecipes.filter(e => e.folders && e.folders.includes(props.currentFolder))]);
@@ -17,7 +16,7 @@ const RecipeList = memo((props) => {
     return (
         <div className="recipe-list">
             {props.recipesToDisplay.map((userRecipe, index) => (
-                <RecipeCard recipesToDisplay={props.recipesToDisplay} currentFolder={props.currentFolder} trackMode={props.trackMode} ticked={props.ticked} setTicked={props.setTicked} createFolder={props.createFolder} editRecipe={props.editRecipe} setEditRecipe={props.setEditRecipe} key={index} index={index} userRecipe={userRecipe} user={props.user} fetchUserRecipes={props.fetchUserRecipes} toggleClick={props.toggleClick} handleCardClick={props.handleCardClick} toggleRecipeItem={props.toggleRecipeItem}/>
+                <RecipeCard userRecipes={props.userRecipes} selectedRecipeIndex={props.selectedRecipeIndex} setSelectedRecipeIndex={props.setSelectedRecipeIndex} handlePrint={props.onPrint} recipesToDisplay={props.recipesToDisplay} currentFolder={props.currentFolder} trackMode={props.trackMode} ticked={props.ticked} setTicked={props.setTicked} createFolder={props.createFolder} editRecipe={props.editRecipe} setEditRecipe={props.setEditRecipe} key={index} index={index} userRecipe={userRecipe} user={props.user} fetchUserRecipes={props.fetchUserRecipes} toggleClick={props.toggleClick} handleCardClick={props.handleCardClick} toggleRecipeItem={props.toggleRecipeItem}/>
             ))}
         </div>
     );

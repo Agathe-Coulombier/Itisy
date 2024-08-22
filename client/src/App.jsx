@@ -7,7 +7,7 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { ProtectedRoute } from "./hooks/protectedRoute.jsx";
 import { AuthProvider } from "./hooks/authContext.jsx";
 import CreateFolder from "./components/Dashboard/CreateFolder.jsx";
-
+import { Test } from "./components/Print/test.jsx";
 function App() {
 
   return (
@@ -24,6 +24,11 @@ function App() {
           <Route
             path="/auth/reset-password"
             element={<ResetPassword />} 
+          />
+
+          <Route
+            path="/test"
+            element={<Test />} 
           />
 
           <Route

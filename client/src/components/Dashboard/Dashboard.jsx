@@ -158,7 +158,7 @@ const Dashboard = memo((props) => {
     // Render JSX
     return (
         <div id="main">
-            <NavBar toggleClick={navbarClick} buttonItems={buttonItems}/>
+            <NavBar setCurrentFolder={setCurrentFolder} toggleClick={navbarClick} buttonItems={buttonItems}/>
             {showModal && <ProtectedRoute><Modal onPrint={handlePrint} editRecipe={editRecipe} setEditRecipe={setEditRecipe} ref={modalRef} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} userRecipes={userRecipes} user={user} selectedRecipeIndex={selectedRecipeIndex} fetchUserRecipes={() => fetchUserRecipes()} currentFolder={currentFolder}/></ProtectedRoute>}
                 <div className="main_content" id="contentBody">
                     <div className="recipesBoard">

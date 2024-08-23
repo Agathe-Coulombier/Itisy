@@ -43,7 +43,7 @@ const CreateFolder = (props) => {
         onChange={handleInputChange} 
         placeholder={t("Folder's name")}/>
         <button  className="primary" onClick={handleFolderCreation}> 
-            create folder
+            {t('Create folder')}
         </button>
         {error && <p>{error}</p>}
     </div>

@@ -24,20 +24,20 @@ const DisplayRecipes = (props) => {
     return (
         <div className='recipe-folders'>
             <span onClick={() => props.setShowFolders(!props.showFolders)}>
-                <p>{props.currentFolder}</p>
+                <p>{t(props.currentFolder)}</p>
                 <RiArrowDropDownLine />
             </span>
             <div className= {props.showFolders? 'dropdown open' : 'dropdown'}>
                 {props.userFolders.folders.length === 1 ? 
                     <span onClick={() => createFolderClick()}>
-                        <p>No folder yet...</p>
+                        <p>{t('No folder yet...')}</p>
                         < PiFolderSimplePlus />
                     </span>
                     :
                     props.userFolders.folders.map( (folder, index) => (
                         folder !== props.currentFolder && 
                         <span key={index} onClick={() => props.handleFolderSelection(folder)}>
-                            <p>{folder}</p>
+                            <p>{t(folder)}</p>
                         </span>
                     ))}
             </div>

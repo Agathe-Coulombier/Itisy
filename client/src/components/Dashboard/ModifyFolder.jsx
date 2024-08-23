@@ -45,7 +45,7 @@ const ModifyFolder = (props) => {
         onChange={handleInputChange} 
         placeholder={props.currentFolder}/>
         <button  className="primary" onClick={handleFolderModif}> 
-            Modify folder
+            {t('Modify folder')}
         </button>
         {error && <p>{error}</p>}
     </div>

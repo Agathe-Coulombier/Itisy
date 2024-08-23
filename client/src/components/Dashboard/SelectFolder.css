@@ -53,10 +53,6 @@
   color: #F6F4F3; /* Text color on hover/focus */
 }
 
-.recipesBoard .recipe-folders span:active {
-  background: #86654B; /* Background color on click */
-  color: rgba(255, 255, 255, 0.7); /* Text color on click */
-}
 
 .recipesBoard .recipe-folders p{
     margin: 10px 0;

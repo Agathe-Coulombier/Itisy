@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'; // Import necessary hooks and components
+import React, { useContext } from 'react'; // Import necessary hooks and components
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import NavBar from '../../NavBar/Navbar'; // Import Navbar component
 import Modal from '../../Modal/Modal'; // Import Modal component
 import { useModal } from '../../Modal/modalConfig';
 import Footer from '../../Footer/Footer'; // Import Footer component
 import "./Homepage.css"; // Import CSS for Homepage styling
+import { AuthContext } from '../../../hooks/authContext';
 
 
 const HomePage = (props) => {
-
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
     // State variables to manage modal visibility and form type
@@ -24,16 +26,30 @@ const HomePage = (props) => {
     } = useModal("", { email: "test123@gmail.com", password: "Test123*", confirmPassword: "", firstName: "", lastName: "" });
 
     // Define the buttons to display in the NavBar
-    const buttonItems = [
-        { id: "register", className: "register", label: t("register") },
+
+    const { isAuthenticated, setIsAuthenticated, logout } = useContext(AuthContext);
+    const buttonItems = isAuthenticated ?
+    [{ id: "myrecipes", className: "myrecipes", label: t("My recipes"), active:true },
+        { id: "logout", className: "logout", label: t("Logout") }]
+    : 
+    [{ id: "register", className: "register", label: t("register") },
         { id: "login", className: "login", label: t("login") },
-        { id: "contact", className: "contact", label: t("contact") }
-    ];
+        { id: "contact", className: "contact", label: t("contact") }];
+
+    const navbarClick = async (buttonId) => {
+        if (buttonId==="logout") {
+            setIsAuthenticated(false);
+            await logout();
+            } else if(buttonId==="myrecipes") {
+                navigate('/dashboard/view');
+            }
+    }
+
 
     // Render JSX
     return (
         <div id="main">
-            <NavBar toggleClick={toggleClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
+            <NavBar toggleClick={ isAuthenticated ? navbarClick : toggleClick} buttonItems={buttonItems}/> {/* Render NavBar component with toggleClick function */}
             
             <div className="main_content">
                 {showModal && <Modal ref={modalRef} user={user} setUser={setUser} formType={formType} setForm={setForm} closeIcon={handleClickCloseIcon} />} {/* Render Modal component conditionally based on showModal state */}

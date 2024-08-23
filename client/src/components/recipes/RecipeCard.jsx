@@ -50,7 +50,7 @@ const RecipeCard = memo((props) => {
     console.log(props.userRecipe)
     return (
         <div className= {ticked ? "recipe-card ticked" : "recipe-card"} onClick={() => props.setSelectedRecipeIndex(props.index)}>
-            <img src={props.userRecipe?.image_url || 'https://iili.io/doeXZZB.png'} alt={props.userRecipe.title} className="recipe-image"/>
+            <img src={props.userRecipe?.image_url || 'https://iili.io/doeXZZB.png'} alt={props.userRecipe.title} className="recipe-image" style={props.userRecipe.image_url ? {} : { width: '60%', 'object-fit': 'contain' }}/>
             <h2 className="recipe-title">{props.userRecipe?.title || t('Add a recipe')}</h2>
             <div className= {props.trackMode ==='create-folder' || props.trackMode ==='modify-folder' ? 'create-folder' : 'recipe-overlay'}>
                 {props.trackMode === 'create-folder' || props.trackMode === 'modify-folder' ? 

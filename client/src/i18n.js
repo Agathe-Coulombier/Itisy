@@ -8,7 +8,7 @@ i18n
     resources: {
         fr: { translation: frTranslation },
     },
-    lng: 'en', // default language
+    lng: 'fr', // default language
     interpolation: {
       escapeValue: false, // This ensures raw HTML in translations (if needed)
     },

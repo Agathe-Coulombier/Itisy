@@ -1,13 +1,10 @@
 import React, {useState} from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./components/authenticate/HomePage/Homepage.jsx";
-import MailTemplate from "./emails/MailTemplate.js";
 import ResetPassword from "./components/authenticate/ResetPassword/ResetPassword.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import { ProtectedRoute } from "./hooks/protectedRoute.jsx";
 import { AuthProvider } from "./hooks/authContext.jsx";
-import CreateFolder from "./components/Dashboard/CreateFolder.jsx";
-import { Test } from "./components/Print/test.jsx";
 function App() {
 
   return (
@@ -24,11 +21,6 @@ function App() {
           <Route
             path="/auth/reset-password"
             element={<ResetPassword />} 
-          />
-
-          <Route
-            path="/test"
-            element={<Test />} 
           />
 
           <Route

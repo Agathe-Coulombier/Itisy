@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../hooks/authContext';
 import "./navbar.css";
 import { TfiWorld } from "react-icons/tfi";
 import i18n from "../../i18n";
@@ -7,6 +9,7 @@ import i18n from "../../i18n";
 const NavBar = (props) => {
     const [hambActive, setHambActive] = useState(false);
     const [langActive, setLangActive] = useState(false);
+    const {isAuthenticated} = useContext(AuthContext);
 
     // Toggle hamburger menu visibility
     const handleHamburgerClick = () => {
@@ -47,7 +50,14 @@ const NavBar = (props) => {
         <nav id="navbar">
             <div className="items">
                 {/* Left side of the navbar */}
-                <div className="left subItems" onClick={() => {window.location.href = '/'}}>
+                <div className="left subItems" onClick={() => {
+                    if (isAuthenticated) {
+                        window.location.href = '/dashboard/view';
+                        props.setCurrentFolder("All my recipes");
+                    } else {
+                        window.location.href = '/';
+                    }
+}}>
                     <img src={'/images/logoTab.png'} alt="Chef hat logo" />
                     <h1 className="text">itisy</h1>
                 </div>
@@ -84,7 +94,7 @@ const NavBar = (props) => {
                             <li key={index}>
                                 <h2 
                                     id={item.id} 
-                                    className={item.active ? `text ${item.className} active` : `text ${item.className}`}
+                                    className={item.active ? `text ${item.className} main` : `text ${item.className}`}
                                     onClick={() => {
                                         props.toggleClick(item.id);
                                         hambActive && handleHamburgerClick();

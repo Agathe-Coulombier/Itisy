@@ -1,3 +1,9 @@
+.recipesBoard .create-folder{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
 .recipesBoard .create-folder p {
     flex-basis:100%;
     margin:0;
@@ -5,7 +11,7 @@
     color:darkred;
     position: relative;
     text-align: left;
-    padding-left: 30px;;
+    padding-left: 30px;
 }
 
 .recipesBoard .create-folder input[type='text']{
@@ -18,15 +24,11 @@
     border-radius: 30px;
 }
 
-.recipesBoard .create-folder input[type='text']:hover{
+.recipesBoard .create-folder input[type='text']:hover,
+.recipesBoard .create-folder input[type='text']:focus{
     border-width: 3px;
 }
 
-.recipesBoard .create-folder input[type='text']:focus{
-    background-color: var(--hover-bg-color);
-    font-size: 1.1em;
-    line-height: 1.8rem;
-}
 
 .recipesBoard .create-folder .primary{
     background-color: #d0c1b1;

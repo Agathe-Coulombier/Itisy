@@ -97,3 +97,11 @@ color: var(--text-color);
     width:30px;
     cursor:pointer;
 }
+
+
+@media only screen and (max-width: 768px) {
+    .recipesBoard .recipe-folders span,
+    .recipesBoard .recipe-folders .dropdown{
+        width:60%;
+    }
+}

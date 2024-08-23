@@ -46,3 +46,13 @@
 .recipesBoard .create-folder .primary:hover{
     background-color: #b8a295;
 }
+
+@media only screen and (max-width: 768px) {
+    .recipesBoard .create-folder input[type='text']{
+        width:60%;
+    }
+
+    .recipesBoard .create-folder .primary{
+        width: 30%;
+    }
+}

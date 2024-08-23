@@ -55,7 +55,7 @@
 }
 
 .speech {
-    flex: 4; /* Takes up 4 times the space as compared to other elements in the presentation section */
+    flex: 5; /* Takes up 4 times the space as compared to other elements in the presentation section */
     margin-right: 2.3%; /* Right margin of 2.3% */
     display: flex;
     flex-direction: column; /* Column direction for children */
@@ -65,7 +65,7 @@
 .speech p {
     font-family: 'Poppins', sans-serif; /* Font family */
     text-align: justify; /* Justify text alignment */
-    font-size: clamp(1rem, 0.4107rem + 0.4464vw, 1.425rem); /* Responsive font size */
+    font-size: clamp(0.9rem, 0.4107rem + 0.7vw, 2rem); /* Responsive font size */
     margin: 0; /* Remove margin */
 }
 
@@ -75,7 +75,7 @@
 
 /* Pictures Section Styles */
 .presentation .pictures {
-    flex: 6; /* Takes up 6 times the space as compared to other elements in the presentation section */
+    flex: 5; /* Takes up 6 times the space as compared to other elements in the presentation section */
     display: flex;
     justify-content: space-between; /* Spaced evenly between the items */
 }

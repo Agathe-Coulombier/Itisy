@@ -45,7 +45,6 @@ const HomePage = (props) => {
             }
     }
 
-
     // Render JSX
     return (
         <div id="main">

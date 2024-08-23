@@ -45,7 +45,7 @@ body {
   justify-content: center;
   width: 100%; /* Button takes full width of its container */
   margin: 10px 0; /* Top and bottom margin of 10px, no left-right margin */
-  padding: 20px; /* Padding inside the button */
+  padding: 10px; /* Padding inside the button */
   background-color: #D1C8C1; /* Background color of the button */
   border-radius: 10px; /* Rounded corners */
   border: none; /* No border */

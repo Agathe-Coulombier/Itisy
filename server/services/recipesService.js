@@ -140,9 +140,12 @@ const addRecipe = async (data) => {
     const userId = data.user_id;
     let folderName = data.folder_name;
     const dateNow = Date.now();
+    console.log(folderName)
 
     if (folderName !== "All my recipes") {
         folderName = ["All my recipes", folderName];
+    } else {
+        folderName = ["All my recipes"];
     }
 
     // Validate data before inserting

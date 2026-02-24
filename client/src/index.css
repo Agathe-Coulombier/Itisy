@@ -56,6 +56,9 @@ body {
   font-size: 2.5ex; /* Font size */
   text-transform: uppercase; /* Uppercase text */
   transition: background-color 0.167s, box-shadow 0.167s, color 0.167s; /* Transition effect on hover/focus */
+  -webkit-user-select: none; /* Disable text selection - Safari/Chrome */
+  -moz-user-select: none; /* Disable text selection - Firefox */
+  -ms-user-select: none; /* Disable text selection - IE/Edge */
   user-select: none; /* Disable text selection */
   min-height: 40px; /* Minimum height of the button */
 }
@@ -91,6 +94,9 @@ body {
   font-size: 2ex; /* Font size */
   text-transform: uppercase; /* Uppercase text */
   transition: background-color 0.167s, box-shadow 0.167s, color 0.167s; /* Transition effect on hover/focus */
+  -webkit-user-select: none; /* Disable text selection - Safari/Chrome */
+  -moz-user-select: none; /* Disable text selection - Firefox */
+  -ms-user-select: none; /* Disable text selection - IE/Edge */
   user-select: none; /* Disable text selection */
 }
 

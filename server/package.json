@@ -20,7 +20,7 @@
     "compromise": "^14.13.0",
     "config": "^3.3.11",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "fr-compromise": "^0.2.8",

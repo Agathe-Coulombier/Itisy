@@ -1,28 +1,17 @@
-const {Pool} = require("pg");
+require('dotenv').config(); // Charge les variables du fichier .env
+const { Pool } = require("pg");
 
+// On utilise l'URL de connexion complète de Neon stockée dans le .env
 const pool = new Pool({
-    user: "postgres",
-    password: "A123#",
-    host: "localhost", 
-    port: 5432,
-    database: "login_system"
-})
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false // Indispensable pour se connecter à Neon depuis ton PC ou Render
+    }
+});
 
-// // Create the users database
-// const createTblQry = `CREATE TABLE users(
-// user_id serial PRIMARY KEY,
-// email VARCHAR (80) UNIQUE NOT NULL,
-// firstName VARCHAR (50) NOT NULL,
-// lastName VARCHAR (50),
-// password VARCHAR (250) NOT NULL);`
-
-
-// pool.query(createTblQry).then((res) => {
-//     console.log("Table Created")
-//     console.log(res)
-// })
-// .catch( (err) => {
-//     console.log(err);
-// })
+// Petit test de connexion pour être sûr que ça marche
+pool.connect()
+    .then(() => console.log("✅ Connecté avec succès à la base de données Neon !"))
+    .catch(err => console.error("❌ Erreur de connexion à la base de données :", err.stack));
 
 module.exports = pool;
